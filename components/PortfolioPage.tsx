@@ -1,14 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import styles from "./portfolio.module.css";
 import {
   experience,
   featuredRepos,
   highlights,
-  improvements,
+  principles,
   profile,
   projects,
+  quickStats,
   skills,
 } from "./portfolioData";
 
@@ -33,17 +35,20 @@ function SectionHeading({
 export default function PortfolioPage() {
   return (
     <main className={styles.page}>
-      <div className={styles.bgGlowOne} />
-      <div className={styles.bgGlowTwo} />
+      <div className={styles.noise} />
+      <div className={styles.orbOne} />
+      <div className={styles.orbTwo} />
+      <div className={styles.gridLines} />
 
       <section className={styles.hero}>
         <motion.div
           className={styles.heroCopy}
-          initial={{ opacity: 0, y: 32 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <p className={styles.kicker}>Portfolio · 2026</p>
+          <p className={styles.kicker}>Hangyeom Lee · Portfolio 2026</p>
+          <span className={styles.availability}>{profile.availability}</span>
           <h1>{profile.name}</h1>
           <p className={styles.heroSubtitle}>{profile.subtitle}</p>
           <p className={styles.heroIntro}>{profile.intro}</p>
@@ -51,35 +56,43 @@ export default function PortfolioPage() {
 
           <div className={styles.ctaRow}>
             <a href="#projects" className={styles.primaryButton}>
-              View Projects
+              Explore Selected Work
+            </a>
+            <a href="/resume.pdf" target="_blank" rel="noreferrer" className={styles.secondaryButton}>
+              Resume PDF
             </a>
             <a href={profile.github} target="_blank" rel="noreferrer" className={styles.secondaryButton}>
-              View GitHub
+              GitHub
             </a>
-            <a href={`mailto:${profile.email}`} className={styles.secondaryButton}>
-              Email Me
+            <a href={profile.linkedin} target="_blank" rel="noreferrer" className={styles.secondaryButton}>
+              LinkedIn
             </a>
+          </div>
+
+          <div className={styles.signalStrip}>
+            {quickStats.map((item) => (
+              <div key={item.label} className={styles.signalCard}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
 
-        <motion.aside
-          className={styles.heroCard}
-          initial={{ opacity: 0, scale: 0.96, y: 20 }}
+        <motion.div
+          className={styles.heroPanel}
+          initial={{ opacity: 0, scale: 0.98, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
         >
-          <div className={styles.cardTop}>
-            <span className={styles.dot} />
-            <span className={styles.dot} />
-            <span className={styles.dot} />
+          <div className={styles.panelIntro}>
+            <span className={styles.panelTag}>Current profile</span>
+            <p>
+              Full-stack AI builder who likes moving between model-serving internals and the product layers that make
+              those systems understandable.
+            </p>
           </div>
-          <div className={styles.profileMini}>
-            <div className={styles.avatar}>HL</div>
-            <div>
-              <p className={styles.profileName}>{profile.name}</p>
-              <p className={styles.profileMeta}>{profile.location}</p>
-            </div>
-          </div>
+
           <div className={styles.metricGrid}>
             {highlights.map((item) => (
               <div key={item.label} className={styles.metricCard}>
@@ -88,62 +101,94 @@ export default function PortfolioPage() {
               </div>
             ))}
           </div>
-        </motion.aside>
+
+          <div className={styles.principlesCard}>
+            <p className={styles.principlesTitle}>What I optimize for</p>
+            <div className={styles.principlesList}>
+              {principles.map((item) => (
+                <p key={item}>{item}</p>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       <section className={styles.section}>
-        <SectionHeading
-          eyebrow="About"
-          title="A recruiter-friendly snapshot"
-          description="This portfolio is intentionally structured to answer the questions most hiring managers care about: what you build, how you think, and whether your work can ship."
-        />
-        <div className={styles.aboutPanel}>
-          <p>
-            I’m a Systems Design Engineering student at the University of Waterloo focused on practical AI products,
-            full-stack applications, and backend architecture. My strongest projects sit at the intersection of machine
-            learning systems and product execution.
-          </p>
-          <p>
-            I’m especially interested in roles where I can own meaningful parts of the stack — from model-serving and
-            system design to building polished experiences that real users interact with.
-          </p>
+        <div className={styles.marquee}>
+          <span>Applied AI</span>
+          <span>Realtime Systems</span>
+          <span>Product Thinking</span>
+          <span>Backend Architecture</span>
+          <span>Human-Centered UI</span>
+          <span>Production Mindset</span>
         </div>
       </section>
 
       <section className={styles.section} id="projects">
         <SectionHeading
-          eyebrow="Featured Projects"
-          title="Proof of work"
-          description="The strongest portfolio projects are the ones that show ownership, technical depth, and clear product thinking."
+          eyebrow="Selected Work"
+          title="Projects with actual surface area"
+          description="I replaced generic project cards with captured screens from the live demo and public repositories so the work feels tangible before anyone starts reading."
         />
+
         <div className={styles.projectGrid}>
           {projects.map((project, index) => (
             <motion.article
               key={project.title}
               className={styles.projectCard}
-              initial={{ opacity: 0, y: 22 }}
+              initial={{ opacity: 0, y: 26 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.55, delay: index * 0.06 }}
             >
-              <div className={styles.projectTopRow}>
-                <span className={styles.projectTag}>{project.tag}</span>
-                <span className={styles.projectYear}>{project.year}</span>
+              <div className={styles.projectVisualWrap}>
+                <Image
+                  src={project.image}
+                  alt={project.imageAlt}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  className={styles.projectImage}
+                />
+                <div className={styles.projectImageOverlay} />
+                <span className={styles.captureBadge}>{project.captureLabel}</span>
               </div>
-              <h3>{project.title}</h3>
-              <p className={styles.projectSummary}>{project.summary}</p>
-              <div className={styles.stackRow}>
-                {project.stack.map((item) => (
-                  <span key={item} className={styles.stackChip}>
-                    {item}
-                  </span>
-                ))}
+
+              <div className={styles.projectBody}>
+                <div className={styles.projectTopRow}>
+                  <span className={styles.projectTag}>{project.tag}</span>
+                  <span className={styles.projectYear}>{project.year}</span>
+                </div>
+
+                <h3>{project.title}</h3>
+                <p className={styles.projectSummary}>{project.summary}</p>
+
+                <div className={styles.stackRow}>
+                  {project.stack.map((item) => (
+                    <span key={item} className={styles.stackChip}>
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
+                <p className={styles.resultLine}>{project.result}</p>
+
+                <ul className={styles.impactList}>
+                  {project.impact.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+
+                <div className={styles.projectLinks}>
+                  {project.liveUrl ? (
+                    <a href={project.liveUrl} target="_blank" rel="noreferrer" className={styles.primaryButton}>
+                      Open Live Site
+                    </a>
+                  ) : null}
+                  <a href={project.repoUrl} target="_blank" rel="noreferrer" className={styles.secondaryButton}>
+                    View Repository
+                  </a>
+                </div>
               </div>
-              <ul className={styles.impactList}>
-                {project.impact.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
-                ))}
-              </ul>
             </motion.article>
           ))}
         </div>
@@ -152,18 +197,18 @@ export default function PortfolioPage() {
       <section className={styles.section}>
         <SectionHeading
           eyebrow="Experience"
-          title="Professional experience"
-          description="This section is meant to read like evidence of engineering maturity, not just a copy of a resume."
+          title="Engineering experience with systems context"
+          description="The strongest through-line in my work is taking technically messy problems and giving them a stable interface, a measurable pipeline, and a product shape people can act on."
         />
         <div className={styles.timeline}>
           {experience.map((item, index) => (
             <motion.article
               key={item.company}
               className={styles.timelineCard}
-              initial={{ opacity: 0, x: -18 }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -18 : 18 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5 }}
             >
               <div className={styles.timelineHeader}>
                 <div>
@@ -184,9 +229,9 @@ export default function PortfolioPage() {
 
       <section className={styles.section}>
         <SectionHeading
-          eyebrow="Skills"
-          title="Technical stack"
-          description="Grouped for quick scanning so recruiters can map your profile to open roles in a few seconds."
+          eyebrow="Stack"
+          title="Tools I reach for"
+          description="Grouped for quick scanning, but still arranged to feel more like a designed system board than a resume dump."
         />
         <div className={styles.skillGrid}>
           {skills.map((group) => (
@@ -207,37 +252,15 @@ export default function PortfolioPage() {
       <section className={styles.section}>
         <SectionHeading
           eyebrow="GitHub"
-          title="Public work worth surfacing"
-          description="These repositories are called out because they reinforce the full-stack plus applied AI narrative."
+          title="Public repos worth opening"
+          description="A few entry points that reinforce the AI-plus-product story and make it easy to continue from the portfolio into the code."
         />
         <div className={styles.repoRow}>
           {featuredRepos.map((repo) => (
-            <a
-              key={repo}
-              href={`${profile.github}/${repo}`}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.repoCard}
-            >
-              <span>Repository</span>
-              <strong>{repo}</strong>
+            <a key={repo.name} href={repo.url} target="_blank" rel="noreferrer" className={styles.repoCard}>
+              <span>{repo.label}</span>
+              <strong>{repo.name}</strong>
             </a>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <SectionHeading
-          eyebrow="What to improve next"
-          title="High-leverage upgrades"
-          description="These are the upgrades most likely to make the portfolio feel even more senior and interview-ready."
-        />
-        <div className={styles.improvementList}>
-          {improvements.map((item, index) => (
-            <div key={item} className={styles.improvementCard}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <p>{item}</p>
-            </div>
           ))}
         </div>
       </section>
@@ -245,21 +268,24 @@ export default function PortfolioPage() {
       <section className={styles.contactSection}>
         <motion.div
           className={styles.contactCard}
-          initial={{ opacity: 0, y: 22 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.55 }}
         >
           <p className={styles.eyebrow}>Contact</p>
-          <h2>Let’s build something useful.</h2>
+          <h2>Let&apos;s build something that feels sharp in both the architecture and the UI.</h2>
           <p className={styles.contactText}>
-            I’m most excited by AI product engineering, backend-heavy software roles, and opportunities where I can
-            contribute across the stack.
+            I&apos;m especially interested in AI product engineering, backend-heavy systems, and internships or roles
+            where I can contribute across implementation, system design, and product polish.
           </p>
 
           <div className={styles.ctaRow}>
             <a href={`mailto:${profile.email}`} className={styles.primaryButton}>
               {profile.email}
+            </a>
+            <a href="/resume.pdf" target="_blank" rel="noreferrer" className={styles.secondaryButton}>
+              Resume
             </a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer" className={styles.secondaryButton}>
               LinkedIn
