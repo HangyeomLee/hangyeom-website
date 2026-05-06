@@ -137,40 +137,52 @@ export const projects = [
     ]
   },
   {
-    title: "Toyota Machine Vision",
-    year: "2025",
-    tag: "Computer vision prototype",
-    stack: ["Python", "OpenCV", "TensorFlow", "NumPy", "Matplotlib"],
+    title: "FLUE",
+    year: "2026",
+    tag: "AI for good",
+    stack: ["Next.js", "TypeScript", "Framer Motion", "Canvas", "OpenRouter"],
     summary:
-      "Vision-assisted inspection prototype for sticker placement and hole coverage on vehicle components, combining classical CV with ML experimentation.",
+      "A visual and oral-first English learning app for Rohingya learners, designed around pictures, listening, speaking, and real-world scenario practice instead of text-heavy lessons.",
     impact: [
-      "Built preprocessing, hole detection, centroid comparison, and defect-identification logic into a practical workflow.",
-      "Worked on a team project tied to a real manufacturing problem with measurable inspection constraints.",
-      "Used sample image pipelines to show intermediate reasoning instead of only presenting a final claim."
+      "Built a six-step learning flow combining drawing, speech, phrase building, and video-based situation practice.",
+      "Designed the experience for low-literacy learners by prioritizing icons, audio feedback, and mobile-first interaction patterns.",
+      "Ran the local app and captured the real product surfaces used here instead of relying only on README stills."
     ],
-    result: "Practical manufacturing inspection workflow with visible intermediate outputs",
-    image: "/project-shots/toyota-repo.png",
-    imageAlt: "Toyota machine vision repository screenshot",
-    repoUrl: "https://github.com/HangyeomLee/Toyota_Machine_Vision",
-    captureLabel: "Captured from GitHub repository"
+    result: "Inclusive mobile-first language learning product with multimodal interaction",
+    image: "/project-shots/flue-learn.png",
+    imageAlt: "FLUE lesson screen screenshot",
+    repoUrl: "https://github.com/HangyeomLee/flue",
+    captureLabel: "Captured from local Next.js build",
+    gallery: [
+      {
+        image: "/project-shots/flue-topics.png",
+        alt: "FLUE topic selection screenshot",
+        label: "Topics"
+      },
+      {
+        image: "/project-shots/flue-home.png",
+        alt: "FLUE onboarding screenshot",
+        label: "Onboarding"
+      }
+    ]
   },
   {
-    title: "Cyclica Challenge Model",
-    year: "2024",
-    tag: "Research-style build",
-    stack: ["Python", "Pandas", "NumPy", "TensorFlow"],
+    title: "KB Kookmin Bank Q&A Chatbot",
+    year: "2025",
+    tag: "RAG product prototype",
+    stack: ["FastAPI", "Gemini API", "FAISS", "Python", "HTML/CSS/JS"],
     summary:
-      "A neural-network-based predictor for drug-binding vs non-binding residues on AlphaFold2 protein models, built for a local AI drug discovery challenge.",
+      "A banking-focused Q&A chatbot that combines Gemini-based retrieval-augmented generation with a lightweight customer-facing chat interface for FAQ-style support.",
     impact: [
-      "Translated a biology-heavy challenge into a compact ML workflow with feature handling and model experimentation.",
-      "Used the project to build intuition for noisy data, model tradeoffs, and the limits of a baseline neural approach.",
-      "Framed follow-up work clearly by identifying XGBoost and feature engineering as the next leverage points."
+      "Built a domain-specific RAG workflow over KB Kookmin Bank FAQ data using embeddings and FAISS retrieval.",
+      "Kept the frontend simple and familiar so it reads like a real banking help interface instead of a demo console.",
+      "Ran the local app and captured the working chat surface for portfolio presentation."
     ],
-    result: "Early-stage scientific ML project with clear iteration path",
-    image: "/project-shots/cyclica-repo.png",
-    imageAlt: "Cyclica challenge repository screenshot",
-    repoUrl: "https://github.com/HangyeomLee/Cyclica_Hackathon_Challenge",
-    captureLabel: "Captured from GitHub repository"
+    result: "Focused financial-support chatbot with practical RAG architecture",
+    image: "/project-shots/bank-chatbot.png",
+    imageAlt: "KB Kookmin Bank chatbot screenshot",
+    repoUrl: "https://github.com/HangyeomLee/Bank_Chatbot",
+    captureLabel: "Captured from local FastAPI app"
   }
 ];
 
@@ -191,8 +203,13 @@ export const featuredRepos = [
     url: "https://github.com/HangyeomLee/cctv"
   },
   {
-    name: "Toyota_Machine_Vision",
-    label: "CV prototype",
-    url: "https://github.com/HangyeomLee/Toyota_Machine_Vision"
+    name: "flue",
+    label: "AI for good app",
+    url: "https://github.com/HangyeomLee/flue"
+  },
+  {
+    name: "Bank_Chatbot",
+    label: "RAG chatbot",
+    url: "https://github.com/HangyeomLee/Bank_Chatbot"
   }
 ];
