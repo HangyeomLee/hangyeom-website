@@ -172,6 +172,25 @@ export default function PortfolioPage() {
 
                 <p className={styles.resultLine}>{project.result}</p>
 
+                {project.gallery?.length ? (
+                  <div className={styles.projectGallery}>
+                    {project.gallery.map((shot) => (
+                      <div key={shot.image} className={styles.galleryCard}>
+                        <div className={styles.galleryImageWrap}>
+                          <Image
+                            src={shot.image}
+                            alt={shot.alt}
+                            fill
+                            sizes="(max-width: 900px) 33vw, 16vw"
+                            className={styles.galleryImage}
+                          />
+                        </div>
+                        <span>{shot.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
                 <ul className={styles.impactList}>
                   {project.impact.map((bullet) => (
                     <li key={bullet}>{bullet}</li>

@@ -75,14 +75,31 @@ export const projects = [
     impact: [
       "Connected a polished Next.js frontend to FastAPI services, auth, ranking logic, and real-time updates.",
       "Designed a product identity that feels playful and competitive without losing information density.",
-      "Deployed the frontend publicly and captured the live experience directly for this portfolio."
+      "Ran the local frontend build and captured multiple real screens for this portfolio instead of using placeholders."
     ],
-    result: "Daily-topic debate experience with live public demo",
-    image: "/project-shots/argumint.png",
-    imageAlt: "Argumint live debate platform screenshot",
+    result: "Debate platform with branded landing, rules, and onboarding flows",
+    image: "/project-shots/argumint-home.png",
+    imageAlt: "Argumint local landing page screenshot",
     repoUrl: "https://github.com/HangyeomLee/argumint",
     liveUrl: "https://argumint-rho.vercel.app",
-    captureLabel: "Captured from deployed site"
+    captureLabel: "Captured from local project build",
+    gallery: [
+      {
+        image: "/project-shots/argumint-rules.png",
+        alt: "Argumint rules page screenshot",
+        label: "Rules"
+      },
+      {
+        image: "/project-shots/argumint-login.png",
+        alt: "Argumint login page screenshot",
+        label: "Login"
+      },
+      {
+        image: "/project-shots/argumint-register.png",
+        alt: "Argumint register page screenshot",
+        label: "Register"
+      }
+    ]
   },
   {
     title: "CCTV Crowd Monitoring Platform",
