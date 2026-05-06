@@ -111,13 +111,30 @@ export const projects = [
     impact: [
       "Structured the system across streaming, inference, density analysis, and operator-facing monitoring surfaces.",
       "Focused the detection strategy on head counting for dense environments where full-body detection is less reliable.",
-      "Documented a deploy-ready dashboard flow even though the inference stack remains private."
+      "Ran the local Django monitoring dashboard with seeded data and captured the real operator-facing views for this portfolio."
     ],
     result: "Safety-oriented multi-service architecture for dense crowd scenarios",
-    image: "/project-shots/cctv-repo.png",
-    imageAlt: "CCTV monitoring GitHub repository screenshot",
+    image: "/project-shots/cctv-detail.png",
+    imageAlt: "CCTV monitoring dashboard detail screenshot",
     repoUrl: "https://github.com/HangyeomLee/cctv",
-    captureLabel: "Captured from GitHub repository"
+    captureLabel: "Captured from local Django dashboard",
+    gallery: [
+      {
+        image: "/project-shots/cctv-home.png",
+        alt: "CCTV monitoring home page screenshot",
+        label: "Overview"
+      },
+      {
+        image: "/project-shots/cctv-area.png",
+        alt: "CCTV area page screenshot",
+        label: "Area View"
+      },
+      {
+        image: "/project-shots/cctv-detail.png",
+        alt: "CCTV detailed monitor screenshot",
+        label: "CCTV Detail"
+      }
+    ]
   },
   {
     title: "Toyota Machine Vision",
