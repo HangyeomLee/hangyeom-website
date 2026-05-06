@@ -81,7 +81,7 @@ export const projects = [
     image: "/project-shots/argumint-home.png",
     imageAlt: "Argumint local landing page screenshot",
     repoUrl: "https://github.com/HangyeomLee/argumint",
-    liveUrl: "https://argumint-rho.vercel.app",
+    liveUrl: "https://gumint-theta.vercel.app",
     captureLabel: "Captured from local project build",
     gallery: [
       {
@@ -114,10 +114,10 @@ export const projects = [
       "Ran the local Django monitoring dashboard with seeded data and captured the real operator-facing views for this portfolio."
     ],
     result: "Safety-oriented multi-service architecture for dense crowd scenarios",
-    image: "/project-shots/cctv-detail.png",
-    imageAlt: "CCTV monitoring dashboard detail screenshot",
+    image: "/project-shots/cctv-plaza-feed.png",
+    imageAlt: "Generated outdoor CCTV crowd monitoring feed",
     repoUrl: "https://github.com/HangyeomLee/cctv",
-    captureLabel: "Captured from local Django dashboard",
+    captureLabel: "Generated CCTV feed for portfolio hero",
     gallery: [
       {
         image: "/project-shots/cctv-home.png",
