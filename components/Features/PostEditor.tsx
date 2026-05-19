@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { createPortal } from "react-dom";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useEditor,
+  EditorContent,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+} from "@tiptap/react";
+import type { NodeViewProps, Editor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Image as TiptapImage } from "@tiptap/extension-image";
+import Placeholder from "@tiptap/extension-placeholder";
+import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
 import { useCursor } from "../Shared/Cursor";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
@@ -21,100 +31,308 @@ type Props = {
   setView: (v: View) => void;
 };
 
-type ToolbarAction = {
-  label: string;
-  title: string;
-  before: string;
-  after?: string;
-  block?: boolean;
-};
-
-const TOOLBAR: ToolbarAction[] = [
-  { label: "H1", title: "제목 1", before: "# ", block: true },
-  { label: "H2", title: "제목 2", before: "## ", block: true },
-  { label: "H3", title: "제목 3", before: "### ", block: true },
-  { label: "B", title: "굵게", before: "**", after: "**" },
-  { label: "I", title: "기울임", before: "_", after: "_" },
-  { label: "~~", title: "취소선", before: "~~", after: "~~" },
-  { label: "`", title: "인라인 코드", before: "`", after: "`" },
-  { label: "```", title: "코드 블록", before: "```\n", after: "\n```", block: true },
-  { label: '"', title: "인용", before: "> ", block: true },
-  { label: "—", title: "구분선", before: "\n---\n", block: true },
-  { label: "• ", title: "목록", before: "- ", block: true },
-  { label: "1.", title: "번호 목록", before: "1. ", block: true },
+const SIZE_PRESETS = [
+  { label: "원본", value: "" },
+  { label: "25%", value: "25%" },
+  { label: "50%", value: "50%" },
+  { label: "75%", value: "75%" },
+  { label: "100%", value: "100%" },
 ];
+
+// ─── Image Node View ─────────────────────────────────────────────
+
+function ImageNodeView({ node, updateAttributes, selected }: NodeViewProps) {
+  const [showControls, setShowControls] = useState(false);
+  const [cropMode, setCropMode] = useState(false);
+  const [crop, setCrop] = useState<Crop>({ unit: "%", width: 90, x: 5, y: 5, height: 90 });
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
+  const [applying, setApplying] = useState(false);
+  const [cropError, setCropError] = useState("");
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const cropImgRef = useRef<HTMLImageElement>(null);
+  const { src, alt, width } = node.attrs;
+
+  useEffect(() => {
+    if (!showControls) return;
+    const handler = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setShowControls(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showControls]);
+
+  const applyCrop = async () => {
+    if (!cropImgRef.current || !completedCrop?.width || !completedCrop?.height) return;
+    setApplying(true);
+    setCropError("");
+    const img = cropImgRef.current;
+    const scaleX = img.naturalWidth / img.width;
+    const scaleY = img.naturalHeight / img.height;
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(completedCrop.width * scaleX);
+    canvas.height = Math.round(completedCrop.height * scaleY);
+    const ctx = canvas.getContext("2d");
+    if (!ctx) { setApplying(false); return; }
+    try {
+      ctx.drawImage(
+        img,
+        completedCrop.x * scaleX,
+        completedCrop.y * scaleY,
+        completedCrop.width * scaleX,
+        completedCrop.height * scaleY,
+        0, 0,
+        canvas.width, canvas.height
+      );
+    } catch {
+      setCropError("이미지를 자를 수 없습니다. (CORS 제한 — Supabase에 업로드된 이미지만 자르기 가능)");
+      setApplying(false);
+      return;
+    }
+    canvas.toBlob(async (blob) => {
+      if (!blob) { setApplying(false); return; }
+      const fd = new FormData();
+      fd.append("file", new File([blob], "crop.png", { type: "image/png" }));
+      try {
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        const data = await res.json();
+        if (data.url) updateAttributes({ src: data.url });
+        setCropMode(false);
+      } catch {
+        setCropError("업로드 실패");
+      } finally {
+        setApplying(false);
+      }
+    }, "image/png");
+  };
+
+  return (
+    <NodeViewWrapper>
+      <div
+        ref={wrapRef}
+        style={{ display: "inline-block", position: "relative", maxWidth: "100%", userSelect: "none" }}
+        data-drag-handle
+      >
+        <img
+          src={src}
+          alt={alt ?? ""}
+          style={{
+            width: width || undefined,
+            maxWidth: "100%",
+            display: "block",
+            cursor: "pointer",
+            borderRadius: 4,
+            outline: (showControls || selected) ? "2px solid var(--accent)" : "none",
+            outlineOffset: 2,
+          }}
+          onClick={() => setShowControls((p) => !p)}
+          draggable={false}
+        />
+
+        {showControls && (
+          <div className={styles.imgControls}>
+            <span className={styles.imgControlsLabel}>크기</span>
+            {SIZE_PRESETS.map((s) => (
+              <button
+                key={s.label}
+                className={`${styles.imgControlBtn} ${(width ?? "") === s.value ? styles.imgControlBtnActive : ""}`}
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={(e) => { e.stopPropagation(); updateAttributes({ width: s.value || null }); }}
+              >
+                {s.label}
+              </button>
+            ))}
+            <span className={styles.imgControlSep} />
+            <button
+              className={styles.imgControlBtn}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCropMode(true);
+                setShowControls(false);
+                setCompletedCrop(null);
+                setCropError("");
+              }}
+            >
+              ✂ 자르기
+            </button>
+          </div>
+        )}
+      </div>
+
+      {cropMode &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div className={styles.cropModalOverlay} onClick={() => setCropMode(false)}>
+            <div className={styles.cropModal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.cropModalHeader}>
+                <span className={styles.imgModalTitle}>이미지 자르기</span>
+                <button className={styles.imgModalClose} onClick={() => setCropMode(false)}>×</button>
+              </div>
+              <div className={styles.cropModalBody}>
+                <ReactCrop
+                  crop={crop}
+                  onChange={(c) => setCrop(c)}
+                  onComplete={(c) => setCompletedCrop(c)}
+                >
+                  <img
+                    ref={cropImgRef}
+                    src={src}
+                    alt=""
+                    crossOrigin="anonymous"
+                    style={{ maxWidth: "100%", maxHeight: "60vh", display: "block" }}
+                  />
+                </ReactCrop>
+                {cropError && <p className={styles.imgModalError}>{cropError}</p>}
+              </div>
+              <div className={styles.cropModalFooter}>
+                <button className={styles.btnSecondary} onClick={() => setCropMode(false)}>취소</button>
+                <button
+                  className={styles.btnPrimary}
+                  onClick={applyCrop}
+                  disabled={applying || !completedCrop?.width}
+                >
+                  {applying ? "처리 중…" : "자르기 적용"}
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
+    </NodeViewWrapper>
+  );
+}
+
+// ─── Custom Image Extension ────────────────────────────────────────
+
+const CustomImage = TiptapImage.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      width: {
+        default: null,
+        parseHTML: (el) => el.getAttribute("width"),
+        renderHTML: (attrs) => (attrs.width ? { width: attrs.width } : {}),
+      },
+    };
+  },
+  addNodeView() {
+    return ReactNodeViewRenderer(ImageNodeView);
+  },
+});
+
+// ─── Toolbar config ────────────────────────────────────────────────
+
+type ToolbarItem =
+  | { type: "btn"; label: string; title: string; action: (e: Editor) => void; isActive?: (e: Editor) => boolean }
+  | { type: "sep" };
+
+const TOOLBAR: ToolbarItem[] = [
+  { type: "btn", label: "H1", title: "제목 1", action: (e) => e.chain().focus().toggleHeading({ level: 1 }).run(), isActive: (e) => e.isActive("heading", { level: 1 }) },
+  { type: "btn", label: "H2", title: "제목 2", action: (e) => e.chain().focus().toggleHeading({ level: 2 }).run(), isActive: (e) => e.isActive("heading", { level: 2 }) },
+  { type: "btn", label: "H3", title: "제목 3", action: (e) => e.chain().focus().toggleHeading({ level: 3 }).run(), isActive: (e) => e.isActive("heading", { level: 3 }) },
+  { type: "sep" },
+  { type: "btn", label: "B", title: "굵게", action: (e) => e.chain().focus().toggleBold().run(), isActive: (e) => e.isActive("bold") },
+  { type: "btn", label: "I", title: "기울임", action: (e) => e.chain().focus().toggleItalic().run(), isActive: (e) => e.isActive("italic") },
+  { type: "btn", label: "~~", title: "취소선", action: (e) => e.chain().focus().toggleStrike().run(), isActive: (e) => e.isActive("strike") },
+  { type: "btn", label: "`", title: "인라인 코드", action: (e) => e.chain().focus().toggleCode().run(), isActive: (e) => e.isActive("code") },
+  { type: "sep" },
+  { type: "btn", label: "```", title: "코드 블록", action: (e) => e.chain().focus().toggleCodeBlock().run(), isActive: (e) => e.isActive("codeBlock") },
+  { type: "btn", label: '"', title: "인용", action: (e) => e.chain().focus().toggleBlockquote().run(), isActive: (e) => e.isActive("blockquote") },
+  { type: "btn", label: "—", title: "구분선", action: (e) => e.chain().focus().setHorizontalRule().run() },
+  { type: "sep" },
+  { type: "btn", label: "• ", title: "목록", action: (e) => e.chain().focus().toggleBulletList().run(), isActive: (e) => e.isActive("bulletList") },
+  { type: "btn", label: "1.", title: "번호 목록", action: (e) => e.chain().focus().toggleOrderedList().run(), isActive: (e) => e.isActive("orderedList") },
+];
+
+// ─── PostEditor ────────────────────────────────────────────────────
 
 export function PostEditor({ slug, setView }: Props) {
   const { setCursor } = useCursor();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const editorRef = useRef<Editor | null>(null);
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [showPreview, setShowPreview] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState("");
   const [existingSlug, setExistingSlug] = useState<string | null>(null);
+  const [showUrlModal, setShowUrlModal] = useState(false);
+  const [urlValue, setUrlValue] = useState("");
+
+  const uploadAndInsert = useCallback(async (file: File) => {
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (data.url && editorRef.current) {
+        editorRef.current.chain().focus().setImage({ src: data.url, alt: "" }).run();
+      }
+    } catch {
+      // silent
+    }
+  }, []);
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      CustomImage.configure({ inline: false }),
+      Placeholder.configure({
+        placeholder: "여기에 작성하세요… 이미지는 Ctrl+V로 붙여넣거나 툴바 🖼 버튼을 사용하세요.",
+      }),
+    ],
+    editorProps: {
+      handlePaste(_view, event) {
+        const items = event.clipboardData?.items;
+        if (!items) return false;
+        for (const item of Array.from(items)) {
+          if (item.type.startsWith("image/")) {
+            event.preventDefault();
+            const file = item.getAsFile();
+            if (file) {
+              const fd = new FormData();
+              fd.append("file", file);
+              fetch("/api/upload", { method: "POST", body: fd })
+                .then((r) => r.json())
+                .then((data) => {
+                  if (data.url && editorRef.current) {
+                    editorRef.current.chain().focus().setImage({ src: data.url, alt: "" }).run();
+                  }
+                });
+            }
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+    onCreate({ editor: e }) { editorRef.current = e; },
+    onUpdate({ editor: e }) { editorRef.current = e; },
+    immediatelyRender: false,
+  });
 
   useEffect(() => {
-    if (!slug) return;
+    if (!slug || !editor) return;
     fetch(`/api/posts/${slug}`)
       .then((r) => r.json())
       .then((post: Post) => {
+        editor.commands.setContent(post.content);
         setTitle(post.title);
-        setContent(post.content);
         setTags(post.tags);
         setExistingSlug(post.slug);
       });
-  }, [slug]);
-
-  const insertMarkdown = (action: ToolbarAction) => {
-    const ta = textareaRef.current;
-    if (!ta) return;
-    const start = ta.selectionStart;
-    const end = ta.selectionEnd;
-    const selected = content.slice(start, end);
-    const after = action.after ?? "";
-
-    let before = action.before;
-    let newContent: string;
-    let newCursorStart: number;
-    let newCursorEnd: number;
-
-    if (action.block) {
-      const lineStart = content.lastIndexOf("\n", start - 1) + 1;
-      newContent = content.slice(0, lineStart) + before + content.slice(lineStart);
-      newCursorStart = start + before.length;
-      newCursorEnd = end + before.length;
-    } else {
-      newContent = content.slice(0, start) + before + selected + after + content.slice(end);
-      newCursorStart = start + before.length;
-      newCursorEnd = start + before.length + selected.length;
-    }
-
-    setContent(newContent);
-    setTimeout(() => {
-      ta.focus();
-      ta.setSelectionRange(newCursorStart, newCursorEnd);
-    }, 0);
-  };
-
-  const addTag = () => {
-    const t = tagInput.trim().replace(/^#/, "");
-    if (t && !tags.includes(t)) setTags((prev) => [...prev, t]);
-    setTagInput("");
-  };
-
-  const removeTag = (t: string) => setTags((prev) => prev.filter((x) => x !== t));
+  }, [slug, editor]);
 
   const save = async (publish: boolean) => {
+    if (!editor) return;
     if (!title.trim()) { setSaveMsg("제목을 입력해주세요."); return; }
-    if (!content.trim()) { setSaveMsg("내용을 입력해주세요."); return; }
+    const content = editor.getHTML();
+    if (!content || content === "<p></p>") { setSaveMsg("내용을 입력해주세요."); return; }
     setSaving(true);
     setSaveMsg("");
-
     const body = { title, content, tags, published: publish };
-
     try {
       let res: Response;
       if (existingSlug) {
@@ -130,15 +348,12 @@ export function PostEditor({ slug, setView }: Props) {
           body: JSON.stringify(body),
         });
       }
-
       const saved = await res.json();
       if (!res.ok) throw new Error(saved.error || "저장 실패");
       setExistingSlug(saved.slug);
       setSaveMsg(publish ? "발행 완료 ✓" : "임시저장 완료 ✓");
       setTimeout(() => setSaveMsg(""), 2500);
-      if (publish) {
-        setTimeout(() => setView({ type: "post", slug: saved.slug }), 600);
-      }
+      if (publish) setTimeout(() => setView({ type: "post", slug: saved.slug }), 600);
     } catch (e: unknown) {
       setSaveMsg(e instanceof Error ? e.message : "저장 실패");
     } finally {
@@ -146,20 +361,64 @@ export function PostEditor({ slug, setView }: Props) {
     }
   };
 
-  const handleTabKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      const ta = e.currentTarget;
-      const start = ta.selectionStart;
-      const newContent = content.slice(0, start) + "  " + content.slice(ta.selectionEnd);
-      setContent(newContent);
-      setTimeout(() => ta.setSelectionRange(start + 2, start + 2), 0);
-    }
+  const insertUrlImage = () => {
+    const url = urlValue.trim();
+    if (!url || !editor) return;
+    editor.chain().focus().setImage({ src: url, alt: "" }).run();
+    setShowUrlModal(false);
+    setUrlValue("");
   };
+
+  const addTag = () => {
+    const t = tagInput.trim().replace(/^#/, "");
+    if (t && !tags.includes(t)) setTags((prev) => [...prev, t]);
+    setTagInput("");
+  };
+
+  const removeTag = (t: string) => setTags((prev) => prev.filter((x) => x !== t));
 
   return (
     <div className={styles.editorLayout}>
-      {/* Header */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) uploadAndInsert(file);
+          e.target.value = "";
+        }}
+      />
+
+      {showUrlModal && (
+        <div className={styles.imgModalOverlay} onClick={() => setShowUrlModal(false)}>
+          <div className={styles.imgModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.imgModalHeader}>
+              <span className={styles.imgModalTitle}>이미지 URL 삽입</span>
+              <button className={styles.imgModalClose} onClick={() => setShowUrlModal(false)}>×</button>
+            </div>
+            <div className={styles.imgModalBody}>
+              <input
+                className={styles.imgUrlInput}
+                placeholder="https://example.com/image.png"
+                value={urlValue}
+                onChange={(e) => setUrlValue(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") insertUrlImage(); }}
+                autoFocus
+              />
+              <button
+                className={styles.btnPrimary}
+                onClick={insertUrlImage}
+                style={{ width: "100%", marginTop: "0.75rem" }}
+              >
+                삽입
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={styles.editorHeader}>
         <button
           className={styles.editorBack}
@@ -169,17 +428,8 @@ export function PostEditor({ slug, setView }: Props) {
         >
           ← Blog
         </button>
-
         <div className={styles.editorHeaderRight}>
           {saveMsg && <span className={styles.editorSaveMsg}>{saveMsg}</span>}
-          <button
-            className={styles.editorToggle}
-            onClick={() => setShowPreview((p) => !p)}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
-          >
-            {showPreview ? "✏️ 편집" : "👁 미리보기"}
-          </button>
           <button
             className={styles.btnSecondary}
             onClick={() => save(false)}
@@ -203,7 +453,6 @@ export function PostEditor({ slug, setView }: Props) {
         </div>
       </div>
 
-      {/* Title */}
       <div className={styles.editorMeta}>
         <textarea
           className={styles.editorTitle}
@@ -217,8 +466,6 @@ export function PostEditor({ slug, setView }: Props) {
             t.style.height = t.scrollHeight + "px";
           }}
         />
-
-        {/* Tags */}
         <div className={styles.editorTags}>
           {tags.map((t) => (
             <span key={t} className={styles.editorTag}>
@@ -240,66 +487,55 @@ export function PostEditor({ slug, setView }: Props) {
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTag(); }
-              if (e.key === "Backspace" && !tagInput && tags.length) {
-                setTags((prev) => prev.slice(0, -1));
-              }
+              if (e.key === "Backspace" && !tagInput && tags.length) setTags((prev) => prev.slice(0, -1));
             }}
           />
         </div>
       </div>
 
-      {/* Editor pane */}
-      <div className={styles.editorPane}>
-        {/* Write */}
-        <div className={`${styles.editorWrite} ${showPreview ? styles.editorHidden : ""}`}>
-          <div className={styles.editorToolbar}>
-            {TOOLBAR.map((action) => (
+      <div className={styles.editorPane} style={{ flexDirection: "column" }}>
+        <div className={styles.editorToolbar}>
+          {TOOLBAR.map((item, i) =>
+            item.type === "sep" ? (
+              <div key={i} className={styles.toolbarSep} />
+            ) : (
               <button
-                key={action.label}
-                title={action.title}
-                className={styles.toolbarBtn}
-                onClick={() => insertMarkdown(action)}
+                key={item.label}
+                title={item.title}
+                className={`${styles.toolbarBtn} ${editor && item.isActive?.(editor) ? styles.toolbarBtnActive : ""}`}
+                onMouseDown={(e) => { e.preventDefault(); if (editor) item.action(editor); }}
                 onMouseEnter={() => setCursor("hover")}
                 onMouseLeave={() => setCursor("default")}
               >
-                {action.label}
+                {item.label}
               </button>
-            ))}
-          </div>
-          <textarea
-            ref={textareaRef}
-            className={styles.editorTextarea}
-            placeholder="마크다운으로 작성하세요…
-
-# 제목
-
-**굵게**, _기울임_, `코드`
-
-> 인용문
-
-```
-코드 블록
-```"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            onKeyDown={handleTabKey}
-            spellCheck={false}
-          />
+            )
+          )}
+          <div className={styles.toolbarSep} />
+          <button
+            title="파일에서 이미지 삽입"
+            className={styles.toolbarBtn}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => fileInputRef.current?.click()}
+            onMouseEnter={() => setCursor("hover")}
+            onMouseLeave={() => setCursor("default")}
+          >
+            🖼
+          </button>
+          <button
+            title="URL로 이미지 삽입"
+            className={styles.toolbarBtn}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => setShowUrlModal(true)}
+            onMouseEnter={() => setCursor("hover")}
+            onMouseLeave={() => setCursor("default")}
+          >
+            🔗
+          </button>
         </div>
 
-        {/* Divider */}
-        {!showPreview && <div className={styles.editorDivider} />}
-
-        {/* Preview */}
-        <div className={`${styles.editorPreview} ${!showPreview ? styles.editorPreviewSplit : ""}`}>
-          <div className={styles.editorPreviewLabel}>미리보기</div>
-          <div className={styles.postContent}>
-            {content ? (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-            ) : (
-              <p style={{ color: "var(--muted)", fontStyle: "italic" }}>내용을 작성하면 여기에 미리보기가 표시됩니다.</p>
-            )}
-          </div>
+        <div className={styles.editorContentWrap}>
+          <EditorContent editor={editor} className={styles.editorContent} />
         </div>
       </div>
     </div>

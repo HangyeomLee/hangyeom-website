@@ -1,74 +1,50 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
-const DATA_FILE = path.join(process.cwd(), "data", "posts.json");
-
-type Post = {
-  id: string;
-  slug: string;
-  title: string;
-  content: string;
-  tags: string[];
-  excerpt: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
-};
-
-function readPosts(): Post[] {
-  try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-  } catch {
-    return [];
-  }
+function extractExcerpt(content: string) {
+  const text = content.trim().startsWith("<")
+    ? content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    : content.replace(/#{1,6}\s+/g, "").replace(/\*\*|__|~~|`/g, "").replace(/\n+/g, " ").trim();
+  return text.slice(0, 180);
 }
 
-function writePosts(posts: Post[]) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(posts, null, 2));
-}
-
-function extractExcerpt(markdown: string): string {
-  return markdown
-    .replace(/#{1,6}\s+/g, "")
-    .replace(/\*\*|__|~~|`/g, "")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/\n+/g, " ")
-    .trim()
-    .slice(0, 180);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalize(row: any) {
+  return {
+    ...row,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
 }
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = readPosts().find((p) => p.slug === slug);
-  if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
-  return NextResponse.json(post);
+  const { data, error } = await supabase.from("posts").select("*").eq("slug", slug).single();
+  if (error) return NextResponse.json({ error: "not found" }, { status: 404 });
+  return NextResponse.json(normalize(data));
 }
 
 export async function PUT(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const body = await req.json();
-  const posts = readPosts();
-  const idx = posts.findIndex((p) => p.slug === slug);
-  if (idx === -1) return NextResponse.json({ error: "not found" }, { status: 404 });
+  const { title, content, tags, published } = body;
 
-  posts[idx] = {
-    ...posts[idx],
-    ...body,
-    excerpt: extractExcerpt(body.content ?? posts[idx].content),
-    updatedAt: new Date().toISOString(),
-  };
-  writePosts(posts);
-  return NextResponse.json(posts[idx]);
+  const excerpt = extractExcerpt(content ?? "");
+
+  const { data, error } = await supabase
+    .from("posts")
+    .update({ title, content, tags, published, excerpt, updated_at: new Date().toISOString() })
+    .eq("slug", slug)
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(normalize(data));
 }
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const posts = readPosts();
-  const filtered = posts.filter((p) => p.slug !== slug);
-  if (filtered.length === posts.length) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
-  }
-  writePosts(filtered);
+  const { error } = await supabase.from("posts").delete().eq("slug", slug);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

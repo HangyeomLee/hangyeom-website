@@ -39,3 +39,7 @@ pnpm-debug.log*
 
 # misc
 *.log
+
+# sensitive files
+passpass.md
+data/posts.json

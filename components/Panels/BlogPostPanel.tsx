@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { useCursor } from "../Shared/Cursor";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
@@ -130,11 +128,10 @@ export function BlogPostPanel({ slug, setView }: Props) {
           </div>
         )}
 
-        <div className={styles.postContent}>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {post.content}
-          </ReactMarkdown>
-        </div>
+        <div
+          className={styles.postContent}
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
       </div>
     </motion.div>
   );

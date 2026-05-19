@@ -91,7 +91,8 @@ export function PortfolioApp() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      const el = document.activeElement as HTMLElement | null;
+      if (tag === "INPUT" || tag === "TEXTAREA" || el?.contentEditable === "true") return;
 
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
@@ -103,10 +104,6 @@ export function PortfolioApp() {
         if (view.type === "project") { setView({ type: "work" }); return; }
         return;
       }
-      if (e.key === "g") { setView({ type: "home" }); return; }
-      if (e.key === "w") { setView({ type: "work" }); return; }
-      if (e.key === "e") { setView({ type: "experience" }); return; }
-      if (e.key === "a") { setView({ type: "about" }); return; }
     };
 
     window.addEventListener("keydown", onKey);

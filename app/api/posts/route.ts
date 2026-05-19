@@ -1,37 +1,7 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-import { randomUUID } from "crypto";
+import { supabase } from "@/lib/supabase";
 
-const DATA_FILE = path.join(process.cwd(), "data", "posts.json");
-
-type Post = {
-  id: string;
-  slug: string;
-  title: string;
-  content: string;
-  tags: string[];
-  excerpt: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
-};
-
-function readPosts(): Post[] {
-  try {
-    const raw = fs.readFileSync(DATA_FILE, "utf-8");
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-function writePosts(posts: Post[]) {
-  fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
-  fs.writeFileSync(DATA_FILE, JSON.stringify(posts, null, 2));
-}
-
-function slugify(title: string): string {
+function slugify(title: string) {
   const base = title
     .toLowerCase()
     .replace(/\s+/g, "-")
@@ -40,46 +10,47 @@ function slugify(title: string): string {
   return base.length >= 3 ? `${base}-${suffix}` : `post-${suffix}`;
 }
 
-function extractExcerpt(markdown: string): string {
-  return markdown
-    .replace(/#{1,6}\s+/g, "")
-    .replace(/\*\*|__|~~|`/g, "")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/\n+/g, " ")
-    .trim()
-    .slice(0, 180);
+function extractExcerpt(content: string) {
+  const text = content.trim().startsWith("<")
+    ? content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    : content.replace(/#{1,6}\s+/g, "").replace(/\*\*|__|~~|`/g, "").replace(/\n+/g, " ").trim();
+  return text.slice(0, 180);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalize(row: any) {
+  return {
+    ...row,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
 }
 
 export async function GET() {
-  const posts = readPosts().sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
-  return NextResponse.json(posts);
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json((data ?? []).map(normalize));
 }
 
 export async function POST(req: Request) {
   const body = await req.json();
   const { title, content, tags, published } = body;
 
-  if (!title || !content) {
-    return NextResponse.json({ error: "title and content required" }, { status: 400 });
-  }
+  if (!title?.trim()) return NextResponse.json({ error: "title required" }, { status: 400 });
 
-  const posts = readPosts();
   const slug = slugify(title);
+  const excerpt = extractExcerpt(content ?? "");
 
-  const newPost: Post = {
-    id: randomUUID(),
-    slug,
-    title,
-    content,
-    tags: tags ?? [],
-    excerpt: extractExcerpt(content),
-    published: published ?? false,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
+  const { data, error } = await supabase
+    .from("posts")
+    .insert({ slug, title, content: content ?? "", excerpt, tags: tags ?? [], published: published ?? false })
+    .select()
+    .single();
 
-  writePosts([...posts, newPost]);
-  return NextResponse.json(newPost, { status: 201 });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(normalize(data), { status: 201 });
 }

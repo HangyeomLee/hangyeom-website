@@ -2194,51 +2194,455 @@
   color: var(--text-strong);
 }
 
-.editorTextarea {
-  flex: 1;
-  width: 100%;
-  padding: 1.5rem;
-  background: none;
-  border: none;
-  outline: none;
-  resize: none;
-  font-family: monospace;
-  font-size: 0.92rem;
-  line-height: 1.8;
-  color: var(--text);
-  tab-size: 2;
-}
-
-.editorTextarea::placeholder {
-  color: var(--muted);
-}
-
-.editorDivider {
+.toolbarSep {
   width: 1px;
+  height: 18px;
   background: var(--border);
+  margin: 0 4px;
+  align-self: center;
   flex-shrink: 0;
 }
 
-.editorPreview {
+/* ── Image modal ─────────────────────────────────────────── */
+.imgModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgModal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 420px;
+  max-width: calc(100vw - 2rem);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.imgModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.imgModalTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.imgModalClose {
+  background: none;
+  border: none;
+  cursor: none;
+  font-size: 1.2rem;
+  color: var(--muted);
+  padding: 0;
+  line-height: 1;
+}
+
+.imgModalClose:hover { color: var(--text-strong); }
+
+.imgModalTabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.imgModalTab {
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: none;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.imgModalTab:hover { color: var(--text-strong); }
+
+.imgModalTabActive {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.imgModalBody { padding: 1.25rem; }
+
+.imgDropzone {
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  text-align: center;
+}
+
+.imgDropzone:hover {
+  border-color: var(--accent);
+  background: rgba(124, 58, 237, 0.03);
+}
+
+.imgDropzoneIcon { font-size: 1.8rem; }
+
+.imgDropzoneText {
+  font-size: 0.88rem;
+  color: var(--text-strong);
+  font-weight: 500;
+}
+
+.imgDropzoneSub {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.imgUrlInput {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.88rem;
+  color: var(--text-strong);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.imgUrlInput:focus { border-color: var(--accent); }
+
+.imgModalError {
+  font-size: 0.82rem;
+  color: #dc2626;
+  margin-top: 0.5rem;
+}
+
+/* Image size selector inside modal */
+.imgSizeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+}
+
+.imgSizeLabel {
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.imgSizeBtns {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.imgSizeBtn {
+  padding: 0.2rem 0.6rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: none;
+  font-size: 0.78rem;
+  color: var(--text);
+  cursor: none;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.imgSizeBtn:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.imgSizeBtnActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Resize picker that appears on image click in preview */
+.imgResizePicker {
+  position: absolute;
+  top: -42px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.3rem 0.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.imgResizeLabel {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-right: 0.25rem;
+}
+
+.imgResizeBtn {
+  padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: none;
+  font-size: 0.75rem;
+  color: var(--text-strong);
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.imgResizeBtn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── TipTap WYSIWYG editor ─────────────────────────────────── */
+
+.toolbarBtnActive {
+  background: var(--accent-dim);
+  border-color: rgba(124, 58, 237, 0.3);
+  color: var(--accent);
+}
+
+.editorContentWrap {
   flex: 1;
   overflow-y: auto;
-  padding: 1.5rem;
-  min-width: 0;
+  background: var(--bg);
 }
 
-.editorPreviewSplit {
-  /* when shown alongside editor (not fullscreen) */
+.editorContent {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-.editorPreviewLabel {
-  font-size: 0.65rem;
-  font-family: monospace;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.editorContent :global(.ProseMirror) {
+  min-height: 500px;
+  outline: none;
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text);
+}
+
+.editorContent :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
   color: var(--muted);
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+.editorContent :global(.ProseMirror h1) {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-strong);
+  margin: 1.5rem 0 0.75rem;
+  line-height: 1.25;
+}
+
+.editorContent :global(.ProseMirror h2) {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+  margin: 1.25rem 0 0.6rem;
+}
+
+.editorContent :global(.ProseMirror h3) {
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 1rem 0 0.5rem;
+}
+
+.editorContent :global(.ProseMirror p) {
+  margin: 0.4rem 0;
+}
+
+.editorContent :global(.ProseMirror strong) { font-weight: 700; }
+.editorContent :global(.ProseMirror em) { font-style: italic; }
+.editorContent :global(.ProseMirror s) { text-decoration: line-through; }
+
+.editorContent :global(.ProseMirror code) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.88em;
+}
+
+.editorContent :global(.ProseMirror pre) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.editorContent :global(.ProseMirror pre code) {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.88rem;
+}
+
+.editorContent :global(.ProseMirror ul) {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+  list-style: disc;
+}
+
+.editorContent :global(.ProseMirror ol) {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+  list-style: decimal;
+}
+
+.editorContent :global(.ProseMirror li) {
+  margin: 0.2rem 0;
+}
+
+.editorContent :global(.ProseMirror blockquote) {
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted-strong);
+  font-style: italic;
+}
+
+.editorContent :global(.ProseMirror hr) {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+
+/* ── Image inline controls ────────────────────────────────── */
+
+.imgControls {
+  position: absolute;
+  top: -44px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  z-index: 50;
+  white-space: nowrap;
+}
+
+.imgControlsLabel {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-right: 0.2rem;
+}
+
+.imgControlBtn {
+  padding: 0.2rem 0.55rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: none;
+  font-size: 0.75rem;
+  color: var(--text-strong);
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.imgControlBtn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.imgControlBtnActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.imgControlSep {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ── Crop modal ────────────────────────────────────────────── */
+
+.cropModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.cropModal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 90vw;
+  max-width: 760px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.cropModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.cropModalBody {
+  flex: 1;
+  overflow: auto;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-2);
+}
+
+.cropModalFooter {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 /* ═══════════════════════════════════════════════════
