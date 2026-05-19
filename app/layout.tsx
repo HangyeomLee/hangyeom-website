@@ -1,7 +1,7 @@
-import { IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const bodyFont = IBM_Plex_Sans({
+const bodyFont = Inter({
   subsets: ["latin"],
   variable: "--font-body",
   weight: ["400", "500", "600", "700"],
@@ -14,9 +14,9 @@ const displayFont = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "Hangyeom Lee | AI & Full-Stack Engineer",
+  title: "Hangyeom Lee — AI-Native Product Engineer",
   description:
-    "Portfolio of Hangyeom Lee — University of Waterloo Systems Design Engineering student building production-minded AI and full-stack systems.",
+    "Portfolio of Hangyeom Lee — building real-time systems, AI interfaces, and internet-native products.",
 };
 
 export default function RootLayout({
