@@ -1,5 +1,6 @@
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import "react-image-crop/dist/ReactCrop.css";
 
 const bodyFont = Inter({
   subsets: ["latin"],
