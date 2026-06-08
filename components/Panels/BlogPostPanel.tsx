@@ -45,7 +45,7 @@ export function BlogPostPanel({ slug, setView }: Props) {
     if (!post?.categoryId) { setCategory(null); return; }
     fetch("/api/categories")
       .then((r) => r.json())
-      .then((cats: Category[]) => setCategory(cats.find((c) => c.id === post.categoryId) ?? null))
+      .then((cats) => setCategory(Array.isArray(cats) ? cats.find((c) => c.id === post.categoryId) ?? null : null))
       .catch(() => {});
   }, [post?.categoryId]);
 

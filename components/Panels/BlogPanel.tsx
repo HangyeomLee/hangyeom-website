@@ -42,7 +42,7 @@ export function BlogPanel({ setView }: Props) {
       .catch(() => setLoading(false));
     fetch("/api/categories")
       .then((r) => r.json())
-      .then((data: Category[]) => setCategories(data))
+      .then((data) => setCategories(Array.isArray(data) ? data : []))
       .catch(() => {});
   }, []);
 

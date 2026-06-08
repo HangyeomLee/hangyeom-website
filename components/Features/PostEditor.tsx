@@ -267,7 +267,7 @@ export function PostEditor({ slug, setView }: Props) {
   const loadCategories = useCallback(() => {
     fetch("/api/categories")
       .then((r) => r.json())
-      .then((data: Category[]) => setCategories(data))
+      .then((data) => setCategories(Array.isArray(data) ? data : []))
       .catch(() => {});
   }, []);
 
