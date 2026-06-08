@@ -19,7 +19,6 @@ const NAV_ITEMS = [
   })),
   { icon: "◈", label: "Experience", meta: "", view: { type: "experience" } as View, external: false },
   { icon: "○", label: "About & Contact", meta: "", view: { type: "about" } as View, external: false },
-  { icon: "✦", label: "Ask AI", meta: "Chat", view: { type: "ask" } as View, external: false },
   { icon: "↗", label: "GitHub", meta: "External", view: null as unknown as View, external: true, href: profile.github },
   { icon: "↗", label: "Resume PDF", meta: "External", view: null as unknown as View, external: true, href: "/resume.pdf" },
 ];

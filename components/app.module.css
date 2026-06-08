@@ -278,16 +278,6 @@
   border-color: var(--border);
 }
 
-.featureBtnAi {
-  color: var(--accent-bright);
-}
-
-.featureBtnAi:hover {
-  background: var(--accent-dim);
-  border-color: rgba(139, 92, 246, 0.3);
-  color: var(--accent-bright);
-}
-
 .featureBtnIcon {
   font-size: 0.85rem;
   font-family: monospace;
@@ -1985,6 +1975,24 @@
   margin: 2.5rem 0;
 }
 
+.postContent img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 2rem auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+}
+
+.postContent p:has(> img:only-child) {
+  margin: 0;
+}
+
+.postContent p:has(> img:only-child) + p {
+  margin-top: 2rem;
+}
+
 .postContent table {
   width: 100%;
   border-collapse: collapse;
@@ -2094,6 +2102,49 @@
 
 .editorTitle::placeholder {
   color: var(--muted);
+}
+
+.editorCategoryRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.editorCategoryLabel {
+  font-size: 0.75rem;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.editorCategorySelect {
+  font-size: 0.82rem;
+  color: var(--text-strong);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.32rem 0.6rem;
+  outline: none;
+}
+
+.editorCategorySelect:focus {
+  border-color: var(--accent);
+}
+
+.editorCategoryManageBtn {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  cursor: none;
+  transition: color 0.1s, border-color 0.1s;
+}
+
+.editorCategoryManageBtn:hover {
+  color: var(--text-strong);
+  border-color: var(--border-strong);
 }
 
 .editorTags {
@@ -2326,6 +2377,147 @@
   font-size: 0.82rem;
   color: #dc2626;
   margin-top: 0.5rem;
+}
+
+/* ── Category manager ─────────────────────────────────────── */
+
+.categoryAddRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.categoryColorPicker {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.categoryColorSwatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: none;
+  transition: transform 0.1s;
+}
+
+.categoryColorSwatch:hover {
+  transform: scale(1.15);
+}
+
+.categoryList {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.categoryListItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.categoryDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.categoryListName {
+  flex: 1;
+  font-size: 0.88rem;
+  color: var(--text-strong);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.categoryListAction {
+  background: none;
+  border: none;
+  cursor: none;
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding: 0.2rem 0.45rem;
+  border-radius: 5px;
+  transition: color 0.1s, background 0.1s;
+  flex-shrink: 0;
+}
+
+.categoryListAction:hover {
+  color: var(--text-strong);
+  background: var(--surface-strong);
+}
+
+.categoryListActionDanger:hover {
+  color: #dc2626;
+}
+
+/* ── Category badges (blog cards / post view) ─────────────── */
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  background: var(--cat-bg, var(--accent-dim));
+  color: var(--cat-color, var(--accent));
+}
+
+.categoryBadge .categoryDot {
+  width: 6px;
+  height: 6px;
+}
+
+.categoryFilterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.categoryFilterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.32rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--muted-strong);
+  cursor: none;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+
+.categoryFilterBtn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-strong);
+}
+
+.categoryFilterBtnActive {
+  border-color: transparent;
+  background: var(--cat-bg, var(--accent-dim));
+  color: var(--cat-color, var(--accent));
 }
 
 /* Image size selector inside modal */

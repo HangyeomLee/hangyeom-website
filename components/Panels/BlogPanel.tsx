@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { useCursor } from "../Shared/Cursor";
+import { type Category } from "../Features/CategoryManager";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
 
@@ -15,6 +16,7 @@ type Post = {
   published: boolean;
   createdAt: string;
   content: string;
+  categoryId: string | null;
 };
 
 function readingTime(content: string) {
@@ -31,6 +33,8 @@ type Props = { setView: (v: View) => void };
 export function BlogPanel({ setView }: Props) {
   const { setCursor } = useCursor();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,10 +42,34 @@ export function BlogPanel({ setView }: Props) {
       .then((r) => r.json())
       .then((data) => { setPosts(data); setLoading(false); })
       .catch(() => setLoading(false));
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then((data: Category[]) => setCategories(data))
+      .catch(() => {});
   }, []);
 
-  const published = posts.filter((p) => p.published);
+  const categoryMap = new Map(categories.map((c) => [c.id, c]));
+  const usedCategoryIds = new Set(posts.filter((p) => p.published && p.categoryId).map((p) => p.categoryId as string));
+  const visibleCategories = categories.filter((c) => usedCategoryIds.has(c.id));
+
+  const allPublished = posts.filter((p) => p.published);
+  const published = activeCategory ? allPublished.filter((p) => p.categoryId === activeCategory) : allPublished;
   const drafts = posts.filter((p) => !p.published);
+
+  const CategoryBadge = ({ id }: { id: string | null }) => {
+    if (!id) return null;
+    const cat = categoryMap.get(id);
+    if (!cat) return null;
+    return (
+      <span
+        className={styles.categoryBadge}
+        style={{ "--cat-bg": `${cat.color}1a`, "--cat-color": cat.color } as CSSProperties}
+      >
+        <span className={styles.categoryDot} style={{ background: cat.color }} />
+        {cat.name}
+      </span>
+    );
+  };
 
   return (
     <motion.div
@@ -75,6 +103,32 @@ export function BlogPanel({ setView }: Props) {
           <p style={{ color: "var(--muted)", fontSize: "0.88rem" }}>Loading…</p>
         )}
 
+        {visibleCategories.length > 0 && (
+          <div className={styles.categoryFilterRow}>
+            <button
+              className={`${styles.categoryFilterBtn} ${activeCategory === null ? styles.categoryFilterBtnActive : ""}`}
+              onClick={() => setActiveCategory(null)}
+              onMouseEnter={() => setCursor("hover")}
+              onMouseLeave={() => setCursor("default")}
+            >
+              전체
+            </button>
+            {visibleCategories.map((c) => (
+              <button
+                key={c.id}
+                className={`${styles.categoryFilterBtn} ${activeCategory === c.id ? styles.categoryFilterBtnActive : ""}`}
+                style={activeCategory === c.id ? ({ "--cat-bg": `${c.color}1a`, "--cat-color": c.color } as CSSProperties) : undefined}
+                onClick={() => setActiveCategory(c.id)}
+                onMouseEnter={() => setCursor("hover")}
+                onMouseLeave={() => setCursor("default")}
+              >
+                <span className={styles.categoryDot} style={{ background: c.color }} />
+                {c.name}
+              </button>
+            ))}
+          </div>
+        )}
+
         {!loading && posts.length === 0 && (
           <div className={styles.blogEmpty}>
             <p>No posts yet.</p>
@@ -105,6 +159,7 @@ export function BlogPanel({ setView }: Props) {
                 <div className={styles.blogCardMeta}>
                   <span className={styles.blogCardDate}>{formatDate(post.createdAt)}</span>
                   <span className={styles.blogCardTime}>{readingTime(post.content)}분 읽기</span>
+                  <CategoryBadge id={post.categoryId} />
                 </div>
                 <h3 className={styles.blogCardTitle}>{post.title}</h3>
                 {post.excerpt && <p className={styles.blogCardExcerpt}>{post.excerpt}</p>}

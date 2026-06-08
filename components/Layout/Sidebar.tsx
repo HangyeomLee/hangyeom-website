@@ -112,17 +112,8 @@ export function Sidebar({ view, setView, onOpenCmd }: Props) {
 
         <div className={styles.navDivider} />
 
-        {/* AI Chat + Search */}
+        {/* Search */}
         <div className={styles.featureButtons}>
-          <button
-            className={`${styles.featureBtn} ${view.type === "ask" ? styles.featureBtnAi : ""}`}
-            onClick={() => setView({ type: "ask" })}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
-          >
-            <span className={styles.featureBtnIcon}>✦</span>
-            Ask AI
-          </button>
           <button
             className={styles.featureBtn}
             onClick={onOpenCmd}

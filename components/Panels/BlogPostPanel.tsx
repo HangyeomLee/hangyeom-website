@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { useCursor } from "../Shared/Cursor";
+import { type Category } from "../Features/CategoryManager";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
 
@@ -15,6 +16,7 @@ type Post = {
   published: boolean;
   createdAt: string;
   updatedAt: string;
+  categoryId: string | null;
 };
 
 function readingTime(content: string) {
@@ -30,6 +32,7 @@ type Props = { slug: string; setView: (v: View) => void };
 export function BlogPostPanel({ slug, setView }: Props) {
   const { setCursor } = useCursor();
   const [post, setPost] = useState<Post | null>(null);
+  const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
 
@@ -39,6 +42,14 @@ export function BlogPostPanel({ slug, setView }: Props) {
       .then((data) => { setPost(data); setLoading(false); })
       .catch(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    if (!post?.categoryId) { setCategory(null); return; }
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then((cats: Category[]) => setCategory(cats.find((c) => c.id === post.categoryId) ?? null))
+      .catch(() => {});
+  }, [post?.categoryId]);
 
   const handleDelete = async () => {
     if (!post || !confirm("정말 삭제하시겠습니까?")) return;
@@ -116,6 +127,15 @@ export function BlogPostPanel({ slug, setView }: Props) {
         <div className={styles.postMeta}>
           <span className={styles.postDate}>{formatDate(post.createdAt)}</span>
           <span className={styles.postReadTime}>{readingTime(post.content)}분 읽기</span>
+          {category && (
+            <span
+              className={styles.categoryBadge}
+              style={{ "--cat-bg": `${category.color}1a`, "--cat-color": category.color } as CSSProperties}
+            >
+              <span className={styles.categoryDot} style={{ background: category.color }} />
+              {category.name}
+            </span>
+          )}
         </div>
 
         <h1 className={styles.postTitle}>{post.title}</h1>

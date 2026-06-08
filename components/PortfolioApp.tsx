@@ -10,7 +10,6 @@ import { WorkPanel } from "./Panels/WorkPanel";
 import { ProjectPanel } from "./Panels/ProjectPanel";
 import { ExperiencePanel } from "./Panels/ExperiencePanel";
 import { AboutPanel } from "./Panels/AboutPanel";
-import { AskAI } from "./Features/AskAI";
 import { BlogPanel } from "./Panels/BlogPanel";
 import { BlogPostPanel } from "./Panels/BlogPostPanel";
 import { PostEditor } from "./Features/PostEditor";
@@ -22,7 +21,6 @@ export type View =
   | { type: "project"; id: string }
   | { type: "experience" }
   | { type: "about" }
-  | { type: "ask" }
   | { type: "blog" }
   | { type: "post"; slug: string }
   | { type: "new-post" }
@@ -41,7 +39,6 @@ const HASH_MAP: Record<string, View> = {
   work: { type: "work" },
   experience: { type: "experience" },
   about: { type: "about" },
-  ask: { type: "ask" },
   blog: { type: "blog" },
   "new-post": { type: "new-post" },
 };
@@ -127,7 +124,6 @@ export function PortfolioApp() {
             {view.type === "project" && <ProjectPanel key={viewKey(view)} id={(view as Extract<View, { type: "project" }>).id} setView={setView} />}
             {view.type === "experience" && <ExperiencePanel key="experience" />}
             {view.type === "about" && <AboutPanel key="about" />}
-            {view.type === "ask" && <AskAI key="ask" />}
             {view.type === "blog" && <BlogPanel key="blog" setView={setView} />}
             {view.type === "post" && <BlogPostPanel key={viewKey(view)} slug={(view as Extract<View, { type: "post" }>).slug} setView={setView} />}
             {view.type === "new-post" && <PostEditor key="new-post" setView={setView} />}

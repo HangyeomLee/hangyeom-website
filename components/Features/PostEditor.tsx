@@ -14,6 +14,7 @@ import { Image as TiptapImage } from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
 import { useCursor } from "../Shared/Cursor";
+import { CategoryManager, type Category } from "./CategoryManager";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
 
@@ -24,6 +25,7 @@ type Post = {
   content: string;
   tags: string[];
   published: boolean;
+  categoryId: string | null;
 };
 
 type Props = {
@@ -260,6 +262,18 @@ export function PostEditor({ slug, setView }: Props) {
   const [existingSlug, setExistingSlug] = useState<string | null>(null);
   const [showUrlModal, setShowUrlModal] = useState(false);
   const [urlValue, setUrlValue] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+
+  const loadCategories = useCallback(() => {
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then((data: Category[]) => setCategories(data))
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => { loadCategories(); }, [loadCategories]);
 
   const uploadAndInsert = useCallback(async (file: File) => {
     const fd = new FormData();
@@ -321,6 +335,7 @@ export function PostEditor({ slug, setView }: Props) {
         editor.commands.setContent(post.content);
         setTitle(post.title);
         setTags(post.tags);
+        setCategoryId(post.categoryId ?? null);
         setExistingSlug(post.slug);
       });
   }, [slug, editor]);
@@ -332,7 +347,7 @@ export function PostEditor({ slug, setView }: Props) {
     if (!content || content === "<p></p>") { setSaveMsg("내용을 입력해주세요."); return; }
     setSaving(true);
     setSaveMsg("");
-    const body = { title, content, tags, published: publish };
+    const body = { title, content, tags, published: publish, categoryId };
     try {
       let res: Response;
       if (existingSlug) {
@@ -419,6 +434,15 @@ export function PostEditor({ slug, setView }: Props) {
         </div>
       )}
 
+      <CategoryManager
+        open={showCategoryManager}
+        onClose={() => setShowCategoryManager(false)}
+        onChange={(cats) => {
+          setCategories(cats);
+          if (categoryId && !cats.some((c) => c.id === categoryId)) setCategoryId(null);
+        }}
+      />
+
       <div className={styles.editorHeader}>
         <button
           className={styles.editorBack}
@@ -466,6 +490,28 @@ export function PostEditor({ slug, setView }: Props) {
             t.style.height = t.scrollHeight + "px";
           }}
         />
+        <div className={styles.editorCategoryRow}>
+          <span className={styles.editorCategoryLabel}>카테고리</span>
+          <select
+            className={styles.editorCategorySelect}
+            value={categoryId ?? ""}
+            onChange={(e) => setCategoryId(e.target.value || null)}
+          >
+            <option value="">없음</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          <button
+            type="button"
+            className={styles.editorCategoryManageBtn}
+            onClick={() => setShowCategoryManager(true)}
+            onMouseEnter={() => setCursor("hover")}
+            onMouseLeave={() => setCursor("default")}
+          >
+            관리
+          </button>
+        </div>
         <div className={styles.editorTags}>
           {tags.map((t) => (
             <span key={t} className={styles.editorTag}>

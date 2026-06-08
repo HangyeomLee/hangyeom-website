@@ -23,6 +23,7 @@ function normalize(row: any) {
     ...row,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    categoryId: row.category_id,
   };
 }
 
@@ -38,7 +39,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { title, content, tags, published } = body;
+  const { title, content, tags, published, categoryId } = body;
 
   if (!title?.trim()) return NextResponse.json({ error: "title required" }, { status: 400 });
 
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
 
   const { data, error } = await supabase
     .from("posts")
-    .insert({ slug, title, content: content ?? "", excerpt, tags: tags ?? [], published: published ?? false })
+    .insert({ slug, title, content: content ?? "", excerpt, tags: tags ?? [], published: published ?? false, category_id: categoryId ?? null })
     .select()
     .single();
 

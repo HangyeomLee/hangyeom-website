@@ -14,6 +14,7 @@ function normalize(row: any) {
     ...row,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    categoryId: row.category_id,
   };
 }
 
@@ -27,13 +28,13 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 export async function PUT(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const body = await req.json();
-  const { title, content, tags, published } = body;
+  const { title, content, tags, published, categoryId } = body;
 
   const excerpt = extractExcerpt(content ?? "");
 
   const { data, error } = await supabase
     .from("posts")
-    .update({ title, content, tags, published, excerpt, updated_at: new Date().toISOString() })
+    .update({ title, content, tags, published, excerpt, category_id: categoryId ?? null, updated_at: new Date().toISOString() })
     .eq("slug", slug)
     .select()
     .single();
