@@ -1,6 +1,5 @@
 "use client";
 
-import { useCursor } from "../Shared/Cursor";
 import { products, experience } from "../portfolioData";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
@@ -18,15 +17,12 @@ type Props = {
 };
 
 export function Sidebar({ view, setView, onOpenCmd }: Props) {
-  const { setCursor } = useCursor();
 
   const navBtn = (label: string, icon: string, target: View, isActive: boolean) => (
     <button
       key={label}
       className={`${styles.navItem} ${isActive ? styles.navItemActive : ""}`}
       onClick={() => setView(target)}
-      onMouseEnter={() => setCursor("hover")}
-      onMouseLeave={() => setCursor("default")}
     >
       <span className={styles.navItemIcon}>{icon}</span>
       {label}
@@ -40,9 +36,7 @@ export function Sidebar({ view, setView, onOpenCmd }: Props) {
         <button
           className={styles.sidebarLogo}
           onClick={() => setView({ type: "home" })}
-          onMouseEnter={() => setCursor("hover")}
-          onMouseLeave={() => setCursor("default")}
-          style={{ background: "none", border: "none", cursor: "none", width: "100%", textAlign: "left" }}
+          style={{ background: "none", border: "none", cursor: "pointer", width: "100%", textAlign: "left" }}
         >
           <span className={styles.sidebarLogoMark}>H</span>
           <span className={styles.sidebarLogoText}>Hangyeom Lee</span>
@@ -66,8 +60,6 @@ export function Sidebar({ view, setView, onOpenCmd }: Props) {
                 key={p.title}
                 className={`${styles.navChild} ${isActive ? styles.navChildActive : ""}`}
                 onClick={() => setView({ type: "project", id: p.title })}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={() => setCursor("default")}
               >
                 <span className={styles.navChildDot} />
                 {p.title}
@@ -87,8 +79,6 @@ export function Sidebar({ view, setView, onOpenCmd }: Props) {
               key={e.company}
               className={styles.navChild}
               onClick={() => setView({ type: "experience" })}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
             >
               <span className={styles.navChildDot} />
               {e.company}
@@ -117,8 +107,6 @@ export function Sidebar({ view, setView, onOpenCmd }: Props) {
           <button
             className={styles.featureBtn}
             onClick={onOpenCmd}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
           >
             <span className={styles.featureBtnIcon}>⌘</span>
             Search

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCursor } from "../Shared/Cursor";
 import styles from "../app.module.css";
 
 export type Category = { id: string; name: string; slug: string; color: string };
@@ -15,7 +14,6 @@ type Props = {
 const COLOR_PRESETS = ["#7C3AED", "#0891B2", "#16A34A", "#D97706", "#DC2626", "#DB2777"];
 
 export function CategoryManager({ open, onClose, onChange }: Props) {
-  const { setCursor } = useCursor();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
@@ -109,8 +107,6 @@ export function CategoryManager({ open, onClose, onChange }: Props) {
           className={styles.categoryColorSwatch}
           style={{ background: c, outline: value === c ? "2px solid var(--text-strong)" : "none", outlineOffset: 2 }}
           onClick={() => onPick(c)}
-          onMouseEnter={() => setCursor("hover")}
-          onMouseLeave={() => setCursor("default")}
           aria-label={c}
         />
       ))}
@@ -122,7 +118,7 @@ export function CategoryManager({ open, onClose, onChange }: Props) {
       <div className={styles.imgModal} style={{ width: 480 }} onClick={(e) => e.stopPropagation()}>
         <div className={styles.imgModalHeader}>
           <span className={styles.imgModalTitle}>카테고리 관리</span>
-          <button className={styles.imgModalClose} onClick={onClose} onMouseEnter={() => setCursor("hover")} onMouseLeave={() => setCursor("default")}>×</button>
+          <button className={styles.imgModalClose} onClick={onClose}>×</button>
         </div>
         <div className={styles.imgModalBody}>
           <div className={styles.categoryAddRow}>
@@ -138,8 +134,6 @@ export function CategoryManager({ open, onClose, onChange }: Props) {
               className={styles.btnPrimary}
               onClick={create}
               disabled={busy || !name.trim()}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
               style={{ minHeight: 36, padding: "0 1rem", flexShrink: 0 }}
             >
               추가
@@ -172,16 +166,12 @@ export function CategoryManager({ open, onClose, onChange }: Props) {
                         className={styles.categoryListAction}
                         onClick={() => saveEdit(c.id)}
                         disabled={busy}
-                        onMouseEnter={() => setCursor("hover")}
-                        onMouseLeave={() => setCursor("default")}
                       >
                         저장
                       </button>
                       <button
                         className={styles.categoryListAction}
                         onClick={() => setEditingId(null)}
-                        onMouseEnter={() => setCursor("hover")}
-                        onMouseLeave={() => setCursor("default")}
                       >
                         취소
                       </button>
@@ -193,16 +183,12 @@ export function CategoryManager({ open, onClose, onChange }: Props) {
                       <button
                         className={styles.categoryListAction}
                         onClick={() => startEdit(c)}
-                        onMouseEnter={() => setCursor("hover")}
-                        onMouseLeave={() => setCursor("default")}
                       >
                         수정
                       </button>
                       <button
                         className={`${styles.categoryListAction} ${styles.categoryListActionDanger}`}
                         onClick={() => remove(c.id)}
-                        onMouseEnter={() => setCursor("hover")}
-                        onMouseLeave={() => setCursor("default")}
                       >
                         삭제
                       </button>

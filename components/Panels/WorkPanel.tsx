@@ -3,14 +3,12 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { products } from "../portfolioData";
-import { useCursor } from "../Shared/Cursor";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
 
 type Props = { setView: (v: View) => void };
 
 export function WorkPanel({ setView }: Props) {
-  const { setCursor } = useCursor();
 
   return (
     <motion.div
@@ -36,8 +34,6 @@ export function WorkPanel({ setView }: Props) {
               key={p.title}
               className={styles.projectCard}
               onClick={() => setView({ type: "project", id: p.title })}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.07 }}

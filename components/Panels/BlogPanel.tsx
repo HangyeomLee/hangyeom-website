@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import { motion } from "framer-motion";
-import { useCursor } from "../Shared/Cursor";
 import { type Category } from "../Features/CategoryManager";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
@@ -31,7 +30,6 @@ function formatDate(iso: string) {
 type Props = { setView: (v: View) => void };
 
 export function BlogPanel({ setView }: Props) {
-  const { setCursor } = useCursor();
   const [posts, setPosts] = useState<Post[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -87,8 +85,6 @@ export function BlogPanel({ setView }: Props) {
             <button
               className={styles.btnPrimary}
               onClick={() => setView({ type: "new-post" })}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
               style={{ flexShrink: 0, marginBottom: "0.5rem" }}
             >
               + New Post
@@ -108,8 +104,6 @@ export function BlogPanel({ setView }: Props) {
             <button
               className={`${styles.categoryFilterBtn} ${activeCategory === null ? styles.categoryFilterBtnActive : ""}`}
               onClick={() => setActiveCategory(null)}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
             >
               전체
             </button>
@@ -119,8 +113,6 @@ export function BlogPanel({ setView }: Props) {
                 className={`${styles.categoryFilterBtn} ${activeCategory === c.id ? styles.categoryFilterBtnActive : ""}`}
                 style={activeCategory === c.id ? ({ "--cat-bg": `${c.color}1a`, "--cat-color": c.color } as CSSProperties) : undefined}
                 onClick={() => setActiveCategory(c.id)}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={() => setCursor("default")}
               >
                 <span className={styles.categoryDot} style={{ background: c.color }} />
                 {c.name}
@@ -135,8 +127,6 @@ export function BlogPanel({ setView }: Props) {
             <button
               className={styles.btnPrimary}
               onClick={() => setView({ type: "new-post" })}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
             >
               Write your first post
             </button>
@@ -150,8 +140,6 @@ export function BlogPanel({ setView }: Props) {
                 key={post.id}
                 className={styles.blogCard}
                 onClick={() => setView({ type: "post", slug: post.slug })}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={() => setCursor("default")}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.06 }}
@@ -184,8 +172,6 @@ export function BlogPanel({ setView }: Props) {
                   key={post.id}
                   className={`${styles.blogCard} ${styles.blogCardDraft}`}
                   onClick={() => setView({ type: "edit-post", slug: post.slug })}
-                  onMouseEnter={() => setCursor("hover")}
-                  onMouseLeave={() => setCursor("default")}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.06 }}

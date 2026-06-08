@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { profile } from "../portfolioData";
 import { TelemetryVisual } from "../Shared/TelemetryVisual";
-import { useCursor } from "../Shared/Cursor";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
 
@@ -12,7 +11,6 @@ type Props = { setView: (v: View) => void };
 const ease = { duration: 0.45, ease: "easeOut" };
 
 export function HomePanel({ setView }: Props) {
-  const { setCursor } = useCursor();
 
   return (
     <motion.div
@@ -47,8 +45,6 @@ export function HomePanel({ setView }: Props) {
             <button
               className={styles.btnPrimary}
               onClick={() => setView({ type: "work" })}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
             >
               View Projects
             </button>
@@ -57,8 +53,6 @@ export function HomePanel({ setView }: Props) {
               target="_blank"
               rel="noreferrer"
               className={styles.btnSecondary}
-              onMouseEnter={() => setCursor("link")}
-              onMouseLeave={() => setCursor("default")}
             >
               GitHub ↗
             </a>
@@ -67,8 +61,6 @@ export function HomePanel({ setView }: Props) {
               target="_blank"
               rel="noreferrer"
               className={styles.btnSecondary}
-              onMouseEnter={() => setCursor("link")}
-              onMouseLeave={() => setCursor("default")}
             >
               Resume
             </a>

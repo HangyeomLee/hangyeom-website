@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import { motion } from "framer-motion";
-import { useCursor } from "../Shared/Cursor";
 import { type Category } from "../Features/CategoryManager";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
@@ -30,7 +29,6 @@ function formatDate(iso: string) {
 type Props = { slug: string; setView: (v: View) => void };
 
 export function BlogPostPanel({ slug, setView }: Props) {
-  const { setCursor } = useCursor();
   const [post, setPost] = useState<Post | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
@@ -92,8 +90,6 @@ export function BlogPostPanel({ slug, setView }: Props) {
           <button
             className={styles.backBtn}
             onClick={() => setView({ type: "blog" })}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
           >
             ← Blog
           </button>
@@ -102,8 +98,6 @@ export function BlogPostPanel({ slug, setView }: Props) {
               className={styles.btnSecondary}
               style={{ fontSize: "0.8rem", minHeight: 32, padding: "0.3rem 0.8rem" }}
               onClick={() => setView({ type: "edit-post", slug: post.slug })}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
             >
               Edit
             </button>
@@ -112,8 +106,6 @@ export function BlogPostPanel({ slug, setView }: Props) {
               style={{ fontSize: "0.8rem", minHeight: 32, padding: "0.3rem 0.8rem", color: "#dc2626", borderColor: "rgba(220,38,38,0.3)" }}
               onClick={handleDelete}
               disabled={deleting}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={() => setCursor("default")}
             >
               {deleting ? "삭제 중…" : "Delete"}
             </button>

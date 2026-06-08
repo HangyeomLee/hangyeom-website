@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { products } from "../portfolioData";
-import { useCursor } from "../Shared/Cursor";
 import { Lightbox, type LightboxImage } from "../Shared/Lightbox";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
@@ -12,7 +11,6 @@ import type { View } from "../PortfolioApp";
 type Props = { id: string; setView: (v: View) => void };
 
 export function ProjectPanel({ id, setView }: Props) {
-  const { setCursor } = useCursor();
   const [lightboxImages, setLightboxImages] = useState<LightboxImage[] | null>(null);
   const [lightboxStart, setLightboxStart] = useState(0);
 
@@ -52,8 +50,6 @@ export function ProjectPanel({ id, setView }: Props) {
           <button
             className={styles.backBtn}
             onClick={() => setView({ type: "work" })}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
           >
             ← Back to Work
           </button>
@@ -63,8 +59,6 @@ export function ProjectPanel({ id, setView }: Props) {
             <div
               className={styles.projectDetailHero}
               onClick={() => openLightbox(0)}
-              onMouseEnter={() => setCursor("image")}
-              onMouseLeave={() => setCursor("default")}
             >
               <Image
                 src={product.image}
@@ -130,8 +124,6 @@ export function ProjectPanel({ id, setView }: Props) {
                     key={img.src}
                     className={styles.galleryItem}
                     onClick={() => openLightbox(i)}
-                    onMouseEnter={() => setCursor("image")}
-                    onMouseLeave={() => setCursor("default")}
                   >
                     <div className={styles.galleryThumb}>
                       <Image
@@ -169,8 +161,6 @@ export function ProjectPanel({ id, setView }: Props) {
                 target="_blank"
                 rel="noreferrer"
                 className={styles.btnPrimary}
-                onMouseEnter={() => setCursor("link")}
-                onMouseLeave={() => setCursor("default")}
               >
                 Open Live Site ↗
               </a>
@@ -181,8 +171,6 @@ export function ProjectPanel({ id, setView }: Props) {
                 target="_blank"
                 rel="noreferrer"
                 className={styles.btnSecondary}
-                onMouseEnter={() => setCursor("link")}
-                onMouseLeave={() => setCursor("default")}
               >
                 Repository
               </a>

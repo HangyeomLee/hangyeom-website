@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
-import { CursorProvider, Cursor } from "./Shared/Cursor";
 import { Sidebar } from "./Layout/Sidebar";
 import { CommandPalette } from "./Features/CommandPalette";
 import { HomePanel } from "./Panels/HomePanel";
@@ -108,8 +107,7 @@ export function PortfolioApp() {
   }, [paletteOpen, view, setView]);
 
   return (
-    <CursorProvider>
-      <Cursor />
+    <>
       <CommandPalette
         open={paletteOpen}
         onClose={() => setPaletteOpen(false)}
@@ -131,6 +129,6 @@ export function PortfolioApp() {
           </AnimatePresence>
         </main>
       </div>
-    </CursorProvider>
+    </>
   );
 }

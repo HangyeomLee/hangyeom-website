@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { products, profile } from "../portfolioData";
-import { useCursor } from "../Shared/Cursor";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
 
@@ -30,7 +29,6 @@ type Props = {
 };
 
 export function CommandPalette({ open, onClose, setView }: Props) {
-  const { setCursor } = useCursor();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -108,8 +106,7 @@ export function CommandPalette({ open, onClose, setView }: Props) {
                 key={item.label}
                 className={`${styles.paletteItem} ${i === selected ? styles.paletteItemSelected : ""}`}
                 onClick={() => navigate(item)}
-                onMouseEnter={() => { setSelected(i); setCursor("hover"); }}
-                onMouseLeave={() => setCursor("default")}
+                onMouseEnter={() => { setSelected(i); }}
               >
                 <span className={styles.paletteItemIcon}>{item.icon}</span>
                 <span className={styles.paletteItemLabel}>{item.label}</span>

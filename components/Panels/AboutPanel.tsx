@@ -2,11 +2,9 @@
 
 import { motion } from "framer-motion";
 import { profile } from "../portfolioData";
-import { useCursor } from "../Shared/Cursor";
 import styles from "../app.module.css";
 
 export function AboutPanel() {
-  const { setCursor } = useCursor();
 
   return (
     <motion.div
@@ -47,8 +45,6 @@ export function AboutPanel() {
             <a
               href={`mailto:${profile.email}`}
               className={styles.btnPrimary}
-              onMouseEnter={() => setCursor("link")}
-              onMouseLeave={() => setCursor("default")}
             >
               {profile.email}
             </a>
@@ -57,8 +53,6 @@ export function AboutPanel() {
               target="_blank"
               rel="noreferrer"
               className={styles.btnSecondary}
-              onMouseEnter={() => setCursor("link")}
-              onMouseLeave={() => setCursor("default")}
             >
               LinkedIn ↗
             </a>
@@ -67,8 +61,6 @@ export function AboutPanel() {
               target="_blank"
               rel="noreferrer"
               className={styles.btnSecondary}
-              onMouseEnter={() => setCursor("link")}
-              onMouseLeave={() => setCursor("default")}
             >
               GitHub ↗
             </a>
@@ -77,8 +69,6 @@ export function AboutPanel() {
               target="_blank"
               rel="noreferrer"
               className={styles.btnSecondary}
-              onMouseEnter={() => setCursor("link")}
-              onMouseLeave={() => setCursor("default")}
             >
               Resume PDF
             </a>

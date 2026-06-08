@@ -13,7 +13,6 @@ import StarterKit from "@tiptap/starter-kit";
 import { Image as TiptapImage } from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
-import { useCursor } from "../Shared/Cursor";
 import { CategoryManager, type Category } from "./CategoryManager";
 import styles from "../app.module.css";
 import type { View } from "../PortfolioApp";
@@ -251,7 +250,6 @@ const TOOLBAR: ToolbarItem[] = [
 // ─── PostEditor ────────────────────────────────────────────────────
 
 export function PostEditor({ slug, setView }: Props) {
-  const { setCursor } = useCursor();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<Editor | null>(null);
   const [title, setTitle] = useState("");
@@ -447,8 +445,6 @@ export function PostEditor({ slug, setView }: Props) {
         <button
           className={styles.editorBack}
           onClick={() => setView({ type: "blog" })}
-          onMouseEnter={() => setCursor("hover")}
-          onMouseLeave={() => setCursor("default")}
         >
           ← Blog
         </button>
@@ -458,8 +454,6 @@ export function PostEditor({ slug, setView }: Props) {
             className={styles.btnSecondary}
             onClick={() => save(false)}
             disabled={saving}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
             style={{ minHeight: 34, padding: "0.3rem 0.9rem", fontSize: "0.85rem" }}
           >
             임시저장
@@ -468,8 +462,6 @@ export function PostEditor({ slug, setView }: Props) {
             className={styles.btnPrimary}
             onClick={() => save(true)}
             disabled={saving}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
             style={{ minHeight: 34, padding: "0.3rem 0.9rem", fontSize: "0.85rem" }}
           >
             발행 →
@@ -506,8 +498,6 @@ export function PostEditor({ slug, setView }: Props) {
             type="button"
             className={styles.editorCategoryManageBtn}
             onClick={() => setShowCategoryManager(true)}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
           >
             관리
           </button>
@@ -519,8 +509,6 @@ export function PostEditor({ slug, setView }: Props) {
               <button
                 onClick={() => removeTag(t)}
                 className={styles.editorTagRemove}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={() => setCursor("default")}
               >
                 ×
               </button>
@@ -550,8 +538,6 @@ export function PostEditor({ slug, setView }: Props) {
                 title={item.title}
                 className={`${styles.toolbarBtn} ${editor && item.isActive?.(editor) ? styles.toolbarBtnActive : ""}`}
                 onMouseDown={(e) => { e.preventDefault(); if (editor) item.action(editor); }}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={() => setCursor("default")}
               >
                 {item.label}
               </button>
@@ -563,8 +549,6 @@ export function PostEditor({ slug, setView }: Props) {
             className={styles.toolbarBtn}
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => fileInputRef.current?.click()}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
           >
             🖼
           </button>
@@ -573,8 +557,6 @@ export function PostEditor({ slug, setView }: Props) {
             className={styles.toolbarBtn}
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => setShowUrlModal(true)}
-            onMouseEnter={() => setCursor("hover")}
-            onMouseLeave={() => setCursor("default")}
           >
             🔗
           </button>
