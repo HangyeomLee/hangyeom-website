@@ -1,16 +1,16 @@
 export const profile = {
   name: "Hangyeom Lee",
-  role: "AI-Native Product Engineer",
-  tagline: ["BUILDING", "AI-NATIVE", "PRODUCTS."],
+  role: "Full-Stack Engineer",
+  tagline: ["SHIPPING", "LIVE", "PRODUCTS."],
   subtitle:
-    "Full-stack engineer focused on real-time infrastructure, AI interfaces, and internet-native experiences.",
+    "Full-stack engineer who builds and operates fifa2026.ca — Stripe, Shippo, Supabase Realtime — plus applied-AI and backend systems.",
   location: "Waterloo, ON",
   email: "h38lee@uwaterloo.ca",
   github: "https://github.com/HangyeomLee",
   linkedin: "https://www.linkedin.com/in/hangyeomlee",
   about:
-    "I like building products that combine real-time systems, AI interfaces, and internet culture. Currently studying Systems Design Engineering at the University of Waterloo. Open to internships and product engineering roles.",
-  availability: "Open to internships & product engineering roles",
+    "I build and operate fifa2026.ca, a live e-commerce platform (Stripe, Shippo, Supabase Realtime) serving customers across Canada, and turn ML-heavy ideas into shippable products. Currently studying Systems Design Engineering at the University of Waterloo. Open to co-op internships in full-stack, product, and AI engineering.",
+  availability: "Open to co-op internships in full-stack, product & AI engineering",
   school: "University of Waterloo · Systems Design Engineering",
 };
 
@@ -52,26 +52,41 @@ export const experience = [
 export const products = [
   {
     title: "FIFA2026.ca",
-    year: "2025",
-    tag: "Commerce experiment",
-    stack: ["Next.js", "Shopify", "TikTok Strategy", "Branding Systems", "Conversion UX"],
-    positioning:
-      "Internet commerce experiment combining branding systems, short-form content, and conversion-focused UX.",
-    summary:
-      "Built a complete ecommerce brand around the 2026 FIFA World Cup — product design, TikTok-driven traffic strategy, and conversion-optimized storefront.",
-    impact: [
-      "Built a complete branding system and ecommerce flow targeting organic TikTok traffic.",
-      "Designed conversion-focused product pages combining cinematic visual identity with purchase intent.",
-      "Ran experiments on short-form content-to-store conversion to understand internet-native commerce patterns.",
+    year: "2025–present",
+    tag: "Live e-commerce platform",
+    stack: [
+      "Next.js 15 (App Router)",
+      "Stripe Checkout",
+      "Shippo API",
+      "Supabase Realtime",
+      "TypeScript",
+      "WebSockets",
+      "Playwright",
     ],
-    result: "Commerce product with branded identity, TikTok strategy, and conversion flow",
-    image: null,
-    imageAlt: "FIFA2026.ca commerce experiment",
+    positioning:
+      "A live, revenue-generating e-commerce platform I built and operate end to end — storefront, payments, shipping automation, and a real-time admin dashboard serving customers across Canada.",
+    summary:
+      "Custom Next.js storefront (not a template) with Stripe Checkout, automated Canada Post / UPS shipping labels via Shippo, a Supabase-backed real-time admin dashboard, and a separate B2B wholesale portal — all built and operated by me.",
+    impact: [
+      "Built Stripe Checkout with server-side webhook verification for reliable payment and order state, handling real customer transactions.",
+      "Integrated the Shippo API to auto-generate Canada Post / UPS shipping labels, removing manual fulfillment for every order.",
+      "Designed an admin dashboard with live order updates over WebSockets backed by Supabase Realtime (Postgres).",
+      "Shipped a separate B2B wholesale portal with role-based auth, tiered pricing, and a Playwright E2E test suite.",
+      "Grew to 175+ live products and ~1,200 weekly visitors.",
+    ],
+    result: "Live storefront + B2B wholesale portal serving customers across Canada",
+    image: "/project-shots/fifa2026-shop.png",
+    imageAlt: "FIFA2026.ca live product catalog",
     repoUrl: null,
     liveUrl: "https://fifa2026.ca",
-    captureLabel: "Live commerce experiment",
+    captureLabel: "Captured from the live site",
     gradient: "linear-gradient(135deg, #0d0d1a 0%, #1a1032 40%, #0f2040 100%)",
     accentColor: "#c4b5fd",
+    gallery: [
+      { image: "/project-shots/fifa2026-hero.png", alt: "FIFA2026.ca storefront hero", label: "Storefront" },
+      { image: "/project-shots/fifa2026-product.png", alt: "FIFA2026.ca product detail page", label: "Product" },
+      { image: "/project-shots/fifa2026-location.png", alt: "FIFA2026.ca Toronto pickup information", label: "Pickup" },
+    ],
   },
   {
     title: "AI Monitoring Platform",

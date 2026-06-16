@@ -29,13 +29,13 @@ export function HomePanel({ setView }: Props) {
           transition={{ ...ease, delay: 0.05 }}
         >
           <div className={styles.homeEyebrow}>
-            <span>AI-NATIVE PRODUCT ENGINEER</span>
+            <span>FULL-STACK ENGINEER · SHIPS LIVE PRODUCTS</span>
             <span className={styles.availBadge}>● OPEN</span>
           </div>
 
           <h1 className={styles.heroDisplay}>
-            Building<br />
-            <span className={styles.heroDisplayAccent}>AI-native</span><br />
+            Shipping<br />
+            <span className={styles.heroDisplayAccent}>live</span><br />
             products.
           </h1>
 

@@ -15,9 +15,9 @@ const displayFont = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "Hangyeom Lee — AI-Native Product Engineer",
+  title: "Hangyeom Lee — Full-Stack Engineer who ships live products",
   description:
-    "Portfolio of Hangyeom Lee — building real-time systems, AI interfaces, and internet-native products.",
+    "Waterloo Systems Design Engineering student. I build and run a live e-commerce platform (Stripe, Shippo, Supabase) serving customers across Canada, plus applied-AI and backend systems.",
 };
 
 export default function RootLayout({
