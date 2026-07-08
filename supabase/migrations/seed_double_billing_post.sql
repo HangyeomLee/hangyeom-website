@@ -1,15 +1,16 @@
 -- Run this once in the Supabase SQL editor (Project -> SQL Editor -> New query)
--- Seeds the "Double-Billing Mystery" postmortem post in English and Korean.
+-- Seeds the "Double-Billing Mystery" postmortem post: English section first,
+-- divider, Korean section after -- matching the site's bilingual-in-one-post format.
 -- Assumes `posts` has columns: slug, title, content, excerpt, tags (text[]),
 -- published (bool), category_id (uuid, nullable), created_at, updated_at.
--- If `tags` is jsonb instead of text[], change the array[...] literals below
+-- If `tags` is jsonb instead of text[], change the array[...] literal below
 -- to '["a","b"]'::jsonb.
 
 insert into posts (slug, title, content, excerpt, tags, published, category_id, created_at, updated_at)
 values (
   'the-double-billing-mystery',
   'The Double-Billing Mystery: How One Nonexistent Field Kept Charging Customers Twice',
-  $body_en$<p>The payment succeeded. The system insisted it hadn't. And in the gap between those two facts, Canada Post kept getting billed for the same shipping label, over and over.</p>
+  $body$<p>The payment succeeded. The system insisted it hadn't. And in the gap between those two facts, Canada Post kept getting billed for the same shipping label, over and over.</p>
 
 <h2>The symptom: a successful payment that never stopped "failing"</h2>
 <p>While digging through the shipping label logic on fifa2026.ca's checkout, I noticed a pattern that didn't add up. Every request to Shippo's API to purchase a label came back fine. The charge went through. But our own logs recorded "label creation failed" every single time.</p>
@@ -44,21 +45,14 @@ values (
 
 <h2>Looking back</h2>
 <p>What makes this bug worth writing about isn't its complexity — it's the lack of it. A field name, wrong since the moment it was typed, quietly replicated across the codebase, and quietly showing up as real charges on real customers' cards. No exception. No stack trace. Just a mismatch between what the logs said and what actually happened.</p>
-<p>The only way to catch a bug like this is to put the logs and the dashboard side by side and chase the gap between "what the code decided" and "what actually happened" — not "what the code says is wrong." There's no silver bullet for this kind of debugging. There's only tracing it down.</p>$body_en$,
-  'The payment succeeded. The system insisted it hadn''t. And in the gap between those two facts, Canada Post kept getting billed for the same shipping label, over and over. The sympto',
-  array['debugging', 'root-cause-analysis', 'ecommerce', 'shippo', 'postmortem'],
-  true,
-  null,
-  now(),
-  now()
-)
-on conflict (slug) do nothing;
+<p>The only way to catch a bug like this is to put the logs and the dashboard side by side and chase the gap between "what the code decided" and "what actually happened" — not "what the code says is wrong." There's no silver bullet for this kind of debugging. There's only tracing it down.</p>
 
-insert into posts (slug, title, content, excerpt, tags, published, category_id, created_at, updated_at)
-values (
-  'the-double-billing-mystery-kr',
-  '이중 청구의 미스터리: 존재하지 않는 필드 하나가 만든 배송비 버그',
-  $body_kr$<p>결제 화면에는 "성공"이 찍혔다. 그런데 시스템은 계속 "실패"라고 우겼다. 그리고 그 사이, Canada Post에는 같은 배송라벨이 여러 번 청구되고 있었다.</p>
+<hr>
+
+<h2>한국어</h2>
+<h3>이중 청구의 미스터리: 존재하지 않는 필드 하나가 만든 배송비 버그</h3>
+
+<p>결제 화면에는 "성공"이 찍혔다. 그런데 시스템은 계속 "실패"라고 우겼다. 그리고 그 사이, Canada Post에는 같은 배송라벨이 여러 번 청구되고 있었다.</p>
 
 <h2>증상: 성공한 결제가 계속 "실패"로 보인다</h2>
 <p>fifa2026.ca 체크아웃에서 배송라벨을 발급하는 로직을 살펴보다가 이상한 패턴을 하나 발견했다. Shippo API에 라벨 구매 요청을 보내면 응답은 정상적으로 돌아온다. 결제도 실제로 일어난다. 그런데 우리 시스템의 로그에는 매번 "라벨 생성 실패"가 찍혀 있었다.</p>
@@ -93,9 +87,9 @@ values (
 
 <h2>돌아보며</h2>
 <p>이 버그가 흥미로운 이유는 복잡한 로직 때문이 아니라, 오히려 그 반대이기 때문이다. 오탈자 수준의 필드명 하나가 조용히 복제되며 실제 매출과 실제 고객 청구에 영향을 미치고 있었다. 스택 트레이스도, 예외도 없었다. 있는 건 오직 "패턴이 안 맞는다"는 감각뿐이었다.</p>
-<p>이런 버그를 잡는 방법은 하나다 — 로그와 대시보드를 나란히 놓고, "코드가 틀렸다는 증거"가 아니라 "코드의 판정과 실제 결과가 어긋난다는 증거"를 쫓는 것. 실버 불릿은 없다. 있는 건 추적뿐이다.</p>$body_kr$,
-  '결제 화면에는 "성공"이 찍혔다. 그런데 시스템은 계속 "실패"라고 우겼다. 그리고 그 사이, Canada Post에는 같은 배송라벨이 여러 번 청구되고 있었다. 증상: 성공한 결제가 계속 "실패"로 보인다 fifa2026.ca 체크아웃에서 배송라벨을 발급하는 로직을 살펴보다가 이상한 패턴을 하나 발견했다. Shippo',
-  array['디버깅', '근본원인분석', '이커머스', 'shippo', '포스트모템'],
+<p>이런 버그를 잡는 방법은 하나다 — 로그와 대시보드를 나란히 놓고, "코드가 틀렸다는 증거"가 아니라 "코드의 판정과 실제 결과가 어긋난다는 증거"를 쫓는 것. 실버 불릿은 없다. 있는 건 추적뿐이다.</p>$body$,
+  'The payment succeeded. The system insisted it hadn''t. And in the gap between those two facts, Canada Post kept getting billed for the same shipping label, over and over. The sympto',
+  array['debugging', 'root-cause-analysis', 'ecommerce', 'shippo', 'postmortem'],
   true,
   null,
   now(),
