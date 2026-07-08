@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+// Individual posts change rarely once published — cache per-slug.
+export const revalidate = 60;
+
 function extractExcerpt(content: string) {
   const text = content.trim().startsWith("<")
     ? content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()

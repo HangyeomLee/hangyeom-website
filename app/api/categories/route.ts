@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+// Categories change even less often than posts.
+export const revalidate = 300;
+
 function slugify(name: string) {
   return name
     .trim()

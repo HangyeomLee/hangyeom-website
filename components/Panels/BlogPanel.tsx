@@ -14,14 +14,9 @@ type Post = {
   tags: string[];
   published: boolean;
   createdAt: string;
-  content: string;
+  readingTimeMinutes: number;
   categoryId: string | null;
 };
-
-function readingTime(content: string) {
-  const words = content.trim().split(/\s+/).length;
-  return Math.max(1, Math.ceil(words / 200));
-}
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
@@ -146,7 +141,7 @@ export function BlogPanel({ setView }: Props) {
               >
                 <div className={styles.blogCardMeta}>
                   <span className={styles.blogCardDate}>{formatDate(post.createdAt)}</span>
-                  <span className={styles.blogCardTime}>{readingTime(post.content)}분 읽기</span>
+                  <span className={styles.blogCardTime}>{post.readingTimeMinutes}분 읽기</span>
                   <CategoryBadge id={post.categoryId} />
                 </div>
                 <h3 className={styles.blogCardTitle}>{post.title}</h3>

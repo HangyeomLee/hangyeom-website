@@ -1,6 +1,16 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+// List rarely changes and content bodies can be large (bilingual posts with
+// code blocks) — cache the list response instead of hitting Supabase and
+// shipping full content on every blog visit.
+export const revalidate = 60;
+
+function readingTimeMinutes(content: string) {
+  const words = content.trim().split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 function slugify(title: string) {
   const base = title
     .toLowerCase()
@@ -27,6 +37,14 @@ function normalize(row: any) {
   };
 }
 
+// List view only needs enough to render a card — drop the (potentially large)
+// content body and send a precomputed reading time instead.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeForList(row: any) {
+  const { content, ...rest } = normalize(row);
+  return { ...rest, readingTimeMinutes: readingTimeMinutes(content ?? "") };
+}
+
 export async function GET() {
   const { data, error } = await supabase
     .from("posts")
@@ -34,7 +52,7 @@ export async function GET() {
     .order("created_at", { ascending: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json((data ?? []).map(normalize));
+  return NextResponse.json((data ?? []).map(normalizeForList));
 }
 
 export async function POST(req: Request) {
