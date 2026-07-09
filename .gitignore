@@ -42,4 +42,6 @@ pnpm-debug.log*
 
 # sensitive files
 passpass.md
-data/posts.json
+
+# tooling
+.playwright-mcp/

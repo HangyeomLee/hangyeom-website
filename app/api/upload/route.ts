@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { isAdmin } from "@/lib/auth";
 
 const BUCKET = "blog-images";
 const ALLOWED = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
 const MAX_SIZE = 10 * 1024 * 1024;
 
 export async function POST(req: Request) {
+  if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
   if (!file) return NextResponse.json({ error: "no file" }, { status: 400 });

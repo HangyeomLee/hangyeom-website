@@ -1,0 +1,177 @@
+.wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.sheet {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2.5rem 2.75rem;
+  background: var(--bg);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+}
+
+.contactLine {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted-strong);
+  line-height: 1.7;
+}
+
+.contactLine a {
+  color: var(--accent);
+}
+
+.sectionTitle {
+  margin: 2rem 0 0.8rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border-strong);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+}
+
+.summary {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.entry {
+  margin-bottom: 1.2rem;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.entryHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.6rem;
+}
+
+.entryRole {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.entryOrg {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.entryPeriod {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--muted-strong);
+  white-space: nowrap;
+}
+
+.entryDesc {
+  margin: 0.25rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.bullets {
+  margin: 0.4rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.bullets li {
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.skillRow {
+  margin: 0 0 0.4rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.skillLabel {
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+/* ---------- Print ---------- */
+
+@media print {
+  @page {
+    margin: 1.4cm;
+  }
+
+  .wrap {
+    max-width: none;
+    padding: 0;
+  }
+
+  .toolbar {
+    display: none;
+  }
+
+  .sheet {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .name,
+  .sectionTitle,
+  .entryRole,
+  .skillLabel {
+    color: #000;
+  }
+
+  .summary,
+  .entryDesc,
+  .entryOrg,
+  .bullets li,
+  .skillRow {
+    color: #1a1a1a;
+  }
+
+  .contactLine,
+  .entryPeriod {
+    color: #444;
+  }
+
+  .contactLine a {
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+
+  .sectionTitle {
+    border-bottom-color: #999;
+  }
+
+  .entry {
+    break-inside: avoid;
+  }
+}

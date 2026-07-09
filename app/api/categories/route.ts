@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
-
-// Categories change even less often than posts.
-export const revalidate = 300;
+import { isAdmin } from "@/lib/auth";
 
 function slugify(name: string) {
   return name
@@ -23,6 +21,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+
   const body = await req.json();
   const { name, color } = body;
 

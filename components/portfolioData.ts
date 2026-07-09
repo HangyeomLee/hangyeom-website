@@ -1,34 +1,55 @@
 export const profile = {
   name: "Hangyeom Lee",
   role: "Full-Stack Engineer",
-  tagline: ["SHIPPING", "LIVE", "PRODUCTS."],
+  headline: "I build and operate live products.",
   subtitle:
-    "Full-stack engineer who builds and operates fifa2026.ca — Stripe, Shippo, Supabase Realtime — plus applied-AI and backend systems.",
-  location: "Waterloo, ON",
+    "Systems Design Engineering student at the University of Waterloo. I built and run fifa2026.ca — a live e-commerce platform with Stripe payments, Shippo shipping automation, and a real-time admin dashboard — alongside applied-AI and backend systems.",
+  location: "Waterloo / Toronto, ON, Canada",
   email: "h38lee@uwaterloo.ca",
   github: "https://github.com/HangyeomLee",
   linkedin: "https://www.linkedin.com/in/hangyeomlee",
   about:
-    "I build and operate fifa2026.ca, a live e-commerce platform (Stripe, Shippo, Supabase Realtime) serving customers across Canada, and turn ML-heavy ideas into shippable products. Currently studying Systems Design Engineering at the University of Waterloo. Open to co-op internships in full-stack, product, and AI engineering.",
-  availability: "Open to co-op internships in full-stack, product & AI engineering",
+    "I build and operate fifa2026.ca, a live e-commerce platform I own end to end — architecture, Stripe payments, Shippo shipping automation, SEO, analytics, and admin tooling. I launched it as a B2C storefront processing real transactions, then pivoted to B2B wholesale after analyzing demand. I'm currently studying Systems Design Engineering at the University of Waterloo and looking for co-op internships in full-stack, product, and AI engineering.",
+  // TODO(user): confirm exact co-op term (e.g. "Winter 2027") and add it here.
+  availability: "Seeking co-op internships — full-stack / product / AI",
   school: "University of Waterloo · Systems Design Engineering",
 };
 
-export const buildStatus = {
-  lastDeploy: "2h ago",
-  activeRepos: 6,
-  currentStack: "Next.js / FastAPI",
-  lastCommit: "optimize websocket pipeline",
-  status: "LIVE",
+export const metrics = [
+  { value: "718", label: "weekly visitors on fifa2026.ca" },
+  { value: "+89%", label: "traffic growth" },
+  { value: "175+", label: "live products in catalog" },
+  { value: "4", label: "shipped products" },
+];
+
+export type ExperienceEntry = {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+  bullets: string[];
 };
 
-export const experience = [
+export const experience: ExperienceEntry[] = [
   {
     role: "Full-Stack Developer",
+    company: "Butterfly Fashion Trading",
+    period: "2025 – present",
+    description:
+      "Built and operate fifa2026.ca, a live e-commerce platform, end to end: architecture, payments, shipping, SEO, analytics, and admin tooling.",
+    bullets: [
+      "Launched a B2C storefront with Stripe Checkout and server-side webhook verification, processing real customer transactions.",
+      "Integrated the Shippo API to auto-generate Canada Post / UPS shipping labels, removing manual fulfillment work.",
+      "Pivoted the platform to B2B wholesale after analyzing demand, rebuilding the funnel around inquiry-driven sales.",
+      "Grew the catalog to 175+ live products and traffic to 718 weekly visitors (+89%).",
+    ],
+  },
+  {
+    role: "AI/ML Intern",
     company: "Buil Planning",
     period: "Jan 2024 – Jun 2024",
     description:
-      "Led development of an AI monitoring platform spanning CCTV streaming, backend inference APIs, and operator dashboards.",
+      "Worked on an AI monitoring platform spanning CCTV streaming, backend inference APIs, and operator dashboards.",
     bullets: [
       "Designed the end-to-end flow from stream ingestion to async inference, risk classification, and frontend visualization.",
       "Built REST APIs consumed by React dashboards for real-time alerts and operational analytics.",
@@ -37,7 +58,15 @@ export const experience = [
     ],
   },
   {
-    role: "AI / ML Intern",
+    role: "Teaching Assistant",
+    company: "University of Waterloo",
+    period: "Sep 2023 – Dec 2023",
+    description:
+      "Supported undergraduate instruction: graded assignments, held office hours, and helped students work through course material.",
+    bullets: [],
+  },
+  {
+    role: "AI/ML Intern",
     company: "MoodMe",
     period: "May 2023 – Aug 2023",
     description:
@@ -49,11 +78,35 @@ export const experience = [
   },
 ];
 
-export const products = [
+export type Product = {
+  slug: string;
+  title: string;
+  year: string;
+  tag: string;
+  oneLiner: string;
+  stack: string[];
+  positioning: string;
+  summary: string;
+  impact: string[];
+  result: string;
+  image: string;
+  imageAlt: string;
+  repoUrl: string | null;
+  liveUrl: string | null;
+  captureLabel: string;
+  gradient?: string;
+  accentColor?: string;
+  gallery: { image: string; alt: string; label: string }[];
+};
+
+export const products: Product[] = [
   {
+    slug: "fifa2026",
     title: "FIFA2026.ca",
     year: "2025–present",
     tag: "Live e-commerce platform",
+    oneLiner:
+      "Live e-commerce platform I built and operate end to end — Stripe, Shippo, 175+ products, 718 weekly visitors.",
     stack: [
       "Next.js 15 (App Router)",
       "Stripe Checkout",
@@ -64,17 +117,18 @@ export const products = [
       "Playwright",
     ],
     positioning:
-      "A live, revenue-generating e-commerce platform I built and operate end to end — storefront, payments, shipping automation, and a real-time admin dashboard serving customers across Canada.",
+      "A live e-commerce platform I built and operate end to end — storefront, payments, shipping automation, and a real-time admin dashboard. Launched B2C with Stripe payments, then pivoted to B2B wholesale after demand analysis.",
     summary:
       "Custom Next.js storefront (not a template) with Stripe Checkout, automated Canada Post / UPS shipping labels via Shippo, a Supabase-backed real-time admin dashboard, and a separate B2B wholesale portal — all built and operated by me.",
     impact: [
-      "Built Stripe Checkout with server-side webhook verification for reliable payment and order state, handling real customer transactions.",
+      "Built Stripe Checkout with server-side webhook verification for reliable payment and order state, handling real customer transactions during the B2C phase.",
       "Integrated the Shippo API to auto-generate Canada Post / UPS shipping labels, removing manual fulfillment for every order.",
       "Designed an admin dashboard with live order updates over WebSockets backed by Supabase Realtime (Postgres).",
       "Shipped a separate B2B wholesale portal with role-based auth, tiered pricing, and a Playwright E2E test suite.",
-      "Grew to 175+ live products and ~1,200 weekly visitors.",
+      "Pivoted from B2C checkout to B2B wholesale inquiries after analyzing demand — the live site now routes buyers to wholesale channels.",
+      "Grew to 175+ live products and 718 weekly visitors (+89%).",
     ],
-    result: "Live storefront + B2B wholesale portal serving customers across Canada",
+    result: "Live platform serving retail-turned-wholesale customers across Canada",
     image: "/project-shots/fifa2026-shop.png",
     imageAlt: "FIFA2026.ca live product catalog",
     repoUrl: null,
@@ -89,9 +143,12 @@ export const products = [
     ],
   },
   {
+    slug: "ai-monitoring",
     title: "AI Monitoring Platform",
     year: "2024",
     tag: "Applied AI system",
+    oneLiner:
+      "Real-time crowd monitoring pipeline — RTSP ingestion, async inference, 10–15 FPS per stream, 30% lower latency.",
     stack: ["Python", "Flask", "Django", "Computer Vision", "WebSockets", "Redis"],
     positioning:
       "Real-time crowd density monitoring pipeline with streaming analysis, operator alerts, and dashboard monitoring.",
@@ -115,9 +172,12 @@ export const products = [
     ],
   },
   {
+    slug: "argumint",
     title: "Argumint",
     year: "2026",
     tag: "Live product",
+    oneLiner:
+      "Real-time debate arena — Next.js + FastAPI, live WebSocket ranking, deployed and open for signups.",
     stack: ["Next.js", "FastAPI", "PostgreSQL", "WebSockets", "Docker"],
     positioning:
       "Real-time daily debate arena with live ranking, topic generation, reputation tiers, and analytics-rich interaction loops.",
@@ -141,9 +201,12 @@ export const products = [
     ],
   },
   {
+    slug: "flue",
     title: "FLUE",
     year: "2026",
     tag: "AI for good",
+    oneLiner:
+      "Visual-first English learning app for low-literacy Rohingya learners — drawing, speech, and scenario practice on mobile.",
     stack: ["Next.js", "TypeScript", "Framer Motion", "Canvas API", "OpenRouter"],
     positioning:
       "Visual and oral-first English learning app for Rohingya learners — pictures, listening, speaking, real-world scenarios.",
@@ -167,32 +230,9 @@ export const products = [
   },
 ];
 
-export const labExperiments = [
-  {
-    title: "Orange Cat Universe",
-    tag: "Character AI",
-    description:
-      "AI-native character storytelling experiment. Generative narrative systems, persistent character identity, and multi-modal scene construction.",
-    status: "ongoing",
-    accentColor: "#fb923c",
-  },
-  {
-    title: "AI Film Experiments",
-    tag: "Generative visuals",
-    description:
-      "Cinematic motion experiments using AI-generated visuals, generative scene direction, and motion systems that feel authored rather than generated.",
-    status: "ongoing",
-    accentColor: "#c4b5fd",
-  },
-  {
-    title: "Interface Concepts",
-    tag: "Motion prototypes",
-    description:
-      "Interaction systems and motion prototypes exploring the space between product design and engineering — things that should exist but don't yet.",
-    status: "ongoing",
-    accentColor: "#22d3ee",
-  },
-];
+export function getProductBySlug(slug: string) {
+  return products.find((p) => p.slug === slug);
+}
 
 export const featuredRepos = [
   { name: "argumint", label: "Live demo + source", url: "https://github.com/HangyeomLee/argumint" },
@@ -200,12 +240,4 @@ export const featuredRepos = [
   { name: "cctv", label: "AI monitoring system", url: "https://github.com/HangyeomLee/cctv" },
   { name: "flue", label: "AI for good app", url: "https://github.com/HangyeomLee/flue" },
   { name: "Bank_Chatbot", label: "RAG chatbot", url: "https://github.com/HangyeomLee/Bank_Chatbot" },
-];
-
-export const navLinks = [
-  { label: "Work", href: "#products" },
-  { label: "Experience", href: "#experience" },
-  { label: "Lab", href: "#lab" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
 ];
