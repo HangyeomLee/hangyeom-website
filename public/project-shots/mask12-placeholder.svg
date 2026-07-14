@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1a12" />
+      <stop offset="45%" stop-color="#123120" />
+      <stop offset="100%" stop-color="#0f2018" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <text x="80" y="440" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="64" fill="#a7f3d0" opacity="0.9">mask12.com</text>
+  <text x="80" y="500" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26" fill="#d1fae5" opacity="0.55">Screenshot pending — admin &amp; storefront capture to come</text>
+</svg>
