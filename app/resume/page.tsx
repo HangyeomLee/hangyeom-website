@@ -11,19 +11,19 @@ export const metadata: Metadata = {
 
 const RESUME_PROJECTS = [
   {
-    name: "FIFA2026.ca — Live E-Commerce Platform",
-    stack: "Next.js 15, TypeScript, Stripe, Shippo, Supabase, Playwright",
+    name: "Mask12.com — B2B Wholesale Platform",
+    stack: "Next.js 15, TypeScript, Supabase (Postgres + RLS), Stripe, Shippo, QuickBooks API",
     bullets: [
-      "Built and operate a custom storefront end to end: Stripe Checkout with webhook verification, automated Canada Post / UPS shipping labels, and a real-time admin dashboard.",
-      "Grew to 175+ live products and 718 weekly visitors (+89%); pivoted from B2C checkout to B2B wholesale after demand analysis.",
+      "Designed a three-tier RBAC model with database-level Row Level Security across 13 tables, and built a Stripe Checkout pipeline with webhook verification and idempotency handling.",
+      "Automated Canada Post / UPS shipping labels via the Shippo API and synced accounting via the QuickBooks API, removing manual fulfillment and bookkeeping.",
     ],
   },
   {
     name: "AI Monitoring Platform — Real-Time Crowd Analysis",
-    stack: "Python, Flask, Django, Computer Vision, WebSockets, Redis",
+    stack: "Python, Flask, Django, Computer Vision, Docker, WebSockets, Redis",
     bullets: [
-      "Designed the full pipeline from RTSP stream ingestion to async inference, density analysis, and an operator dashboard with live alerts.",
-      "Achieved stable multi-camera processing at 10–15 FPS per stream and 30% lower latency after async refactoring.",
+      "Built an on-prem Docker inference server for a 50GB+ crowd-counting model and fine-tuned it via transfer learning, improving detection accuracy 76% → 83%.",
+      "Refactored a procedural codebase into an async, object-oriented pipeline, cutting inference latency 30% and sustaining 10–15 FPS per stream across multiple cameras.",
     ],
   },
   {
@@ -65,11 +65,11 @@ export default function ResumePage() {
 
         <h2 className={styles.sectionTitle}>Summary</h2>
         <p className={styles.summary}>
-          Systems Design Engineering student at the University of Waterloo who builds and
-          operates live products. Owner-operator of fifa2026.ca, a production e-commerce
-          platform (Stripe payments, automated shipping, real-time admin tooling). Experience
-          shipping applied-AI systems from model training to deployed inference services.
-          Seeking co-op internships in full-stack, product, and AI engineering.
+          Systems Design Engineering student at the University of Waterloo who designs and
+          operates production systems end to end. Built the RBAC/RLS security model, payments
+          pipeline, and admin tooling behind mask12.com, a live B2B wholesale platform. Shipped
+          applied-AI systems from on-prem model serving to deployed inference APIs. Seeking
+          co-op internships in full-stack, backend, and AI/ML engineering.
         </p>
 
         <h2 className={styles.sectionTitle}>Experience</h2>

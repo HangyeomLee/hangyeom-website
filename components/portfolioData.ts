@@ -1,24 +1,24 @@
 export const profile = {
   name: "Hangyeom Lee",
   role: "Full-Stack Engineer",
-  headline: "I build and operate live products.",
+  headline: "I build and operate production systems.",
   subtitle:
-    "Systems Design Engineering student at the University of Waterloo. I built and run fifa2026.ca — a live e-commerce platform with Stripe payments, Shippo shipping automation, and a real-time admin dashboard — alongside applied-AI and backend systems.",
+    "Systems Design Engineering student at the University of Waterloo. I design and operate production backend systems end to end — database security models, payment infrastructure, and on-prem ML serving — and ship full-stack products from architecture to deployment.",
   location: "Waterloo / Toronto, ON, Canada",
   email: "h38lee@uwaterloo.ca",
   github: "https://github.com/HangyeomLee",
   linkedin: "https://www.linkedin.com/in/hangyeomlee",
   about:
-    "I build and operate fifa2026.ca, a live e-commerce platform I own end to end — architecture, Stripe payments, Shippo shipping automation, SEO, analytics, and admin tooling. I launched it as a B2C storefront processing real transactions, then pivoted to B2B wholesale after analyzing demand. I'm currently studying Systems Design Engineering at the University of Waterloo and looking for co-op internships in full-stack, product, and AI engineering.",
+    "I design and operate production systems end to end — not just features. I built the role-based access control and Row Level Security model, payments pipeline, and admin tooling behind mask12.com, a live B2B wholesale platform I run solo. I've also built an on-prem inference server for a government crowd-safety project, serving a 50GB+ vision model with no cloud dependency. I'm currently studying Systems Design Engineering at the University of Waterloo and looking for co-op internships in full-stack, backend, and AI/ML engineering.",
   // TODO(user): confirm exact co-op term (e.g. "Winter 2027") and add it here.
-  availability: "Seeking co-op internships — full-stack / product / AI",
+  availability: "Seeking co-op internships — full-stack / backend / AI",
   school: "University of Waterloo · Systems Design Engineering",
 };
 
 export const metrics = [
-  { value: "718", label: "weekly visitors on fifa2026.ca" },
-  { value: "+89%", label: "traffic growth" },
-  { value: "175+", label: "live products in catalog" },
+  { value: "13", label: "DB tables secured with role-based RLS" },
+  { value: "83%", label: "crowd-detection accuracy (+7pp)" },
+  { value: "30%", label: "inference latency cut" },
   { value: "4", label: "shipped products" },
 ];
 
@@ -36,25 +36,38 @@ export const experience: ExperienceEntry[] = [
     company: "Butterfly Fashion Trading",
     period: "2025 – present",
     description:
-      "Built and operate fifa2026.ca, a live e-commerce platform, end to end: architecture, payments, shipping, SEO, analytics, and admin tooling.",
+      "Independently designed, built, and operate the e-commerce infrastructure for a wholesale apparel business — auth, payments, shipping, and admin systems — on Next.js 15, TypeScript, Supabase, and Vercel.",
     bullets: [
-      "Launched a B2C storefront with Stripe Checkout and server-side webhook verification, processing real customer transactions.",
-      "Integrated the Shippo API to auto-generate Canada Post / UPS shipping labels, removing manual fulfillment work.",
-      "Pivoted the platform to B2B wholesale after analyzing demand, rebuilding the funnel around inquiry-driven sales.",
-      "Grew the catalog to 175+ live products and traffic to 718 weekly visitors (+89%).",
+      "Designed a three-tier role-based access control model (admin, B2B wholesale, guest) and audited/built Row Level Security policies across all 13 database tables, enforcing wholesale pricing, order, and PII access at the database layer instead of application code.",
+      "Built the Stripe Checkout payment pipeline with server-side webhook signature verification and idempotency handling to prevent duplicate charges and lost orders, and integrated QuickBooks to auto-sync transaction records.",
+      "Found and fixed a production shipping-label double-billing bug by tracing the root cause to a duplicate API call, then added idempotency-key safeguards to prevent recurrence.",
+      "Automated Canada Post / UPS label generation and rate comparison via the Shippo API, and designed an admin workflow letting non-technical operators handle order confirmation through label printing without engineering involvement.",
+      "Identified and consolidated Supabase queries running redundantly across layout and page components in the App Router, cutting unnecessary DB calls per page load.",
     ],
   },
   {
-    role: "AI/ML Intern",
+    role: "Communications Specialist",
+    company: "Republic of Korea Army (Mandatory Service)",
+    period: "Jun 2024 – Dec 2025",
+    description:
+      "Operated unit communications systems and built command-post communications infrastructure for field exercises.",
+    bullets: [
+      "Built end-to-end communications infrastructure for command posts during field exercises — network cable design and termination (straight-through / crossover), network segmentation, VPN configuration, and multi-microphone audio systems, spanning the physical through network layers.",
+      "Operated and maintained unit communications and computer systems, handling daily operations and troubleshooting under constrained equipment and time.",
+    ],
+  },
+  {
+    role: "Full-Stack Developer, AI/ML",
     company: "Buil Planning",
     period: "Jan 2024 – Jun 2024",
     description:
-      "Worked on an AI monitoring platform spanning CCTV streaming, backend inference APIs, and operator dashboards.",
+      "Built a real-time crowd-density monitoring platform for Busan Station Plaza CCTV feeds — a government-procured public-safety project launched after the 2022 Itaewon crowd crush — covering on-prem model serving, the inference pipeline, and the operator dashboard API.",
     bullets: [
-      "Designed the end-to-end flow from stream ingestion to async inference, risk classification, and frontend visualization.",
-      "Built REST APIs consumed by React dashboards for real-time alerts and operational analytics.",
-      "Reduced inference latency by 30% through async refactoring, caching, and service modularization.",
-      "Supported stable multi-camera processing at 10–15 FPS per stream in production-like deployment.",
+      "Built a Docker-based on-prem inference server to serve a 50GB+ crowd-counting (IIM) model with no cloud dependency, since the security requirements barred public CCTV footage from leaving the premises.",
+      "Fine-tuned the pretrained IIM model via transfer learning on real Busan Station Plaza conditions (camera angle, lighting, crowd patterns), improving detection accuracy from 76% to 83% (+7pp).",
+      "Refactored a procedural model codebase into an object-oriented architecture, then introduced multithreading and async processing so long-running streams no longer blocked others — cutting inference latency 30%.",
+      "Worked around real-time detector accuracy limits by designing a near-real-time pipeline that aggregates asynchronous per-stream inference into 1-minute windows and flags density spikes from heat-point events, sustaining a stable 10–15 FPS per stream across multiple cameras.",
+      "Built the REST API consumed by a React operations dashboard, delivering real-time density alerts and operational analytics.",
     ],
   },
   {
@@ -70,10 +83,11 @@ export const experience: ExperienceEntry[] = [
     company: "MoodMe",
     period: "May 2023 – Aug 2023",
     description:
-      "Trained and productionized real-time facial analysis CNN models for edge and cloud deployment.",
+      "Owned the path to production for a CNN-based facial emotion recognition model at a real-time facial-analysis SDK company — from model training, through ONNX conversion, to cloud inference deployment and a real-time demo web app.",
     bullets: [
-      "Converted models to ONNX Runtime and deployed containerized inference services on AWS with sub-200 ms latency.",
-      "Implemented CI/CD workflows for model validation, container builds, and deployment pipelines.",
+      "Trained a facial emotion recognition CNN and converted it to ONNX Runtime, removing framework lock-in and making it deployable to both edge and cloud targets.",
+      "Deployed the containerized inference service to AWS and built an end-to-end demo streaming inference results to a web app in real time over a REST API — a complete, customer-demoable data pipeline, not just model inference.",
+      "Implemented a CI/CD workflow (validate model → build container → deploy), removing manual deployment steps on every model update.",
     ],
   },
 ];
@@ -101,46 +115,42 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    slug: "fifa2026",
-    title: "FIFA2026.ca",
+    slug: "mask12",
+    title: "Mask12.com",
     year: "2025–present",
-    tag: "Live e-commerce platform",
+    tag: "B2B wholesale platform",
     oneLiner:
-      "Live e-commerce platform I built and operate end to end — Stripe, Shippo, 175+ products, 718 weekly visitors.",
+      "Wholesale e-commerce platform I designed and operate solo — RBAC + Row Level Security, Stripe payments, Shippo shipping automation.",
     stack: [
       "Next.js 15 (App Router)",
+      "TypeScript",
+      "Supabase (Postgres + RLS)",
       "Stripe Checkout",
       "Shippo API",
-      "Supabase Realtime",
-      "TypeScript",
-      "WebSockets",
-      "Playwright",
+      "QuickBooks API",
+      "Vercel",
     ],
     positioning:
-      "A live e-commerce platform I built and operate end to end — storefront, payments, shipping automation, and a real-time admin dashboard. Launched B2C with Stripe payments, then pivoted to B2B wholesale after demand analysis.",
+      "The ongoing wholesale platform for an apparel trading business — designed and operated solo, from the database security model to payments, shipping, and admin tooling. This is the company's primary, continuously operated sales channel, not a short-lived storefront.",
     summary:
-      "Custom Next.js storefront (not a template) with Stripe Checkout, automated Canada Post / UPS shipping labels via Shippo, a Supabase-backed real-time admin dashboard, and a separate B2B wholesale portal — all built and operated by me.",
+      "Custom Next.js platform (not a template) with a three-tier role-based access control model backed by database-level Row Level Security, a Stripe Checkout pipeline with webhook verification and idempotency handling, Shippo-automated shipping labels, and QuickBooks-synced accounting — all built and operated by me.",
     impact: [
-      "Built Stripe Checkout with server-side webhook verification for reliable payment and order state, handling real customer transactions during the B2C phase.",
-      "Integrated the Shippo API to auto-generate Canada Post / UPS shipping labels, removing manual fulfillment for every order.",
-      "Designed an admin dashboard with live order updates over WebSockets backed by Supabase Realtime (Postgres).",
-      "Shipped a separate B2B wholesale portal with role-based auth, tiered pricing, and a Playwright E2E test suite.",
-      "Pivoted from B2C checkout to B2B wholesale inquiries after analyzing demand — the live site now routes buyers to wholesale channels.",
-      "Grew to 175+ live products and 718 weekly visitors (+89%).",
+      "Designed a three-tier RBAC model (admin, B2B wholesale, guest) and audited/built Row Level Security policies across all 13 database tables, enforcing wholesale pricing and PII access at the database layer, not in application code.",
+      "Built the Stripe Checkout pipeline with server-side webhook signature verification and idempotency handling to prevent duplicate charges and lost orders.",
+      "Integrated QuickBooks to auto-sync transaction records, removing manual bookkeeping.",
+      "Found and fixed a production shipping-label double-billing bug by tracing it to a duplicate API call, then added idempotency-key safeguards to prevent recurrence.",
+      "Automated Canada Post / UPS label generation and rate comparison via the Shippo API, with an admin workflow non-technical operators use end to end.",
+      "Refactored redundant Supabase queries running in both layout and page components under the App Router, cutting DB calls per page load.",
     ],
-    result: "Live platform serving retail-turned-wholesale customers across Canada",
-    image: "/project-shots/fifa2026-shop.png",
-    imageAlt: "FIFA2026.ca live product catalog",
+    result: "Live wholesale platform handling real B2B orders, payments, and fulfillment",
+    image: "/project-shots/mask12-placeholder.svg",
+    imageAlt: "Mask12.com — screenshot pending",
     repoUrl: null,
-    liveUrl: "https://fifa2026.ca",
-    captureLabel: "Captured from the live site",
-    gradient: "linear-gradient(135deg, #0d0d1a 0%, #1a1032 40%, #0f2040 100%)",
-    accentColor: "#c4b5fd",
-    gallery: [
-      { image: "/project-shots/fifa2026-hero.png", alt: "FIFA2026.ca storefront hero", label: "Storefront" },
-      { image: "/project-shots/fifa2026-product.png", alt: "FIFA2026.ca product detail page", label: "Product" },
-      { image: "/project-shots/fifa2026-location.png", alt: "FIFA2026.ca Toronto pickup information", label: "Pickup" },
-    ],
+    liveUrl: "https://mask12.com",
+    captureLabel: "Screenshots pending — placeholder until captured from the live site",
+    gradient: "linear-gradient(135deg, #0d1a12 0%, #123120 45%, #0f2018 100%)",
+    accentColor: "#a7f3d0",
+    gallery: [],
   },
   {
     slug: "ai-monitoring",
