@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Hangyeom Lee — Full-Stack Engineer who ships live products";
+export const alt = "Hangyeom Christian Lee — Full-Stack Engineer who ships production systems";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -30,24 +30,26 @@ export default function OpengraphImage() {
             letterSpacing: "4px",
           }}
         >
-          FULL-STACK ENGINEER · SHIPS LIVE PRODUCTS
+          FULL-STACK ENGINEER · SHIPS PRODUCTION SYSTEMS
         </div>
-        <div style={{ fontSize: "88px", fontWeight: 700, marginTop: "24px" }}>Hangyeom Lee</div>
+        <div style={{ fontSize: "76px", fontWeight: 700, marginTop: "24px" }}>
+          Hangyeom Christian Lee
+        </div>
         <div style={{ fontSize: "34px", color: "#a5b4fc", marginTop: "20px" }}>
           University of Waterloo · Systems Design Engineering
         </div>
         <div style={{ display: "flex", gap: "48px", marginTop: "56px", fontSize: "28px" }}>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>718</span>
-            <span style={{ color: "#94a3b8" }}>weekly visitors</span>
+            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>66</span>
+            <span style={{ color: "#94a3b8" }}>new B2B accounts</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>175+</span>
-            <span style={{ color: "#94a3b8" }}>live products</span>
+            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>13</span>
+            <span style={{ color: "#94a3b8" }}>tables under RLS</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>+89%</span>
-            <span style={{ color: "#94a3b8" }}>traffic growth</span>
+            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>30%</span>
+            <span style={{ color: "#94a3b8" }}>inference latency cut</span>
           </div>
         </div>
       </div>

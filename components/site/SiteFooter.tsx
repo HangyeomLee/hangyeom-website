@@ -5,7 +5,7 @@ export function SiteFooter() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerInner}>
-        <span>© {new Date().getFullYear()} Hangyeom Lee</span>
+        <span>© {new Date().getFullYear()} {profile.name}</span>
         <div className={styles.footerLinks}>
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
           <a href={profile.github} target="_blank" rel="noreferrer">

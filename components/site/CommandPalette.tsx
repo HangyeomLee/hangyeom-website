@@ -23,6 +23,7 @@ const ITEMS: Item[] = [
     href: `/projects/${p.slug}`,
   })),
   { icon: "◈", label: "Experience", meta: "Section", href: "/#experience" },
+  { icon: "◇", label: "Skills", meta: "Section", href: "/#skills" },
   { icon: "✎", label: "Blog", meta: "", href: "/blog" },
   { icon: "≡", label: "Resume", meta: "", href: "/resume" },
   { icon: "○", label: "About & Contact", meta: "Section", href: "/#contact" },

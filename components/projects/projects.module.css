@@ -188,6 +188,34 @@
   gap: 0.5rem;
 }
 
+/* ---------- Case study ---------- */
+
+.caseStudy {
+  margin: 0;
+  max-width: 720px;
+  border-left: 2px solid var(--border);
+  padding-left: 1.3rem;
+}
+
+.caseStudyTerm {
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-strong);
+}
+
+.caseStudyDesc {
+  margin: 0.4rem 0 1.4rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.caseStudyDesc:last-child {
+  margin-bottom: 0;
+}
+
 .impactList {
   margin: 0;
   padding-left: 1.2rem;

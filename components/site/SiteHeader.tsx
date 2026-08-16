@@ -8,6 +8,7 @@ import styles from "./site.module.css";
 const NAV = [
   { label: "Projects", href: "/#projects" },
   { label: "Experience", href: "/#experience" },
+  { label: "Skills", href: "/#skills" },
   { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
   { label: "Contact", href: "/#contact" },
@@ -52,7 +53,7 @@ export function SiteHeader() {
       <div className={styles.headerInner}>
         <Link href="/" className={styles.logo}>
           <span className={styles.logoMark}>H</span>
-          Hangyeom Lee
+          Hangyeom Christian Lee
         </Link>
 
         <nav className={styles.nav} aria-label="Main">

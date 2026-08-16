@@ -1,50 +1,37 @@
 import type { Metadata } from "next";
-import { experience, profile } from "@/components/portfolioData";
+import { experience, profile, skills } from "@/components/portfolioData";
 import { PrintButton } from "@/components/resume/PrintButton";
 import styles from "./resume.module.css";
 
 export const metadata: Metadata = {
   title: "Resume",
   description:
-    "Resume of Hangyeom Lee — Full-Stack Engineer, University of Waterloo Systems Design Engineering.",
+    "Resume of Hangyeom Christian Lee — Full-Stack Engineer, University of Waterloo Systems Design Engineering.",
 };
 
 const RESUME_PROJECTS = [
   {
-    name: "Mask12.com — B2B Wholesale Platform",
+    name: "mask12.com — Wholesale E-Commerce Platform",
     stack: "Next.js 15, TypeScript, Supabase (Postgres + RLS), Stripe, Shippo, QuickBooks API",
     bullets: [
-      "Designed a three-tier RBAC model with database-level Row Level Security across 13 tables, and built a Stripe Checkout pipeline with webhook verification and idempotency handling.",
-      "Automated Canada Post / UPS shipping labels via the Shippo API and synced accounting via the QuickBooks API, removing manual fulfillment and bookkeeping.",
+      "Implemented a three-tier role model with row-level security across 13 tables so wholesale pricing stays invisible to retail customers at the database layer, and built the Stripe pipeline with webhook verification and idempotency handling.",
+      "Automated Canada Post / UPS shipping labels via the Shippo API and synced transactions via the QuickBooks API, removing manual fulfillment and bookkeeping.",
     ],
   },
   {
-    name: "AI Monitoring Platform — Real-Time Crowd Analysis",
-    stack: "Python, Flask, Django, Computer Vision, Docker, WebSockets, Redis",
+    name: "AI Crowd Monitoring Platform — Busan Station Plaza",
+    stack: "Python, Docker, Flask, Django, Computer Vision, Multithreading, Redis",
     bullets: [
       "Built an on-prem Docker inference server for a 50GB+ crowd-counting model and fine-tuned it via transfer learning, improving detection accuracy 76% → 83%.",
       "Refactored a procedural codebase into an async, object-oriented pipeline, cutting inference latency 30% and sustaining 10–15 FPS per stream across multiple cameras.",
     ],
   },
   {
-    name: "Argumint — Real-Time Debate Platform",
-    stack: "Next.js, FastAPI, PostgreSQL, WebSockets, Docker",
+    name: "FLUE — Multimodal English Learning App",
+    stack: "Next.js, TypeScript, Tailwind CSS, Canvas API, Web Speech API, OpenRouter",
     bullets: [
-      "Deployed a live debate arena with auth, ranking logic, and real-time WebSocket updates connecting a Next.js frontend to FastAPI services.",
+      "Built a six-step learning flow for low-literacy Rohingya learners combining drawing, speech, and multimodal LLM evaluation, with no step that requires reading.",
     ],
-  },
-];
-
-const SKILLS = [
-  { label: "Languages", items: "TypeScript, JavaScript, Python, SQL" },
-  {
-    label: "Frameworks",
-    items: "Next.js (App Router), React, FastAPI, Django, Flask, Node.js",
-  },
-  {
-    label: "Infra & Tools",
-    items:
-      "PostgreSQL, Supabase, Redis, Docker, AWS, Stripe, Shippo, Playwright, ONNX Runtime, Git, CI/CD",
   },
 ];
 
@@ -56,7 +43,7 @@ export default function ResumePage() {
       </div>
 
       <div className={styles.sheet}>
-        <h1 className={styles.name}>Hangyeom Lee</h1>
+        <h1 className={styles.name}>{profile.name}</h1>
         <p className={styles.contactLine}>
           {profile.location} · <a href={`mailto:${profile.email}`}>{profile.email}</a> ·{" "}
           <a href={profile.linkedin}>linkedin.com/in/hangyeomlee</a> ·{" "}
@@ -65,11 +52,13 @@ export default function ResumePage() {
 
         <h2 className={styles.sectionTitle}>Summary</h2>
         <p className={styles.summary}>
-          Systems Design Engineering student at the University of Waterloo who designs and
-          operates production systems end to end. Built the RBAC/RLS security model, payments
-          pipeline, and admin tooling behind mask12.com, a live B2B wholesale platform. Shipped
-          applied-AI systems from on-prem model serving to deployed inference APIs. Seeking
-          co-op internships in full-stack, backend, and AI/ML engineering.
+          Systems Design Engineering student at the University of Waterloo who builds production
+          systems end to end. Built and launched mask12.com — a wholesale e-commerce platform
+          serving B2B accounts and retail customers — as the only developer, covering the access
+          control model, Stripe payment pipeline, Shippo fulfillment automation, and the admin
+          tooling non-technical staff now run it with. Also shipped applied-AI systems from
+          on-prem model serving to deployed inference APIs. Seeking co-op internships in
+          full-stack, backend, and AI/ML engineering.
         </p>
 
         <h2 className={styles.sectionTitle}>Experience</h2>
@@ -113,15 +102,15 @@ export default function ResumePage() {
             <span className={styles.entryPeriod}>Waterloo, ON</span>
           </div>
           <p className={styles.entryDesc}>
-            Bachelor of Applied Science, Systems Design Engineering
+            Bachelor of Applied Science, Systems Design Engineering — expected 2029
           </p>
         </div>
 
         <h2 className={styles.sectionTitle}>Skills</h2>
-        {SKILLS.map((s) => (
+        {skills.map((s) => (
           <p key={s.label} className={styles.skillRow}>
             <span className={styles.skillLabel}>{s.label}: </span>
-            {s.items}
+            {s.items.join(", ")}
           </p>
         ))}
       </div>

@@ -368,6 +368,39 @@
   color: var(--accent);
 }
 
+/* ---------- Skills ---------- */
+
+.skillGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.6rem 2.4rem;
+  margin-top: 2rem;
+}
+
+.skillGroupLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-strong);
+}
+
+.skillItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.skillChip {
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
 .repoStrip {
   display: flex;
   flex-wrap: wrap;

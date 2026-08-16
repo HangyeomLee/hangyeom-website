@@ -24,14 +24,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hangyeom-website.v
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hangyeom Lee — Full-Stack Engineer who builds production systems",
-    template: "%s — Hangyeom Lee",
+    default: "Hangyeom Christian Lee — Full-Stack Engineer who builds production systems",
+    template: "%s — Hangyeom Christian Lee",
   },
   description:
-    "Waterloo Systems Design Engineering student. I design and operate production backend systems — RLS-secured commerce infrastructure, Stripe payment pipelines, and on-prem ML serving — end to end, from architecture to deployment.",
+    "Waterloo Systems Design Engineering student. I build production e-commerce systems end to end — access control, payments, fulfillment, and the operational tooling non-technical staff actually use — plus applied-AI systems from on-prem model serving to deployed inference APIs.",
   openGraph: {
     type: "website",
-    siteName: "Hangyeom Lee",
+    siteName: "Hangyeom Christian Lee",
     locale: "en_CA",
     url: SITE_URL,
   },

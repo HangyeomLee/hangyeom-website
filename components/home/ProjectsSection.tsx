@@ -9,9 +9,9 @@ export function ProjectsSection() {
         <div className={styles.sectionEyebrow}>Featured Work</div>
         <h2 className={styles.sectionTitle}>Projects</h2>
         <p className={styles.sectionLead}>
-          Products I built and operate — not class assignments. Each one is deployed, has real
-          users or real constraints, and taught me something about running software in
-          production.
+          Systems I built and operate — not class assignments. The first one runs in production
+          today with real customers and real money moving through it; every screenshot below is
+          from the running app.
         </p>
         <div className={styles.projectGrid}>
           {products.map((p) => (

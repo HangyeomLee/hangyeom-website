@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, products } from "@/components/portfolioData";
+import { getProductBySlug, products, profile } from "@/components/portfolioData";
 import { ProjectGallery } from "@/components/projects/ProjectGallery";
 import styles from "@/components/projects/projects.module.css";
 import homeStyles from "@/components/home/home.module.css";
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: product.title,
     description: product.positioning,
     openGraph: {
-      title: `${product.title} — Hangyeom Lee`,
+      title: `${product.title} — ${profile.name}`,
       description: product.positioning,
       images: [{ url: product.image }],
     },
@@ -81,6 +81,20 @@ export default async function ProjectPage({ params }: Props) {
         <h2 className={styles.detailSectionTitle}>What it is</h2>
         <p className={styles.detailSummary}>{product.summary}</p>
       </section>
+
+      {product.caseStudy && (
+        <section className={styles.detailSection}>
+          <h2 className={styles.detailSectionTitle}>How I thought about it</h2>
+          <dl className={styles.caseStudy}>
+            <dt className={styles.caseStudyTerm}>The problem</dt>
+            <dd className={styles.caseStudyDesc}>{product.caseStudy.problem}</dd>
+            <dt className={styles.caseStudyTerm}>The approach</dt>
+            <dd className={styles.caseStudyDesc}>{product.caseStudy.approach}</dd>
+            <dt className={styles.caseStudyTerm}>The tradeoff</dt>
+            <dd className={styles.caseStudyDesc}>{product.caseStudy.tradeoff}</dd>
+          </dl>
+        </section>
+      )}
 
       <section className={styles.detailSection}>
         <h2 className={styles.detailSectionTitle}>Stack</h2>

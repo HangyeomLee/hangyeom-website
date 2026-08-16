@@ -5,7 +5,7 @@ pages, real routes, and a Supabase-backed blog with an authenticated admin area.
 
 ## Routes
 
-- `/` — one-page home (hero, metrics, projects, experience, contact)
+- `/` — one-page home (hero, metrics, projects, experience, skills, contact)
 - `/projects/[slug]` — project case studies (SSG)
 - `/blog`, `/blog/[slug]` — blog, server-rendered with ISR (60s)
 - `/resume` — print-optimized HTML resume ("Download PDF" = browser print)

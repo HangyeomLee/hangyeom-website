@@ -7,7 +7,7 @@ export function Hero() {
     <section className={styles.hero}>
       <div className={styles.container}>
         <div className={styles.eyebrow}>
-          <span>Full-Stack Engineer · Ships Live Products</span>
+          <span>Full-Stack Engineer · Ships Production Systems</span>
           <span className={styles.availBadge}>
             <span className={styles.availDot} />
             {profile.availability}
@@ -15,10 +15,11 @@ export function Hero() {
         </div>
 
         <h1 className={styles.heroTitle}>
-          Hangyeom Lee<br />
+          {profile.name}
+          <br />
           <span className={styles.heroTitleAccent}>builds and operates</span>
           <br />
-          live products.
+          production systems.
         </h1>
 
         <div className={styles.heroFacts}>
