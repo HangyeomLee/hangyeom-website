@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import "react-image-crop/dist/ReactCrop.css";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -13,10 +13,11 @@ const bodyFont = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
-const displayFont = Space_Grotesk({
+const displayFont = Newsreader({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "700"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hangyeom-website.vercel.app";
@@ -24,11 +25,11 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hangyeom-website.v
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Hangyeom Christian Lee — Full-Stack Engineer who builds production systems",
+    default: "Hangyeom Christian Lee — Full-stack developer",
     template: "%s — Hangyeom Christian Lee",
   },
   description:
-    "Waterloo Systems Design Engineering student. I build production e-commerce systems end to end — access control, payments, fulfillment, and the operational tooling non-technical staff actually use — plus applied-AI systems from on-prem model serving to deployed inference APIs.",
+    "I'm a Systems Design Engineering student at Waterloo. I build web systems people rely on for work, including a wholesale store I built alone and still maintain, and I've done computer vision work in Busan and on a facial analysis SDK.",
   openGraph: {
     type: "website",
     siteName: "Hangyeom Christian Lee",

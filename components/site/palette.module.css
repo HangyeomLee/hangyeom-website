@@ -62,12 +62,6 @@
   color: var(--accent);
 }
 
-.itemIcon {
-  width: 1.1rem;
-  text-align: center;
-  opacity: 0.6;
-}
-
 .itemMeta {
   margin-left: auto;
   font-size: 0.72rem;

@@ -6,31 +6,31 @@ import styles from "./resume.module.css";
 export const metadata: Metadata = {
   title: "Resume",
   description:
-    "Resume of Hangyeom Christian Lee — Full-Stack Engineer, University of Waterloo Systems Design Engineering.",
+    "Resume of Hangyeom Christian Lee, a Systems Design Engineering student at the University of Waterloo.",
 };
 
 const RESUME_PROJECTS = [
   {
-    name: "mask12.com — Wholesale E-Commerce Platform",
+    name: "mask12.com, a wholesale store",
     stack: "Next.js 15, TypeScript, Supabase (Postgres + RLS), Stripe, Shippo, QuickBooks API",
     bullets: [
-      "Implemented a three-tier role model with row-level security across 13 tables so wholesale pricing stays invisible to retail customers at the database layer, and built the Stripe pipeline with webhook verification and idempotency handling.",
-      "Automated Canada Post / UPS shipping labels via the Shippo API and synced transactions via the QuickBooks API, removing manual fulfillment and bookkeeping.",
+      "Three account types with row-level security on 13 tables, so wholesale prices are hidden by the database rather than by application code. Stripe checkout with webhook verification and idempotency keys.",
+      "Shipping labels through Shippo and transactions synced into QuickBooks, so nobody in the office types an order twice.",
     ],
   },
   {
-    name: "AI Crowd Monitoring Platform — Busan Station Plaza",
+    name: "Crowd monitoring at Busan Station Plaza",
     stack: "Python, Docker, Flask, Django, Computer Vision, Multithreading, Redis",
     bullets: [
-      "Built an on-prem Docker inference server for a 50GB+ crowd-counting model and fine-tuned it via transfer learning, improving detection accuracy 76% → 83%.",
-      "Refactored a procedural codebase into an async, object-oriented pipeline, cutting inference latency 30% and sustaining 10–15 FPS per stream across multiple cameras.",
+      "A 50GB crowd-counting model served from a Docker container on the client's own hardware, since the CCTV footage could not leave the building. Retraining on real plaza footage took accuracy from 76% to 83%.",
+      "Rewrote the pipeline from one procedural script into threaded services, which cut latency about 30% and held 10-15 FPS per stream across several cameras.",
     ],
   },
   {
-    name: "FLUE — Multimodal English Learning App",
+    name: "FLUE, English lessons without reading",
     stack: "Next.js, TypeScript, Tailwind CSS, Canvas API, Web Speech API, OpenRouter",
     bullets: [
-      "Built a six-step learning flow for low-literacy Rohingya learners combining drawing, speech, and multimodal LLM evaluation, with no step that requires reading.",
+      "A six-step lesson flow for Rohingya speakers who can't read yet. Learners draw and speak, and a multimodal model checks both.",
     ],
   },
 ];
@@ -52,13 +52,12 @@ export default function ResumePage() {
 
         <h2 className={styles.sectionTitle}>Summary</h2>
         <p className={styles.summary}>
-          Systems Design Engineering student at the University of Waterloo who builds production
-          systems end to end. Built and launched mask12.com — a wholesale e-commerce platform
-          serving B2B accounts and retail customers — as the only developer, covering the access
-          control model, Stripe payment pipeline, Shippo fulfillment automation, and the admin
-          tooling non-technical staff now run it with. Also shipped applied-AI systems from
-          on-prem model serving to deployed inference APIs. Seeking co-op internships in
-          full-stack, backend, and AI/ML engineering.
+          Systems Design Engineering student at the University of Waterloo. I was the only
+          developer on mask12.com, a wholesale store in Toronto, where I built the account and
+          pricing rules, the Stripe checkout, the shipping automation, and the admin screens the
+          staff still use. Before that I worked on computer vision, on a crowd monitoring system
+          in Busan and on a facial analysis SDK. Looking for a co-op internship in full-stack,
+          backend, or ML engineering.
         </p>
 
         <h2 className={styles.sectionTitle}>Experience</h2>
@@ -102,7 +101,7 @@ export default function ResumePage() {
             <span className={styles.entryPeriod}>Waterloo, ON</span>
           </div>
           <p className={styles.entryDesc}>
-            Bachelor of Applied Science, Systems Design Engineering — expected 2029
+            Bachelor of Applied Science, Systems Design Engineering. Expected 2029.
           </p>
         </div>
 

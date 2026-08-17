@@ -4,16 +4,14 @@
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 6px;
   overflow: hidden;
   background: var(--bg);
-  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s;
 }
 
 .card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  border-color: var(--border-strong);
 }
 
 .cardImageWrap {
@@ -38,22 +36,19 @@
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.8rem;
   color: var(--muted);
 }
 
 .cardTag {
   color: var(--accent);
-  font-weight: 600;
 }
 
 .cardTitle {
   margin: 0;
   font-family: var(--font-display), sans-serif;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-strong);
 }
 
@@ -74,7 +69,7 @@
 .stackChip {
   padding: 0.2rem 0.55rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 0.7rem;
   color: var(--muted-strong);
   background: var(--surface);
@@ -106,22 +101,19 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.8rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.83rem;
   color: var(--muted);
 }
 
 .detailTag {
   color: var(--accent);
-  font-weight: 600;
 }
 
 .detailTitle {
   margin: 0.6rem 0 0;
   font-family: var(--font-display), sans-serif;
   font-size: clamp(2rem, 5vw, 2.8rem);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-strong);
   letter-spacing: -0.02em;
 }
@@ -145,7 +137,7 @@
   position: relative;
   margin-top: 2.5rem;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 6px;
   overflow: hidden;
   background: var(--bg-2);
 }
@@ -168,11 +160,12 @@
 
 .detailSectionTitle {
   margin: 0 0 1rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--text-strong);
 }
 
 .detailSummary {
@@ -198,11 +191,9 @@
 }
 
 .caseStudyTerm {
-  font-size: 0.76rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted-strong);
+  color: var(--text-strong);
 }
 
 .caseStudyDesc {
@@ -234,8 +225,7 @@
 .resultBox {
   margin-top: 1rem;
   padding: 1rem 1.2rem;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 10px 10px 0;
+  border-left: 2px solid var(--accent);
   background: var(--accent-dim);
   font-size: 0.92rem;
   color: var(--text-strong);
@@ -253,7 +243,7 @@
 
 .galleryItem {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
   background: var(--bg-2);
   cursor: zoom-in;

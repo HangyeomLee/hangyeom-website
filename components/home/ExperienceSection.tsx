@@ -5,8 +5,7 @@ export function ExperienceSection() {
   return (
     <section id="experience" className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.sectionEyebrow}>Work History</div>
-        <h2 className={styles.sectionTitle}>Experience</h2>
+        <h2 className={styles.sectionTitle}>Where I&rsquo;ve worked</h2>
         <div className={styles.timeline}>
           {experience.map((e) => (
             <div key={`${e.company}-${e.period}`} className={styles.timelineItem}>

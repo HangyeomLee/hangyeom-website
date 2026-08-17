@@ -1,25 +1,25 @@
 :root {
-  /* Light mode — default */
-  --bg: #F7F8FA;
-  --bg-2: #EFF0F3;
-  --surface: rgba(0, 0, 0, 0.04);
-  --surface-hover: rgba(0, 0, 0, 0.07);
-  --surface-strong: rgba(0, 0, 0, 0.08);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.14);
-  --text: #374151;
-  --text-strong: #111827;
-  --muted: #9CA3AF;
-  --muted-strong: #6B7280;
-  --accent: #7C3AED;
-  --accent-bright: #6D28D9;
-  --accent-dim: rgba(124, 58, 237, 0.09);
-  --accent-glow: rgba(124, 58, 237, 0.18);
-  --accent-2: #0891B2;
-  --accent-2-dim: rgba(8, 145, 178, 0.10);
-  --green: #16A34A;
-  --green-dim: rgba(22, 163, 74, 0.10);
-  --amber: #D97706;
+  /* Warm paper, ink, one rust accent. */
+  --bg: #FBFAF7;
+  --bg-2: #F1EEE8;
+  --surface: rgba(28, 26, 22, 0.04);
+  --surface-hover: rgba(28, 26, 22, 0.07);
+  --surface-strong: rgba(28, 26, 22, 0.08);
+  --border: rgba(28, 26, 22, 0.11);
+  --border-strong: rgba(28, 26, 22, 0.2);
+  --text: #4A443B;
+  --text-strong: #1C1A16;
+  --muted: #A19A8E;
+  --muted-strong: #6D675C;
+  --accent: #9C4221;
+  --accent-bright: #7B3316;
+  --accent-dim: rgba(156, 66, 33, 0.08);
+  --accent-glow: rgba(156, 66, 33, 0.16);
+  --accent-2: #2C5F5A;
+  --accent-2-dim: rgba(44, 95, 90, 0.10);
+  --green: #4D7C0F;
+  --green-dim: rgba(77, 124, 15, 0.10);
+  --amber: #B45309;
 }
 
 * {

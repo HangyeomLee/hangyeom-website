@@ -6,7 +6,6 @@ import { products, profile } from "../portfolioData";
 import styles from "./palette.module.css";
 
 type Item = {
-  icon: string;
   label: string;
   meta: string;
   href: string;
@@ -14,21 +13,20 @@ type Item = {
 };
 
 const ITEMS: Item[] = [
-  { icon: "⌂", label: "Home", meta: "", href: "/" },
-  { icon: "◫", label: "Projects", meta: "Section", href: "/#projects" },
+  { label: "Home", meta: "", href: "/" },
+  { label: "Projects", meta: "Section", href: "/#projects" },
   ...products.map((p) => ({
-    icon: "›",
     label: p.title,
     meta: p.tag,
     href: `/projects/${p.slug}`,
   })),
-  { icon: "◈", label: "Experience", meta: "Section", href: "/#experience" },
-  { icon: "◇", label: "Skills", meta: "Section", href: "/#skills" },
-  { icon: "✎", label: "Blog", meta: "", href: "/blog" },
-  { icon: "≡", label: "Resume", meta: "", href: "/resume" },
-  { icon: "○", label: "About & Contact", meta: "Section", href: "/#contact" },
-  { icon: "↗", label: "GitHub", meta: "External", href: profile.github, external: true },
-  { icon: "↗", label: "LinkedIn", meta: "External", href: profile.linkedin, external: true },
+  { label: "Experience", meta: "Section", href: "/#experience" },
+  { label: "Tools", meta: "Section", href: "/#skills" },
+  { label: "Blog", meta: "", href: "/blog" },
+  { label: "Resume", meta: "", href: "/resume" },
+  { label: "About", meta: "Section", href: "/#contact" },
+  { label: "GitHub", meta: "External", href: profile.github, external: true },
+  { label: "LinkedIn", meta: "External", href: profile.linkedin, external: true },
 ];
 
 export function CommandPalette() {
@@ -121,7 +119,6 @@ export function CommandPalette() {
               onClick={() => navigate(item)}
               onMouseEnter={() => setSelected(i)}
             >
-              <span className={styles.itemIcon}>{item.icon}</span>
               <span>{item.label}</span>
               {item.meta && <span className={styles.itemMeta}>{item.meta}</span>}
             </button>

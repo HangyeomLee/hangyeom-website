@@ -8,10 +8,10 @@ import styles from "./site.module.css";
 const NAV = [
   { label: "Projects", href: "/#projects" },
   { label: "Experience", href: "/#experience" },
-  { label: "Skills", href: "/#skills" },
+  { label: "Tools", href: "/#skills" },
   { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
-  { label: "Contact", href: "/#contact" },
+  { label: "About", href: "/#contact" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -52,7 +52,6 @@ export function SiteHeader() {
     <header className={styles.header}>
       <div className={styles.headerInner}>
         <Link href="/" className={styles.logo}>
-          <span className={styles.logoMark}>H</span>
           Hangyeom Christian Lee
         </Link>
 

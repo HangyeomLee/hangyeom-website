@@ -41,7 +41,7 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <article className={styles.detail}>
       <Link href="/#projects" className={styles.backLink}>
-        ← All projects
+        Back to all projects
       </Link>
 
       <div className={styles.detailMeta}>
@@ -54,12 +54,12 @@ export default async function ProjectPage({ params }: Props) {
       <div className={styles.detailActions}>
         {product.liveUrl && (
           <a href={product.liveUrl} target="_blank" rel="noreferrer" className={homeStyles.btnPrimary}>
-            Open Live Site ↗
+            Visit the site
           </a>
         )}
         {product.repoUrl && (
           <a href={product.repoUrl} target="_blank" rel="noreferrer" className={homeStyles.btnSecondary}>
-            View Source ↗
+            Source on GitHub
           </a>
         )}
       </div>
@@ -84,7 +84,7 @@ export default async function ProjectPage({ params }: Props) {
 
       {product.caseStudy && (
         <section className={styles.detailSection}>
-          <h2 className={styles.detailSectionTitle}>How I thought about it</h2>
+          <h2 className={styles.detailSectionTitle}>Why it works this way</h2>
           <dl className={styles.caseStudy}>
             <dt className={styles.caseStudyTerm}>The problem</dt>
             <dd className={styles.caseStudyDesc}>{product.caseStudy.problem}</dd>
@@ -108,7 +108,7 @@ export default async function ProjectPage({ params }: Props) {
       </section>
 
       <section className={styles.detailSection}>
-        <h2 className={styles.detailSectionTitle}>Key decisions & impact</h2>
+        <h2 className={styles.detailSectionTitle}>What I did</h2>
         <ul className={styles.impactList}>
           {product.impact.map((item) => (
             <li key={item}>{item}</li>
@@ -118,7 +118,7 @@ export default async function ProjectPage({ params }: Props) {
       </section>
 
       <section className={styles.detailSection}>
-        <h2 className={styles.detailSectionTitle}>Gallery</h2>
+        <h2 className={styles.detailSectionTitle}>Screenshots</h2>
         <ProjectGallery images={galleryImages} />
       </section>
     </article>

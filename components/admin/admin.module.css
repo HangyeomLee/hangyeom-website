@@ -94,7 +94,7 @@
   width: 100%;
   font-family: var(--font-display), sans-serif;
   font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--text-strong);
   background: none;
@@ -656,7 +656,7 @@
   margin: 0;
   font-family: var(--font-display), sans-serif;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-strong);
 }
 

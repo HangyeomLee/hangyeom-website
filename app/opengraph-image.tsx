@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Hangyeom Christian Lee — Full-Stack Engineer who ships production systems";
+export const alt = "Hangyeom Christian Lee — Full-stack developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -14,43 +14,28 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "80px",
-          background: "linear-gradient(135deg, #0d0d1a 0%, #1a1032 55%, #0f2040 100%)",
-          color: "#fff",
-          fontFamily: "sans-serif",
+          padding: "90px",
+          background: "#FBFAF7",
+          color: "#1C1A16",
+          fontFamily: "Georgia, serif",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            fontSize: "26px",
-            color: "#c4b5fd",
-            letterSpacing: "4px",
-          }}
-        >
-          FULL-STACK ENGINEER · SHIPS PRODUCTION SYSTEMS
-        </div>
-        <div style={{ fontSize: "76px", fontWeight: 700, marginTop: "24px" }}>
+        <div style={{ fontSize: "80px", fontWeight: 600, letterSpacing: "-0.02em" }}>
           Hangyeom Christian Lee
         </div>
-        <div style={{ fontSize: "34px", color: "#a5b4fc", marginTop: "20px" }}>
-          University of Waterloo · Systems Design Engineering
+        <div style={{ fontSize: "34px", color: "#6D675C", marginTop: "24px" }}>
+          Full-stack developer. Systems Design Engineering at Waterloo.
         </div>
-        <div style={{ display: "flex", gap: "48px", marginTop: "56px", fontSize: "28px" }}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>66</span>
-            <span style={{ color: "#94a3b8" }}>new B2B accounts</span>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>13</span>
-            <span style={{ color: "#94a3b8" }}>tables under RLS</span>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: "44px", fontWeight: 700, color: "#c4b5fd" }}>30%</span>
-            <span style={{ color: "#94a3b8" }}>inference latency cut</span>
-          </div>
+        <div
+          style={{
+            width: "120px",
+            height: "3px",
+            background: "#9C4221",
+            marginTop: "48px",
+          }}
+        />
+        <div style={{ fontSize: "28px", color: "#4A443B", marginTop: "36px", lineHeight: 1.5 }}>
+          I built and still maintain mask12.com, a wholesale store in Toronto.
         </div>
       </div>
     ),

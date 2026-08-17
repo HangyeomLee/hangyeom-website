@@ -6,12 +6,10 @@ export function ProjectsSection() {
   return (
     <section id="projects" className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.sectionEyebrow}>Featured Work</div>
-        <h2 className={styles.sectionTitle}>Projects</h2>
+        <h2 className={styles.sectionTitle}>Things I&rsquo;ve built</h2>
         <p className={styles.sectionLead}>
-          Systems I built and operate — not class assignments. The first one runs in production
-          today with real customers and real money moving through it; every screenshot below is
-          from the running app.
+          The first one is a real store with real customers. The rest are projects I finished
+          because I wanted to know how something worked. Every screenshot is from the actual app.
         </p>
         <div className={styles.projectGrid}>
           {products.map((p) => (

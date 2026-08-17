@@ -1,26 +1,17 @@
 export const profile = {
   name: "Hangyeom Christian Lee",
-  role: "Full-Stack Engineer",
-  headline: "I build and operate production systems.",
   subtitle:
-    "Systems Design Engineering student at the University of Waterloo. I build production e-commerce systems end to end — access control, payments, fulfillment, and the operational tooling non-technical staff actually use — and I've shipped applied-AI systems from on-prem model serving to deployed inference APIs.",
+    "I build web systems that other people rely on to do their jobs. Last summer I was the only developer on a wholesale distributor's e-commerce platform, which meant the login, the checkout, the shipping labels, and the admin screens the staff use every day were all mine to get right. Before that I worked on computer vision, first on a crowd-counting system for a train station plaza in Busan, then on a facial emotion model I helped move from a notebook into a real service.",
   location: "Waterloo / Toronto, ON, Canada",
   email: "h38lee@uwaterloo.ca",
   github: "https://github.com/HangyeomLee",
   linkedin: "https://www.linkedin.com/in/hangyeomlee",
   about:
-    "I'm a Systems Design Engineering student at the University of Waterloo (expected 2029). My work has spanned full-stack web development, computer vision deployment, and B2B operations. Most recently I built and launched an e-commerce platform for a wholesale distributor as the only developer — the data model and access control, the payment pipeline, the shipping automation — then handed off a system that non-technical staff now run without me. Before that I deployed a government-commissioned crowd-counting system on-prem in Busan and productionized a facial emotion recognition CNN on AWS. Bilingual in Korean and English.",
+    "I'm in Systems Design Engineering at the University of Waterloo, graduating in 2029. The work I care about sits where software meets someone's actual job: an order that has to reach the warehouse, a price a customer shouldn't see, a camera feed a safety officer is watching. My last co-op was the clearest version of that. I built the company's store by myself, launched it, then spent the rest of the term making it something the staff could run after I left. I'm bilingual in Korean and English, and I've done most of my engineering work in both.",
   // TODO(user): confirm exact co-op term (e.g. "Winter 2027") and add it here.
-  availability: "Seeking co-op internships — full-stack / backend / AI",
+  availability: "Open to co-op internships in full-stack, backend, or ML engineering.",
   school: "University of Waterloo · Systems Design Engineering",
 };
-
-export const metrics = [
-  { value: "66", label: "new B2B accounts on the platform I shipped" },
-  { value: "13", label: "Postgres tables behind row-level security" },
-  { value: "76→83%", label: "crowd-model accuracy after transfer learning" },
-  { value: "30%", label: "inference latency cut on the CV pipeline" },
-];
 
 export type ExperienceEntry = {
   role: string;
@@ -36,17 +27,17 @@ export const experience: ExperienceEntry[] = [
     company: "Butterfly Fashion Trading",
     period: "May 2026 – present · Toronto",
     description:
-      "Sole developer for a wholesale distribution business operating since 1996. Built and launched the company's e-commerce platform on Next.js 15, TypeScript, Supabase, Stripe, Shippo, and Vercel, then moved to a part-time remote role covering site maintenance and digital marketing.",
+      "A wholesale distribution business that has been running since 1996. I was their only developer. I built the e-commerce platform on Next.js, TypeScript, Supabase, Stripe and Shippo, launched it in June, and now maintain it part-time alongside the company's marketing.",
     bullets: [
-      "Shipped a B2B/B2C e-commerce platform as the only developer — launched mid-June 2026, still in production and run day to day by non-technical staff.",
-      "Implemented a three-tier role model (admin / B2B wholesale / guest) with row-level security policies across 13 database tables, so wholesale pricing and customer data are enforced at the database layer rather than in application code.",
-      "Built the Stripe payment pipeline with webhook signature verification and idempotency handling, and integrated QuickBooks to sync transaction records.",
-      "Automated Canada Post and UPS label generation through Shippo, so staff process orders from confirmation to printed label without developer involvement.",
-      "Wrapped category fetching in React's cache() to stop duplicate Supabase queries firing from both layout and page under the App Router.",
-      "Diagnosed and resolved a double-billing bug introduced by the migration from a static site to a backend order flow: a checkout button with no double-click guard, combined with a re-firing useEffect, sent duplicate API calls. Caught it independently through Stripe, disabled checkout while patching, shipped the fix in about two days, and refunded affected orders.",
-      "Identified a tax defect where the platform applied Ontario's 13% HST regardless of destination province — surfaced by orders shipping to Manitoba and Newfoundland & Labrador — and flagged it for correction and accountant review.",
-      "Built an emergency kill switch before handoff and transferred all platform accounts and billing (Vercel, Supabase, Stripe, Shippo, domain) to company ownership.",
-      "On the growth side: the platform brought in 66 new B2B customers beyond existing accounts, and 11 Meta campaigns produced 1,022 messaging conversations on ~$314 of spend ($0.31 blended per conversation, $0.19 on the best-performing campaign).",
+      "Built the whole platform on my own and put it live in mid-June 2026. It still runs, and the people using it day to day are not engineers.",
+      "Set up three kinds of account (admin, wholesale, guest) with row-level security policies on 13 tables, so a wholesale price is hidden by the database itself and not by a check I might forget to write.",
+      "Wired up Stripe with webhook signature verification and idempotency keys, and pushed the resulting transactions into QuickBooks.",
+      "Connected Shippo so staff can go from a confirmed order to a printed Canada Post or UPS label without asking me for anything.",
+      "Found the same Supabase category query running twice on every page, once in the layout and once in the page, and shared it with React's cache().",
+      "Caught a double-billing bug two days after moving checkout to a real backend. The button had no double-click guard and a useEffect was re-firing, so some customers were charged twice. I noticed it in Stripe before anyone reported it, turned checkout off while I fixed it, and refunded everyone affected.",
+      "Noticed we were charging Ontario's 13% HST on orders going to Manitoba and Newfoundland regardless of where they shipped. Flagged it for the accountant rather than guessing at tax law myself.",
+      "Left the company able to run without me: a kill switch for emergencies, and every account and bill (Vercel, Supabase, Stripe, Shippo, the domain) transferred to them.",
+      "Ran the marketing side too. 66 wholesale customers signed up who weren't customers before, and 11 Meta campaigns brought in 1,022 conversations for about $314 total.",
     ],
   },
   {
@@ -54,10 +45,10 @@ export const experience: ExperienceEntry[] = [
     company: "Republic of Korea Army (Mandatory Service)",
     period: "Jun 2024 – Dec 2025",
     description:
-      "Operated unit communications systems and built command-post communications infrastructure for field exercises.",
+      "Mandatory service. I ran the unit's communications systems and set up the network for command posts during field exercises.",
     bullets: [
-      "Built end-to-end communications infrastructure for command posts during field exercises — network cable design and termination (straight-through / crossover), network segmentation, VPN configuration, and multi-microphone audio systems, spanning the physical through network layers.",
-      "Operated and maintained unit communications and computer systems, handling daily operations and troubleshooting under constrained equipment and time.",
+      "Built out command-post networks from the cable up: crimping straight-through and crossover runs, segmenting the network, configuring VPN, and setting up multi-microphone audio.",
+      "Kept the unit's radios and computers working day to day, usually with whatever equipment was on hand and not much time.",
     ],
   },
   {
@@ -65,13 +56,13 @@ export const experience: ExperienceEntry[] = [
     company: "Buil Planning",
     period: "Jan 2024 – Jun 2024 · Busan, South Korea",
     description:
-      "Built a real-time crowd-density monitoring platform for Busan Station Plaza CCTV feeds — a government-commissioned public-safety project launched after the 2022 Itaewon crowd crush — covering on-prem model serving, the inference pipeline, and the operator dashboard API.",
+      "A government-commissioned crowd monitoring system for the CCTV feeds at Busan Station Plaza, one of the projects that came out of the 2022 Itaewon crowd crush. I worked on serving the model, the inference pipeline, and the API behind the operator dashboard.",
     bullets: [
-      "Built a Docker-based on-prem inference server to serve a 50GB+ crowd-counting (IIM) model with no cloud dependency, since security requirements barred public CCTV footage from leaving the premises.",
-      "Fine-tuned the pretrained IIM model via transfer learning on real Busan Station Plaza conditions (camera angle, lighting, crowd patterns), improving detection accuracy from 76% to 83%.",
-      "Refactored a procedural model codebase into an object-oriented architecture, then introduced multithreading and async processing so long-running streams no longer blocked others — cutting inference latency 30%.",
-      "Worked around real-time detector accuracy limits by designing a near-real-time pipeline that aggregates asynchronous per-stream inference into 1-minute windows and flags density spikes, sustaining a stable 10–15 FPS per stream across multiple cameras.",
-      "Built the REST API consumed by a React operations dashboard, delivering density alerts and operational analytics.",
+      "The footage was not allowed to leave the building, so there was no cloud option. I packaged the 50GB+ crowd-counting model into a Docker inference server that ran on their own hardware.",
+      "Retrained the model on footage from the actual plaza, since the camera angle and lighting there looked nothing like the training set. Accuracy went from 76% to 83%.",
+      "Reorganized the model code from one long procedural script into objects, then added threading so a slow stream stopped holding up the others. Latency dropped about 30%.",
+      "The detector was never going to be accurate frame by frame at that size, so I aggregated results into one-minute windows and reported spikes instead. That held 10-15 FPS per stream across several cameras.",
+      "Wrote the REST API the React dashboard called for alerts and history.",
     ],
   },
   {
@@ -79,7 +70,7 @@ export const experience: ExperienceEntry[] = [
     company: "University of Waterloo",
     period: "Sep 2023 – Dec 2023",
     description:
-      "Teaching assistant for Calculus and Linear Algebra, supporting 100+ undergraduate students: graded assignments, held office hours, and worked through problem sets one-on-one.",
+      "TA for Calculus and Linear Algebra. Marked assignments, ran office hours, and sat with students through problem sets. Somewhere over 100 students across the term.",
     bullets: [],
   },
   {
@@ -87,11 +78,11 @@ export const experience: ExperienceEntry[] = [
     company: "MoodMe",
     period: "May 2023 – Aug 2023 · Remote",
     description:
-      "Owned the path to production for a CNN-based facial emotion recognition model at a real-time facial-analysis SDK company — from model training, through ONNX conversion, to cloud inference deployment and a real-time demo web app.",
+      "MoodMe sells a real-time facial analysis SDK. My job was getting a facial emotion model out of training and into something a customer could actually run.",
     bullets: [
-      "Trained a facial emotion recognition CNN and converted it to ONNX Runtime, removing framework lock-in and making it deployable to both edge and cloud targets.",
-      "Deployed the containerized inference service to AWS and built an end-to-end demo streaming inference results to a web app in real time over a REST API — a complete, customer-demoable pipeline, not just model inference.",
-      "Implemented a CI/CD workflow (validate model → build container → deploy), removing manual deployment steps on every model update.",
+      "Trained the emotion recognition CNN and converted it to ONNX so it wasn't tied to one framework, and could run on a laptop or a server.",
+      "Containerized the inference service, put it on AWS, and built a demo web app that showed predictions from a webcam while you used it.",
+      "Set up a pipeline that validated the model, built the container, and deployed it, because we were updating the model often enough that doing it by hand was getting old.",
     ],
   },
 ];
@@ -105,20 +96,20 @@ export const skills: SkillGroup[] = [
   { label: "Languages", items: ["TypeScript", "JavaScript", "Python", "SQL"] },
   { label: "Frontend", items: ["React", "Next.js (App Router)", "Tailwind CSS", "Framer Motion"] },
   {
-    label: "Backend & Data",
+    label: "Backend",
     items: ["Node.js", "PostgreSQL", "Supabase", "Row Level Security", "Django", "Flask", "FastAPI", "REST APIs"],
   },
-  { label: "Infrastructure", items: ["Vercel", "Docker", "AWS (EC2 / S3)", "Linux", "GitHub Actions", "ONNX Runtime"] },
+  { label: "Infrastructure", items: ["Vercel", "Docker", "AWS (EC2, S3)", "Linux", "GitHub Actions", "ONNX Runtime"] },
   {
-    label: "Integrations",
-    items: ["Stripe (payments + webhooks)", "Shippo (Canada Post / UPS)", "QuickBooks API", "Meta Ads"],
+    label: "Third-party APIs",
+    items: ["Stripe", "Shippo (Canada Post, UPS)", "QuickBooks", "Meta Ads"],
   },
-  { label: "Testing", items: ["Playwright (E2E)"] },
+  { label: "Testing", items: ["Playwright"] },
   {
-    label: "ML & Computer Vision",
+    label: "ML and vision",
     items: ["PyTorch", "TensorFlow", "OpenCV", "Transfer learning", "CNN deployment", "Model optimization"],
   },
-  { label: "Other", items: ["Git", "Figma", "Bilingual — Korean / English"] },
+  { label: "Everything else", items: ["Git", "Figma", "Korean and English, both fluent"] },
 ];
 
 export type Product = {
@@ -148,9 +139,9 @@ export const products: Product[] = [
     slug: "mask12",
     title: "mask12.com",
     year: "2026 – present",
-    tag: "Production e-commerce",
+    tag: "Live storefront",
     oneLiner:
-      "Wholesale storefront I built and launched as the only developer — one system serving B2B accounts and retail buyers, with price separation enforced in the database.",
+      "A wholesale store I built alone and still maintain. Retail buyers and wholesale accounts share one catalog but never see each other's prices.",
     stack: [
       "Next.js 15 (App Router)",
       "TypeScript",
@@ -161,32 +152,32 @@ export const products: Product[] = [
       "Vercel",
     ],
     positioning:
-      "Production storefront for a wholesale distributor operating since 1996, serving both B2B accounts and retail customers from a single system. Built solo — data model, access control, payments, fulfillment, and admin tooling — and handed off to staff who run it without me.",
+      "The online store for a wholesale distributor in Toronto that's been in business since 1996. I was the only person working on it, from the database up through the screens their staff use to fill orders.",
     summary:
-      "A custom Next.js platform, not a template. Three roles (admin, B2B wholesale, guest) resolve to different prices off the same catalog; Stripe handles checkout with webhook verification and idempotency; Shippo turns a confirmed order into a Canada Post or UPS label; QuickBooks receives the transaction record. Launched mid-June 2026 and still in production.",
+      "Three kinds of account see three different versions of the same catalog. Stripe handles checkout, Shippo turns a confirmed order into a Canada Post or UPS label, and QuickBooks gets the transaction. It went live in June 2026 and has been running since.",
     caseStudy: {
       problem:
-        "Wholesale pricing has to stay invisible to retail customers. If it leaks, retail buyers have no reason to pay retail and the channel breaks down. The platform had to run both price tiers in one system with strict separation — and the separation had to hold even when I shipped a mistake.",
+        "Retail customers can't be allowed to see wholesale prices. If they do, there's no reason for anyone to pay retail and the whole pricing structure falls apart. So both price tiers had to live in one system, and the wall between them had to hold on a day when I shipped something careless.",
       approach:
-        "Rather than checking permissions in every API route, access control lives in the database via row-level security. Once RLS is enabled, a table denies everything by default. A mistake in application code leaks data; a mistake in a policy just makes data fail to show up. Working solo with no code review, that was the safer failure mode.",
-      tradeoff:
-        "Blocked queries come back as empty results rather than errors, which makes debugging harder — an empty list doesn't tell you whether the row is missing or a policy is filtering it. I traded debuggability for a failure mode that fails closed.",
+        "I put the access rules in the database with row-level security instead of checking permissions in each API route. With RLS on, a table shows nothing until a policy says otherwise. If I get application code wrong, prices leak. If I get a policy wrong, the page just comes up empty. Nobody was reviewing my code, so I wanted the mistake that fails quietly rather than the one that fails publicly.",
+        tradeoff:
+        "The cost is that debugging gets annoying. A blocked query returns an empty list, exactly like a query for something that doesn't exist, so \"where did my data go\" became a question I asked a lot.",
     },
     impact: [
-      "Implemented a three-tier role model (admin, B2B wholesale, guest) with row-level security policies across 13 database tables, enforcing wholesale pricing and customer data access at the database layer instead of in application code.",
-      "Built the Stripe payment pipeline with server-side webhook signature verification and idempotency handling to prevent duplicate charges and lost orders.",
-      "Automated Canada Post / UPS label generation and rate comparison through the Shippo API, with an admin workflow non-technical operators use end to end.",
-      "Integrated QuickBooks to sync transaction records, removing manual bookkeeping.",
-      "Caught a double-billing bug after the migration to a backend order flow — an unguarded checkout button plus a re-firing useEffect sent duplicate requests. Found it in Stripe myself, disabled checkout, patched in about two days, refunded affected orders.",
-      "Cut duplicate Supabase queries by wrapping category fetching in React's cache(), so layout and page share one request under the App Router.",
-      "Built an emergency kill switch and transferred all platform accounts and billing to company ownership at handoff.",
+      "Three account types (admin, wholesale, guest) with row-level security policies on 13 tables, so pricing and customer data are protected by the database rather than by application code.",
+      "Stripe checkout with webhook signature verification and idempotency keys, so a retried webhook doesn't turn into a second charge.",
+      "Shipping labels through Shippo, including rate comparison between Canada Post and UPS, in a flow the office staff run themselves.",
+      "QuickBooks integration so transactions land in the books without anyone retyping them.",
+      "A double-billing bug I found in Stripe before a customer did. Checkout was off within the hour, fixed in two days, everyone refunded.",
+      "One shared Supabase query for categories instead of two, after noticing the layout and the page were each fetching it.",
+      "A kill switch, and every account and bill moved over to the company when my term ended.",
     ],
-    result: "Launched June 2026 · 66 new B2B accounts · still in production, operated by non-technical staff",
+    result: "Live since June 2026. 66 wholesale accounts signed up. Runs without me.",
     image: "/project-shots/mask12-home.webp",
     imageAlt: "mask12.com wholesale storefront homepage",
     repoUrl: null,
     liveUrl: "https://mask12.com",
-    captureLabel: "Captured from the live site, August 2026 · source is private (company-owned)",
+    captureLabel: "Screenshots from the live site, August 2026. Source is the company's, so it's private.",
     gradient: "linear-gradient(135deg, #0d1a12 0%, #123120 45%, #0f2018 100%)",
     accentColor: "#a7f3d0",
     gallery: [
@@ -216,30 +207,30 @@ export const products: Product[] = [
     slug: "ai-monitoring",
     title: "AI Crowd Monitoring Platform",
     year: "2024",
-    tag: "Applied AI system",
+    tag: "Computer vision",
     oneLiner:
-      "Real-time crowd monitoring for Busan Station Plaza — on-prem serving of a 50GB+ model, async inference, 10–15 FPS per stream, 30% lower latency.",
+      "Crowd monitoring for a train station plaza in Busan. A 50GB model running on the client's own hardware because the footage wasn't allowed to leave the building.",
     stack: ["Python", "Docker", "Flask", "Django", "Computer Vision", "Multithreading", "Redis"],
     positioning:
-      "A government-commissioned public-safety system: RTSP CCTV ingestion, crowd-density inference, risk classification, and an operator dashboard — all served on-premise because the footage was not allowed to leave the building.",
+      "A public safety system commissioned by the government after the Itaewon crowd crush. It reads the plaza's CCTV feeds, estimates how many people are in a given area, and tells the operator when a spot is getting dangerous.",
     summary:
-      "End-to-end pipeline spanning stream ingestion, asynchronous inference on a fine-tuned IIM crowd-counting model, per-area density analysis over operator-defined polygons, and a REST API feeding a live operations dashboard.",
+      "Video comes in over RTSP, gets counted by a crowd-counting model, and the counts are checked against zones an operator drew on the camera view. A REST API feeds the dashboard they watch.",
     caseStudy: {
       problem:
-        "Public CCTV footage could not leave the premises, which ruled out every managed inference service. A 50GB+ crowd-counting model had to run on the operator's own hardware, across multiple camera streams, fast enough to be useful during a crowd surge.",
+        "Public CCTV footage legally could not leave the premises, which ruled out every hosted inference service. A 50GB model had to run on the client's own machine, across several cameras at once, and still be fast enough to matter while a crowd was actually building.",
       approach:
-        "Containerized the model into an on-prem Docker inference server and restructured a procedural codebase into object-oriented services, so streams could be processed concurrently instead of serially. Density is computed inside operator-drawn target polygons rather than over the whole frame.",
+        "I put the model in a Docker container that ran on their hardware, and rewrote the pipeline so each stream was its own object on its own thread instead of one script working through cameras in order. Counting happens inside zones the operator draws, not across the whole frame, which is both cheaper and closer to what they actually want to know.",
       tradeoff:
-        "Real-time per-frame accuracy was not achievable at that model size on that hardware, so the pipeline aggregates asynchronous per-stream inference into 1-minute windows. It reports trends and spikes, not instantaneous counts.",
+        "A model that size on that hardware was never going to be accurate frame by frame, so I stopped pretending it could be. The system reports a one-minute rolling number and flags spikes. If you want to know exactly how many people are in the square right now, this won't tell you.",
     },
     impact: [
-      "Built a Docker-based on-prem inference server for a 50GB+ crowd-counting (IIM) model with no cloud dependency.",
-      "Fine-tuned the model via transfer learning on real plaza conditions, improving detection accuracy from 76% to 83%.",
-      "Refactored the pipeline to object-oriented services with multithreading and async processing, cutting inference latency 30% and sustaining 10–15 FPS per stream across multiple cameras.",
-      "Modelled locations, cameras, and target-area polygons in the Django backend so operators could monitor specific zones rather than whole frames.",
-      "Built the REST API consumed by the React operations dashboard for density alerts and analytics.",
+      "A Docker inference server running a 50GB crowd-counting model on the client's own hardware, no cloud involved.",
+      "Retraining on real footage from the plaza, which took accuracy from 76% to 83%.",
+      "Threading and a rewrite from procedural code to services, which cut latency about 30% and held 10-15 FPS per stream.",
+      "Locations, cameras, and zone polygons modelled in the Django backend so operators could watch a doorway instead of a whole square.",
+      "The REST API behind the React dashboard.",
     ],
-    result: "Deployed for a public-safety deployment at Busan Station Plaza",
+    result: "Deployed at Busan Station Plaza",
     image: "/project-shots/cctv-plaza-feed.webp",
     imageAlt: "CCTV crowd monitoring feed",
     repoUrl: "https://github.com/HangyeomLee/cctv",
@@ -255,20 +246,20 @@ export const products: Product[] = [
     slug: "flue",
     title: "FLUE",
     year: "2026",
-    tag: "Multimodal learning app",
+    tag: "Side project",
     oneLiner:
-      "English learning for low-literacy Rohingya learners — a six-step flow built on drawing, speech, and AI evaluation instead of text.",
+      "An English learning app for Rohingya speakers who can't read yet, so the lessons run on pictures, speech and drawing.",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Canvas API", "Web Speech API", "OpenRouter"],
     positioning:
-      "A visual and oral-first English learning app for Rohingya learners, designed for people who cannot rely on reading to learn — pictures, listening, speaking, and real-world scenarios.",
+      "Most language apps assume you can already read. This one doesn't. A lesson is a picture, a voice, and something you say or draw back.",
     summary:
-      "Six-step learning flow combining a drawing canvas, speech input and playback through the Web Speech API, phrase building, and multimodal LLM evaluation of what the learner drew and said — all mobile-first.",
+      "Six steps, starting from recognizing a picture and ending with practicing a situation you'd actually be in. Learners draw on a canvas and speak through the Web Speech API, and a multimodal model looks at both to decide whether they got it.",
     impact: [
-      "Built a six-step learning flow that moves from picture recognition through speech to full scenario practice, with no step that requires reading.",
-      "Implemented a Canvas-based drawing exercise and speech interaction via the Web Speech API, then routed both to a multimodal LLM for evaluation.",
-      "Designed for low-literacy learners on mobile: icon-first navigation, audio feedback, and large touch targets over dense text.",
+      "A six-step lesson flow where no step requires reading.",
+      "Drawing on a Canvas and speaking through the Web Speech API, with both sent to a multimodal model for feedback.",
+      "Built for a phone: big targets, icons instead of labels, audio for anything important.",
     ],
-    result: "Inclusive mobile-first language learning app with text, speech, drawing, and AI evaluation",
+    result: "Works on a phone, teaches without text",
     image: "/project-shots/flue-learn.webp",
     imageAlt: "FLUE lesson screen",
     repoUrl: "https://github.com/HangyeomLee/flue",
@@ -283,25 +274,25 @@ export const products: Product[] = [
     slug: "argumint",
     title: "Argumint",
     year: "2026",
-    tag: "Personal project",
+    tag: "Side project",
     oneLiner:
-      "Real-time debate arena — live WebSocket voting and a ranking that decays with time, with arguments rendered as a graph rather than a thread.",
+      "A debate site where the arguments are drawn as a graph instead of a comment thread, and votes come in live.",
     stack: ["Next.js", "FastAPI", "PostgreSQL", "WebSockets", "React Flow", "Docker"],
     positioning:
-      "A daily debate arena where arguments are a graph, not a comment thread — live voting, reputation tiers, and a ranking that lets new arguments overtake old ones.",
+      "Comment threads reward whoever showed up first. I wanted to see what happens if you draw the argument as a graph and let the ranking forget.",
     summary:
-      "Next.js frontend against FastAPI services with auth, live vote updates over WebSockets, and a React Flow canvas that renders how arguments relate to each other instead of stacking them chronologically.",
+      "Next.js on the front, FastAPI behind it, votes pushed over WebSockets, and a React Flow canvas showing which point is a reply to which.",
     impact: [
-      "Ranked arguments by vote score combined with temporal decay, so an early argument can't sit at the top purely on age.",
-      "Pushed vote counts and notifications to connected clients over WebSockets for live state without polling.",
-      "Rendered argument and rebuttal relationships as a graph with React Flow, making the shape of a debate visible at a glance.",
+      "Ranking is vote score decayed over time, so an early comment can't camp at the top forever.",
+      "Votes and notifications arrive over WebSockets, so nothing polls.",
+      "React Flow draws the replies as a graph, which makes it obvious where a debate actually forked.",
     ],
-    result: "Working debate platform with auth, live ranking, and graph-based argument view",
+    result: "Works locally, auth and live voting included",
     image: "/project-shots/argumint-home.webp",
     imageAlt: "Argumint landing page",
     repoUrl: "https://github.com/HangyeomLee/argumint",
     liveUrl: null,
-    captureLabel: "Captured from the local build · not currently deployed",
+    captureLabel: "From a local build. Not deployed anywhere right now.",
     gallery: [
       { image: "/project-shots/argumint-rules.webp", alt: "Argumint rules page", label: "Rules" },
       { image: "/project-shots/argumint-login.webp", alt: "Argumint login", label: "Login" },

@@ -5,8 +5,7 @@ export function AboutSection() {
   return (
     <section id="contact" className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.sectionEyebrow}>About & Contact</div>
-        <h2 className={styles.sectionTitle}>Get in touch</h2>
+        <h2 className={styles.sectionTitle}>About me</h2>
 
         <div className={styles.aboutGrid}>
           <div>
