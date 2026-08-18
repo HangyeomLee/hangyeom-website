@@ -177,19 +177,30 @@ export const products: Product[] = [
     imageAlt: "mask12.com wholesale storefront homepage",
     repoUrl: null,
     liveUrl: "https://mask12.com",
-    captureLabel: "Screenshots from the live site, August 2026. Source is the company's, so it's private.",
+    captureLabel:
+      "Screenshots from the live site, August 2026. Wholesale prices are blurred on purpose, since keeping them off the open web is the whole point of the design. Source is the company's, so it's private.",
     gradient: "linear-gradient(135deg, #0d1a12 0%, #123120 45%, #0f2018 100%)",
     accentColor: "#a7f3d0",
     gallery: [
       {
         image: "/project-shots/mask12-catalog.webp",
-        alt: "mask12.com catalog with wholesale pricing hidden from guests",
-        label: "Price gate (guest view)",
+        alt: "mask12.com catalog as a signed-out visitor, prices replaced by a register prompt",
+        label: "Catalog, signed out",
+      },
+      {
+        image: "/project-shots/mask12-catalog-b2b.webp",
+        alt: "The same mask12.com catalog on a wholesale account, with prices present but blurred",
+        label: "Same page, wholesale account",
       },
       {
         image: "/project-shots/mask12-product.webp",
-        alt: "mask12.com product detail page with locked wholesale pricing",
-        label: "Product detail",
+        alt: "mask12.com product page as a signed-out visitor, wholesale pricing locked",
+        label: "Product, signed out",
+      },
+      {
+        image: "/project-shots/mask12-product-b2b.webp",
+        alt: "The same mask12.com product on a wholesale account, showing unit price and add to cart",
+        label: "Same product, wholesale account",
       },
       {
         image: "/project-shots/mask12-collection.webp",
