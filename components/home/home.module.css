@@ -123,6 +123,74 @@
   }
 }
 
+/* ---------- Smaller projects ---------- */
+
+.sideList {
+  max-width: 720px;
+  margin: 1.8rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.sideItem {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.sideHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.sideName {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.1rem;
+  color: var(--text-strong);
+}
+
+.sideYear {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.sideBlurb {
+  margin: 0.4rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.sideFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  margin-top: 0.6rem;
+}
+
+.sideStack {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.sideLinks {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+
+.sideLinks a {
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+}
+
+.sideLinks a:hover {
+  border-bottom-color: var(--accent);
+}
+
 /* ---------- Experience ---------- */
 
 .timeline {

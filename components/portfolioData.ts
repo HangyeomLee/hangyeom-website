@@ -242,62 +242,73 @@ export const products: Product[] = [
       { image: "/project-shots/cctv-detail.webp", alt: "CCTV detail monitor", label: "Detail" },
     ],
   },
+];
+
+export type SideProject = {
+  name: string;
+  year: string;
+  blurb: string;
+  stack: string;
+  repoUrl: string | null;
+  liveUrl: string | null;
+};
+
+// Smaller builds. Kept as a list on purpose: none of these have users, and
+// giving them full cards next to the two real systems oversells them.
+export const sideProjects: SideProject[] = [
   {
-    slug: "flue",
-    title: "FLUE",
+    name: "Pinegrove Hotel",
     year: "2026",
-    tag: "Side project",
-    oneLiner:
-      "An English learning app for Rohingya speakers who can't read yet, so the lessons run on pictures, speech and drawing.",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Canvas API", "Web Speech API", "OpenRouter"],
-    positioning:
-      "Most language apps assume you can already read. This one doesn't. A lesson is a picture, a voice, and something you say or draw back.",
-    summary:
-      "Six steps, starting from recognizing a picture and ending with practicing a situation you'd actually be in. Learners draw on a canvas and speak through the Web Speech API, and a multimodal model looks at both to decide whether they got it.",
-    impact: [
-      "A six-step lesson flow where no step requires reading.",
-      "Drawing on a Canvas and speaking through the Web Speech API, with both sent to a multimodal model for feedback.",
-      "Built for a phone: big targets, icons instead of labels, audio for anything important.",
-    ],
-    result: "Works on a phone, teaches without text",
-    image: "/project-shots/flue-learn.webp",
-    imageAlt: "FLUE lesson screen",
-    repoUrl: "https://github.com/HangyeomLee/flue",
-    liveUrl: null,
-    captureLabel: "Captured from the local Next.js build",
-    gallery: [
-      { image: "/project-shots/flue-topics.webp", alt: "FLUE topic selection", label: "Topics" },
-      { image: "/project-shots/flue-home.webp", alt: "FLUE onboarding", label: "Onboarding" },
-    ],
+    blurb:
+      "Website for a hotel and Japanese restaurant in Jangyu, built to push people toward booking rather than just describe the place. Hand-written HTML and CSS, with the SEO and the handoffs to Naver and the booking sites planned before any of it was designed.",
+    stack: "HTML, CSS, JavaScript, Vercel",
+    repoUrl: null,
+    liveUrl: "https://pinegrove-hotel.vercel.app",
   },
   {
-    slug: "argumint",
-    title: "Argumint",
+    name: "FLUE",
     year: "2026",
-    tag: "Side project",
-    oneLiner:
-      "A debate site where the arguments are drawn as a graph instead of a comment thread, and votes come in live.",
-    stack: ["Next.js", "FastAPI", "PostgreSQL", "WebSockets", "React Flow", "Docker"],
-    positioning:
-      "Comment threads reward whoever showed up first. I wanted to see what happens if you draw the argument as a graph and let the ranking forget.",
-    summary:
-      "Next.js on the front, FastAPI behind it, votes pushed over WebSockets, and a React Flow canvas showing which point is a reply to which.",
-    impact: [
-      "Ranking is vote score decayed over time, so an early comment can't camp at the top forever.",
-      "Votes and notifications arrive over WebSockets, so nothing polls.",
-      "React Flow draws the replies as a graph, which makes it obvious where a debate actually forked.",
-    ],
-    result: "Works locally, auth and live voting included",
-    image: "/project-shots/argumint-home.webp",
-    imageAlt: "Argumint landing page",
+    blurb:
+      "English lessons for Rohingya speakers who can't read yet. Six steps, none of which need reading: you look at a picture, hear it, then draw or say it back, and a multimodal model checks what you produced.",
+    stack: "Next.js, TypeScript, Canvas API, Web Speech API, OpenRouter",
+    repoUrl: "https://github.com/HangyeomLee/flue",
+    liveUrl: null,
+  },
+  {
+    name: "Argumint",
+    year: "2026",
+    blurb:
+      "A debate site where replies are drawn as a graph instead of a thread, votes arrive over WebSockets, and the ranking decays with time so the earliest comment can't camp at the top.",
+    stack: "Next.js, FastAPI, PostgreSQL, WebSockets, React Flow",
     repoUrl: "https://github.com/HangyeomLee/argumint",
     liveUrl: null,
-    captureLabel: "From a local build. Not deployed anywhere right now.",
-    gallery: [
-      { image: "/project-shots/argumint-rules.webp", alt: "Argumint rules page", label: "Rules" },
-      { image: "/project-shots/argumint-login.webp", alt: "Argumint login", label: "Login" },
-      { image: "/project-shots/argumint-register.webp", alt: "Argumint register", label: "Register" },
-    ],
+  },
+  {
+    name: "KB Bank FAQ chatbot",
+    year: "2026",
+    blurb:
+      "Answers questions about a bank's services by searching its FAQ documents first and writing the answer from what it finds, so it can point at a source instead of inventing one.",
+    stack: "FastAPI, Gemini embeddings, FAISS",
+    repoUrl: "https://github.com/HangyeomLee/Bank_Chatbot",
+    liveUrl: null,
+  },
+  {
+    name: "gyeomstagram",
+    year: "2024",
+    blurb:
+      "An Instagram clone I built while learning Django. Uploads, a feed, and the usual model-view-template loop. Not an original idea, but it's where the shape of a backend first made sense to me.",
+    stack: "Django, Python, SQLite",
+    repoUrl: "https://github.com/HangyeomLee/instagram_cloning_project",
+    liveUrl: null,
+  },
+  {
+    name: "Toyota machine vision",
+    year: "2023",
+    blurb:
+      "Telling a drilled hole apart from a sticker covering one, in photos from an inspection line. Mostly a lesson in how much of computer vision is preprocessing rather than the model.",
+    stack: "Python, OpenCV, TensorFlow",
+    repoUrl: "https://github.com/HangyeomLee/Toyota_Machine_Vision",
+    liveUrl: null,
   },
 ];
 
@@ -306,9 +317,7 @@ export function getProductBySlug(slug: string) {
 }
 
 export const featuredRepos = [
-  { name: "argumint", label: "Real-time debate arena", url: "https://github.com/HangyeomLee/argumint" },
-  { name: "cctv", label: "AI crowd monitoring", url: "https://github.com/HangyeomLee/cctv" },
-  { name: "flue", label: "Multimodal learning app", url: "https://github.com/HangyeomLee/flue" },
-  { name: "Bank_Chatbot", label: "FastAPI + FAISS RAG chatbot", url: "https://github.com/HangyeomLee/Bank_Chatbot" },
-  { name: "hangyeom-website", label: "This portfolio", url: "https://github.com/HangyeomLee/hangyeom-website" },
+  { name: "cctv", label: "The crowd monitoring system", url: "https://github.com/HangyeomLee/cctv" },
+  { name: "hangyeom-website", label: "This site", url: "https://github.com/HangyeomLee/hangyeom-website" },
+  { name: "neetcode-submissions", label: "Practice problems", url: "https://github.com/HangyeomLee/neetcode-submissions" },
 ];
