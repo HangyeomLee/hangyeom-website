@@ -1,4 +1,5 @@
 import { experience } from "../portfolioData";
+import { RichText } from "../RichText";
 import styles from "./home.module.css";
 
 export function ExperienceSection() {
@@ -19,7 +20,9 @@ export function ExperienceSection() {
               {e.bullets.length > 0 && (
                 <ul className={styles.expBullets}>
                   {e.bullets.map((b) => (
-                    <li key={b}>{b}</li>
+                    <li key={b}>
+                      <RichText className={styles.inlineLink}>{b}</RichText>
+                    </li>
                   ))}
                 </ul>
               )}

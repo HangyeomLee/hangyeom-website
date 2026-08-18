@@ -222,6 +222,15 @@
   color: var(--text);
 }
 
+.inlineLink {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent-glow);
+}
+
+.inlineLink:hover {
+  border-bottom-color: var(--accent);
+}
+
 .resultBox {
   margin-top: 1rem;
   padding: 1rem 1.2rem;

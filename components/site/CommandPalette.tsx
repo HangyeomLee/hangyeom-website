@@ -20,6 +20,7 @@ const ITEMS: Item[] = [
     meta: p.tag,
     href: `/projects/${p.slug}`,
   })),
+  { label: "Writing", meta: "Section", href: "/#writing" },
   { label: "Experience", meta: "Section", href: "/#experience" },
   { label: "Smaller things", meta: "Section", href: "/#side-projects" },
   { label: "Tools", meta: "Section", href: "/#skills" },

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProductBySlug, products, profile } from "@/components/portfolioData";
 import { ProjectGallery } from "@/components/projects/ProjectGallery";
+import { RichText } from "@/components/RichText";
 import styles from "@/components/projects/projects.module.css";
 import homeStyles from "@/components/home/home.module.css";
 
@@ -87,11 +88,17 @@ export default async function ProjectPage({ params }: Props) {
           <h2 className={styles.detailSectionTitle}>Why it works this way</h2>
           <dl className={styles.caseStudy}>
             <dt className={styles.caseStudyTerm}>The problem</dt>
-            <dd className={styles.caseStudyDesc}>{product.caseStudy.problem}</dd>
+            <dd className={styles.caseStudyDesc}>
+              <RichText className={styles.inlineLink}>{product.caseStudy.problem}</RichText>
+            </dd>
             <dt className={styles.caseStudyTerm}>The approach</dt>
-            <dd className={styles.caseStudyDesc}>{product.caseStudy.approach}</dd>
+            <dd className={styles.caseStudyDesc}>
+              <RichText className={styles.inlineLink}>{product.caseStudy.approach}</RichText>
+            </dd>
             <dt className={styles.caseStudyTerm}>The tradeoff</dt>
-            <dd className={styles.caseStudyDesc}>{product.caseStudy.tradeoff}</dd>
+            <dd className={styles.caseStudyDesc}>
+              <RichText className={styles.inlineLink}>{product.caseStudy.tradeoff}</RichText>
+            </dd>
           </dl>
         </section>
       )}
@@ -111,7 +118,9 @@ export default async function ProjectPage({ params }: Props) {
         <h2 className={styles.detailSectionTitle}>What I did</h2>
         <ul className={styles.impactList}>
           {product.impact.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <RichText className={styles.inlineLink}>{item}</RichText>
+            </li>
           ))}
         </ul>
         <div className={styles.resultBox}>{product.result}</div>

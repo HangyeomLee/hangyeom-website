@@ -30,11 +30,11 @@ export const experience: ExperienceEntry[] = [
       "A wholesale distribution business that has been running since 1996. I was their only developer. I built the e-commerce platform on Next.js, TypeScript, Supabase, Stripe and Shippo, launched it in June, and now maintain it part-time alongside the company's marketing.",
     bullets: [
       "Built the whole platform on my own and put it live in mid-June 2026. It still runs, and the people using it day to day are not engineers.",
-      "Set up three kinds of account (admin, wholesale, guest) with row-level security policies on 13 tables, so a wholesale price is hidden by the database itself and not by a check I might forget to write.",
+      "Found seven tables that anyone holding the public API key could read, write and delete without logging in. Rather than keep patching call sites I moved enforcement into the database: three kinds of account (admin, wholesale, guest) with row-level security policies on 13 tables, so a wholesale price is hidden by the database itself and not by a check I might forget to write. [Write-up.](/blog/the-door-that-kept-being-left-open)",
       "Wired up Stripe with webhook signature verification and idempotency keys, and pushed the resulting transactions into QuickBooks.",
       "Connected Shippo so staff can go from a confirmed order to a printed Canada Post or UPS label without asking me for anything.",
       "Found the same Supabase category query running twice on every page, once in the layout and once in the page, and shared it with React's cache().",
-      "Caught a double-billing bug two days after moving checkout to a real backend. The button had no double-click guard and a useEffect was re-firing, so some customers were charged twice. I noticed it in Stripe before anyone reported it, turned checkout off while I fixed it, and refunded everyone affected.",
+      "Caught a double-billing bug on the direct-to-consumer storefront we ran alongside the wholesale site, two days after its checkout moved to a real backend. The button had no double-click guard and a useEffect was re-firing, so some customers were charged twice. I found it in Stripe before anyone reported it, turned checkout off while I fixed it, and refunded everyone affected. [Write-up.](/blog/the-double-billing-mystery)",
       "Left the company able to run without me: a kill switch for emergencies, and every account and bill (Vercel, Supabase, Stripe, Shippo, the domain) transferred to them.",
       "Ran the marketing side too. Over 100 new wholesale customers signed up, and 11 Meta campaigns brought in 1,022 conversations for about $314 total.",
     ],
@@ -156,19 +156,19 @@ export const products: Product[] = [
       "Three kinds of account see three different versions of the same catalog. Stripe handles checkout, Shippo turns a confirmed order into a Canada Post or UPS label, and QuickBooks gets the transaction. It went live in June 2026 and has been running since.",
     caseStudy: {
       problem:
-        "Retail customers can't be allowed to see wholesale prices. If they do, there's no reason for anyone to pay retail and the whole pricing structure falls apart. So both price tiers had to live in one system, and the wall between them had to hold on a day when I shipped something careless.",
+        "Supabase warned me that seven tables were readable, writable and deletable by anyone holding the public anon key, with no login at all. That matters more here than on most sites, because retail customers seeing wholesale prices is the one thing that breaks the business: if the wholesale tier leaks, nobody has a reason to pay retail. [I wrote about the whole thing here.](/blog/the-door-that-kept-being-left-open)",
       approach:
-        "I put the access rules in the database with row-level security instead of checking permissions in each API route. With RLS on, a table shows nothing until a policy says otherwise. If I get application code wrong, prices leak. If I get a policy wrong, the page just comes up empty. Nobody was reviewing my code, so I wanted the mistake that fails quietly rather than the one that fails publicly.",
-        tradeoff:
-        "The cost is that debugging gets annoying. A blocked query returns an empty list, exactly like a query for something that doesn't exist, so \"where did my data go\" became a question I asked a lot.",
+        "I patched the tables and assumed that was that. It wasn't, because I was closing doors one at a time while leaving the building unlocked. So I stopped patching call sites and moved enforcement into the database with row-level security. With RLS on, a table shows nothing until a policy says otherwise, so the default is closed instead of open. Get application code wrong and prices leak; get a policy wrong and the page comes up empty. Nobody was reviewing my code, and I wanted the failure that stays quiet.",
+      tradeoff:
+        "Debugging got worse. A blocked query returns an empty list, exactly like a query for something that doesn't exist, so \"where did my data go\" became a question I asked a lot.",
     },
     impact: [
-      "Three account types (admin, wholesale, guest) with row-level security policies on 13 tables, so pricing and customer data are protected by the database rather than by application code.",
+      "Three account types (admin, wholesale, guest) with row-level security policies on 13 tables, so pricing and customer data are protected by the database rather than by application code. [It started as seven tables left open to the public API key.](/blog/the-door-that-kept-being-left-open)",
       "Stripe checkout with webhook signature verification and idempotency keys, so a retried webhook doesn't turn into a second charge.",
       "Shipping labels through Shippo, including rate comparison between Canada Post and UPS, in a flow the office staff run themselves.",
       "QuickBooks integration so transactions land in the books without anyone retyping them.",
-      "A double-billing bug I found in Stripe before a customer did. Checkout was off within the hour, fixed in two days, everyone refunded.",
       "One shared Supabase query for categories instead of two, after noticing the layout and the page were each fetching it.",
+      "A single 66 MB product image was loading on every page that referenced it. [Getting the catalog down to 2.2 MB](/blog/66-megabytes-down-to-2-2) was the point performance stopped being theoretical.",
       "A kill switch, and every account and bill moved over to the company when my term ended.",
     ],
     result: "Live since June 2026. Over 100 new wholesale accounts. Runs without me.",
