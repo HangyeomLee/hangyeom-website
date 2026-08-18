@@ -35,9 +35,8 @@ export const experience: ExperienceEntry[] = [
       "Connected Shippo so staff can go from a confirmed order to a printed Canada Post or UPS label without asking me for anything.",
       "Found the same Supabase category query running twice on every page, once in the layout and once in the page, and shared it with React's cache().",
       "Caught a double-billing bug two days after moving checkout to a real backend. The button had no double-click guard and a useEffect was re-firing, so some customers were charged twice. I noticed it in Stripe before anyone reported it, turned checkout off while I fixed it, and refunded everyone affected.",
-      "Noticed we were charging Ontario's 13% HST on orders going to Manitoba and Newfoundland regardless of where they shipped. Flagged it for the accountant rather than guessing at tax law myself.",
       "Left the company able to run without me: a kill switch for emergencies, and every account and bill (Vercel, Supabase, Stripe, Shippo, the domain) transferred to them.",
-      "Ran the marketing side too. 66 wholesale customers signed up who weren't customers before, and 11 Meta campaigns brought in 1,022 conversations for about $314 total.",
+      "Ran the marketing side too. Over 100 new wholesale customers signed up, and 11 Meta campaigns brought in 1,022 conversations for about $314 total.",
     ],
   },
   {
@@ -48,7 +47,7 @@ export const experience: ExperienceEntry[] = [
       "Mandatory service. I ran the unit's communications systems and set up the network for command posts during field exercises.",
     bullets: [
       "Built out command-post networks from the cable up: crimping straight-through and crossover runs, segmenting the network, configuring VPN, and setting up multi-microphone audio.",
-      "Kept the unit's radios and computers working day to day, usually with whatever equipment was on hand and not much time.",
+      "Ran the scheduled checks on the unit's comms equipment, radios and satellite phones among others, and took first-line action when something failed so it either came back up or went to the right people quickly.",
     ],
   },
   {
@@ -172,7 +171,7 @@ export const products: Product[] = [
       "One shared Supabase query for categories instead of two, after noticing the layout and the page were each fetching it.",
       "A kill switch, and every account and bill moved over to the company when my term ended.",
     ],
-    result: "Live since June 2026. 66 wholesale accounts signed up. Runs without me.",
+    result: "Live since June 2026. Over 100 new wholesale accounts. Runs without me.",
     image: "/project-shots/mask12-home.webp",
     imageAlt: "mask12.com wholesale storefront homepage",
     repoUrl: null,

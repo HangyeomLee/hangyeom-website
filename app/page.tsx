@@ -12,8 +12,8 @@ export default function Page() {
       <HashRedirect />
       <Hero />
       <ProjectsSection />
-      <SideProjectsSection />
       <ExperienceSection />
+      <SideProjectsSection />
       <SkillsSection />
       <AboutSection />
     </>
