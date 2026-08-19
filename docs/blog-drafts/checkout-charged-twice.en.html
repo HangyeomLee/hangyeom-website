@@ -1,0 +1,24 @@
+<p>Two charges. Same customer, same order, seconds apart. Stripe showed both as successful.</p>
+<p>I found it in the payments dashboard before anyone reported it. No email, no phone call. The customer almost certainly hadn't looked at their statement yet.</p>
+<p>This was on the direct-to-consumer storefront we were running alongside the wholesale site. Two days earlier I had moved its checkout off a static form and onto a real backend: create the order, create a Stripe Checkout session, redirect. It worked. I had tested it — the way you test something you wrote yourself, which is to say I clicked each button exactly once, in the right order, like someone who already knows what happens next.</p>
+<p>Real customers don't do that.</p>
+<h2>Two bugs that needed each other</h2>
+<p>The first one is plain enough to just say: the checkout button had no disabled state. You clicked it, an async request went out, and the button sat there looking exactly as clickable as it had a second earlier. When nothing visibly happens for a beat — and on mobile data nothing visibly happens for several beats — you click again. Each click created a session.</p>
+<p>That alone would have been bad. The second bug is what made it worse. Session creation was being kicked off inside a <code>useEffect</code> whose dependency was rebuilt on every render, so the effect didn't run once on mount and stop. It ran again whenever the component re-rendered.</p>
+<p>So there were two independent ways to produce a duplicate charge, and they stacked: an impatient click on a page that was already firing extra requests on its own.</p>
+<h2>What I did first</h2>
+<p>I turned checkout off. Not a fix — a tourniquet. A flag replaced the button with a short note that payments were briefly unavailable. On a storefront doing modest volume, losing a day of orders was not a close call against continuing to double-charge people.</p>
+<p>Then I went through Stripe for the window between the deploy and the shutoff, looked for payments from the same customer for the same amount within a few minutes of each other, and refunded the duplicates. The whole thing took about two days from noticing to shipping the fix.</p>
+<h2>The fix, in increasing order of how much I trust it</h2>
+<p><strong>Disable the button while the request is in flight.</strong> The obvious one, and the weakest, because it only protects against a user in a browser I control.</p>
+<pre><code>const [submitting, setSubmitting] = useState(false);
+// ...
+&lt;button disabled={submitting} onClick={handleCheckout}&gt;</code></pre>
+<p><strong>Stop the effect from re-firing.</strong> The dependency was an object being rebuilt each render. Memoizing it stopped the re-entry, but the better answer was that session creation had no business living in an effect. It's a response to a click, not to a render. I moved it into the handler.</p>
+<p><strong>Put an idempotency key on the Stripe call</strong>, derived from the order rather than generated per request. This is the one that actually holds. The first two fixes assume the client behaves itself. This one assumes it doesn't. If the same order tries to create a session twice, Stripe hands back the first one instead of making a second.</p>
+<pre><code>stripe.checkout.sessions.create(params, {
+  idempotencyKey: `checkout_${orderId}`,
+});</code></pre>
+<h2>What I keep from it</h2>
+<p>I used to think of a double-click guard as a UI nicety. It isn't. It's the client-side half of a problem whose server-side half is the only half that matters, and I had shipped neither.</p>
+<p>The other thing is less comfortable. I caught this because I have a habit of opening Stripe in the morning, and a habit is not monitoring. An alert on two successful payments from the same customer inside five minutes would have caught it in an hour instead of two days, and it isn't hard to build. Relying on my own routine to notice money moving incorrectly was the actual bug.</p>
